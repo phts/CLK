@@ -1,5 +1,6 @@
 // отправить на индикаторы
-void sendTime(byte hours, byte minutes) {
+void sendTime(byte hours, byte minutes)
+{
   indiDigits[0] = (byte)hours / 10;
   indiDigits[1] = (byte)hours % 10;
 
@@ -8,7 +9,8 @@ void sendTime(byte hours, byte minutes) {
 }
 
 // для эффектов
-void setNewTime() {
+void setNewTime()
+{
   newTime[0] = (byte)hrs / 10;
   newTime[1] = (byte)hrs % 10;
 
