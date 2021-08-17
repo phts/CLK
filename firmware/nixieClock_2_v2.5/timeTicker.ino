@@ -25,7 +25,9 @@ void calculateTime()
       }
 
       if (mins % BURN_PERIOD == 0)
+      {
         burnIndicators(); // чистим чистим!
+      }
 
       /*if (!alm_flag && alm_mins == mins && alm_hrs == hrs && true) {
         mode = 0;
@@ -39,11 +41,15 @@ void calculateTime()
       mins = 0;
       hrs++;
       if (hrs > 23)
+      {
         hrs = 0;
+      }
       changeBright();
     }
     if (newTimeFlag)
+    {
       setNewTime(); // обновляем массив времени
+    }
 
     /*
         if (mode == 0) sendTime(hrs, mins);

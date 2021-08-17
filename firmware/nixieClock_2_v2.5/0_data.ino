@@ -356,7 +356,9 @@ void setPin(uint8_t pin, uint8_t x)
 void setPWM(uint8_t pin, uint16_t duty)
 {
   if (duty == 0)
+  {
     setPin(pin, LOW);
+  }
   else
   {
     switch (pin)

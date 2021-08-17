@@ -36,7 +36,9 @@ boolean timerMinim::isReady()
     {
       _timer += _interval;
       if (_timer < _interval)
-        break;                              // переполнение uint32_t
+      {
+        break;
+      }                                     // переполнение uint32_t
     } while (_timer < thisMls - _interval); // защита от пропуска шага
     return true;
   }

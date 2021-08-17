@@ -8,7 +8,9 @@ void burnIndicators()
       {
         indiDigits[i]--;
         if (indiDigits[i] < 0)
+        {
           indiDigits[i] = 9;
+        }
       }
       delay(BURN_TIME);
     }

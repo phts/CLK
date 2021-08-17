@@ -1,6 +1,5 @@
 void setup()
 {
-  //Serial.begin(9600);
   // случайное зерно для генератора случайных чисел
   randomSeed(analogRead(6) + analogRead(7));
 
@@ -65,16 +64,22 @@ void setup()
 
   // установить яркость на индикаторы
   for (byte i = 0; i < 4; i++)
+  {
     indiDimm[i] = indiMaxBright;
+  }
 
   // расчёт шага яркости точки
   dotBrightStep = ceil((float)dotMaxBright * 2 / DOT_TIME * DOT_TIMER);
   if (dotBrightStep == 0)
+  {
     dotBrightStep = 1;
+  }
 
   // дыхание подсветки
   if (backlMaxBright > 0)
+  {
     backlBrightTimer.setInterval((float)BACKL_STEP / backlMaxBright / 2 * BACKL_TIME);
+  }
 
   // стартовый период глюков
   glitchTimer.setInterval(random(GLITCH_MIN * 1000L, GLITCH_MAX * 1000L));

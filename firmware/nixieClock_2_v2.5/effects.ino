@@ -25,7 +25,7 @@ void flipTick()
       {
         indiBrightCounter--; // уменьшаем яркость
         if (indiBrightCounter <= 0)
-        {                             // если яроксть меньше нуля
+        {                             // если яркость меньше нуля
           indiBrightDirection = true; // меняем направление изменения
           indiBrightCounter = 0;      // обнуляем яркость
           sendTime(hrs, mins);        // меняем цифры
@@ -44,8 +44,12 @@ void flipTick()
         }
       }
       for (byte i = 0; i < 4; i++)
+      {
         if (flipIndics[i])
+        {
           indiDimm[i] = indiBrightCounter; // применяем яркость
+        }
+      }
     }
   }
   else if (FLIP_EFFECT == 2)
@@ -57,9 +61,13 @@ void flipTick()
       for (byte i = 0; i < 4; i++)
       {
         if (indiDigits[i] != newTime[i])
+        {
           flipIndics[i] = true;
+        }
         else
+        {
           flipIndics[i] = false;
+        }
       }
     }
 
@@ -72,9 +80,13 @@ void flipTick()
         {
           indiDigits[i]--;
           if (indiDigits[i] < 0)
+          {
             indiDigits[i] = 9;
+          }
           if (indiDigits[i] == newTime[i])
+          {
             flipIndics[i] = false;
+          }
         }
         else
         {
@@ -105,13 +117,19 @@ void flipTick()
           for (byte c = 0; c < 10; c++)
           {
             if (cathodeMask[c] == indiDigits[i])
+            {
               startCathode[i] = c;
+            }
             if (cathodeMask[c] == newTime[i])
+            {
               endCathode[i] = c;
+            }
           }
         }
         else
+        {
           flipIndics[i] = false;
+        }
       }
     }
 

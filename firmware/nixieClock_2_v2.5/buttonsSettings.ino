@@ -44,7 +44,9 @@ void buttonsTick()
       {
         changeHrs++;
         if (changeHrs > 23)
+        {
           changeHrs = 0;
+        }
       }
       else
       {
@@ -54,7 +56,9 @@ void buttonsTick()
           changeMins = 0;
           changeHrs++;
           if (changeHrs > 23)
+          {
             changeHrs = 0;
+          }
         }
       }
       sendTime(changeHrs, changeMins);
@@ -65,7 +69,9 @@ void buttonsTick()
       {
         changeHrs--;
         if (changeHrs < 0)
+        {
           changeHrs = 23;
+        }
       }
       else
       {
@@ -75,7 +81,9 @@ void buttonsTick()
           changeMins = 59;
           changeHrs--;
           if (changeHrs < 0)
+          {
             changeHrs = 23;
+          }
         }
       }
       sendTime(changeHrs, changeMins);
@@ -87,7 +95,9 @@ void buttonsTick()
     if (btnR.isClick())
     {
       if (++FLIP_EFFECT >= FLIP_EFFECT_NUM)
+      {
         FLIP_EFFECT = 0;
+      }
       EEPROM.put(0, FLIP_EFFECT);
       flipTimer.setInterval(FLIP_SPEED[FLIP_EFFECT]);
       for (byte i = 0; i < 4; i++)
@@ -98,14 +108,18 @@ void buttonsTick()
       // показать эффект
       newTimeFlag = true;
       for (byte i = 0; i < 4; i++)
+      {
         indiDigits[i] = FLIP_EFFECT;
+      }
     }
 
     // переключение эффектов подсветки
     if (btnL.isClick())
     {
       if (++BACKL_MODE >= 3)
+      {
         BACKL_MODE = 0;
+      }
       EEPROM.put(1, BACKL_MODE);
       if (BACKL_MODE == 1)
       {
@@ -133,14 +147,16 @@ void buttonsTick()
     anodeStates[3] = 1;
     currentDigit = false;
     if (++curMode >= 2)
+    {
       curMode = 0;
+    }
     switch (curMode)
     {
     case 0:
       hrs = changeHrs;
       mins = changeMins;
       secs = 0;
-      rtc.adjust(DateTime(2019, 12, 05, hrs, mins, 0));
+      rtc.adjust(DateTime(2019, 12, 5, hrs, mins, 0));
       changeBright();
       break;
     case 1:
@@ -152,6 +168,8 @@ void buttonsTick()
   if (btnSet.isClick())
   {
     if (curMode == 1)
-      currentDigit = !currentDigit; // настройка времени
+    {
+      currentDigit = !currentDigit;
+    }
   }
 }
