@@ -112,12 +112,7 @@ byte FLIP_SPEED[] = {0, 130, 50, 40, 70, 70}; // скорость эффекто
 byte FLIP_EFFECT_NUM = sizeof(FLIP_SPEED);    // количество эффектов
 boolean GLITCH_ALLOWED = 1;                   // 1 - включить, 0 - выключить глюки. Управляется кнопкой
 
-// --------- БУДИЛЬНИК ---------
-#define ALM_TIMEOUT 30 // таймаут будильника
-#define FREQ 900       // частота писка будильника
-
 // пины
-#define PIEZO 2  // пищалка
 #define KEY0 3   // часы
 #define KEY1 4   // часы
 #define KEY2 5   // минуты

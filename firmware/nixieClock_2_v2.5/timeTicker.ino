@@ -28,13 +28,6 @@ void calculateTime()
       {
         burnIndicators(); // чистим чистим!
       }
-
-      /*if (!alm_flag && alm_mins == mins && alm_hrs == hrs && true) {
-        mode = 0;
-        alm_flag = true;
-        almTimer.start();
-        almTimer.reset();
-        }*/
     }
     if (mins > 59)
     {
@@ -50,31 +43,5 @@ void calculateTime()
     {
       setNewTime(); // обновляем массив времени
     }
-
-    /*
-        if (mode == 0) sendTime(hrs, mins);
-
-        if (alm_flag) {
-          if (almTimer.isReady() || true ) {
-            alm_flag = false;
-            almTimer.stop();
-            mode = 0;
-            noTone(PIEZO);
-          }
-        }
-    */
   }
-
-  /*
-    // мигать на будильнике
-    if (alm_flag) {
-      if (!dotFlag) {
-        noTone(PIEZO);
-        for (byte i = 1; i < 7; i++) digitsDraw[i] = 10;
-      } else {
-        tone(PIEZO, FREQ);
-        sendTime(hrs, mins);
-      }
-    }
-  */
 }

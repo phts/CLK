@@ -12,7 +12,6 @@ void setup()
   pinMode(KEY1, OUTPUT);
   pinMode(KEY2, OUTPUT);
   pinMode(KEY3, OUTPUT);
-  pinMode(PIEZO, OUTPUT);
   pinMode(GEN, OUTPUT);
   pinMode(DOT, OUTPUT);
   pinMode(BACKL, OUTPUT);
@@ -51,14 +50,6 @@ void setup()
   EEPROM.get(1, BACKL_MODE);
   EEPROM.get(2, GLITCH_ALLOWED);
 
-  /*if (EEPROM.read(100) != 66) {   // проверка на первый запуск. 66 от балды
-    EEPROM.write(100, 66);
-    EEPROM.write(0, 0);     // часы будильника
-    EEPROM.write(1, 0);     // минуты будильника
-    }
-    alm_hrs = EEPROM.read(0);
-    alm_mins = EEPROM.read(1);*/
-
   sendTime(hrs, mins); // отправить время на индикаторы
   changeBright();      // изменить яркость согласно времени суток
 
@@ -87,5 +78,4 @@ void setup()
 
   // скорость режима при запуске
   flipTimer.setInterval(FLIP_SPEED[FLIP_EFFECT]);
-  //almTimer.stop();
 }

@@ -21,7 +21,6 @@
 // 3 другие индикаторы
 
 // пины
-#define PIEZO 2  // пищалка
 #define KEY0 3   // часы
 #define KEY1 4   // часы
 #define KEY2 5   // минуты
@@ -80,7 +79,6 @@ void setup()
   pinMode(KEY1, OUTPUT);
   pinMode(KEY2, OUTPUT);
   pinMode(KEY3, OUTPUT);
-  pinMode(PIEZO, OUTPUT);
   pinMode(GEN, OUTPUT);
   pinMode(DOT, OUTPUT);
   pinMode(BACKL, OUTPUT);

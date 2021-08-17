@@ -10,7 +10,7 @@ void loop()
   }
   dotBrightTick();   // плавное мигание точки
   backlBrightTick(); // плавное мигание подсветки ламп
-  if (GLITCH_ALLOWED && mode == 0)
+  if (GLITCH_ALLOWED)
   {
     glitchTick(); // глюки
   }
