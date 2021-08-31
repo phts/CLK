@@ -10,7 +10,6 @@
 
 RTC_DS3231 rtc;
 
-// таймеры
 timerMinim dotTimer(500);             // полсекундный таймер для часов
 timerMinim dotBrightTimer(DOT_TIMER); // таймер шага яркости точки
 timerMinim backlBrightTimer(30);      // таймер шага яркости подсветки
@@ -18,12 +17,10 @@ timerMinim flipTimer(FLIP_SPEED[FLIP_EFFECT]);
 timerMinim glitchTimer(1000);
 timerMinim modeAdjustBlinkTimer(500);
 
-// кнопки
-GButton btnMode(BTN_MODE, HIGH_PULL, NORM_OPEN);
-GButton btnBklight(BTN_BKLIGHT, HIGH_PULL, NORM_OPEN);
-GButton btnEffects(BTN_EFFECTS, HIGH_PULL, NORM_OPEN);
+GButton btnMode(PIN_BTN_MODE, HIGH_PULL, NORM_OPEN);
+GButton btnBklight(PIN_BTN_BKLIGHT, HIGH_PULL, NORM_OPEN);
+GButton btnEffects(PIN_BTN_EFFECTS, HIGH_PULL, NORM_OPEN);
 
-// переменные
 volatile int8_t indiDimm[4];    // величина диммирования (0-24)
 volatile int8_t indiCounter[4]; // счётчик каждого индикатора (0-24)
 volatile int8_t indiDigits[4];  // цифры, которые должны показать индикаторы (0-10)

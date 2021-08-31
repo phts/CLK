@@ -13,36 +13,34 @@
 #define DELAY 1000 // задержка между сменой цифр, мс
 #define DUTY 180   // скважность ШИМ. От скважности зависит напряжение! у меня 175 вольт при значении 180 и 145 вольт при 120
 
-// пины
-#define KEY0 3 // часы
-#define KEY1 4 // часы
-#define KEY2 5 // минуты
-#define KEY3 6 // минуты
-#define BTN_MODE 7
-#define BTN_BKLIGHT 8
-#define GEN 9    // генератор
-#define DOT 10   // точка
-#define BACKL 11 // подсветка
-#define BTN_EFFECTS 12
-
-#define DECODER0 A0
-#define DECODER1 A1
-#define DECODER2 A2
-#define DECODER3 A3
+#define PIN_HRS_L 3
+#define PIN_HRS_R 4
+#define PIN_MINS_L 5
+#define PIN_MINS_R 6
+#define PIN_BTN_MODE 7
+#define PIN_BTN_BKLIGHT 8
+#define PIN_GEN 9
+#define PIN_DOT 10
+#define PIN_BKLIGHT 11
+#define PIN_BTN_EFFECTS 12
+#define PIN_DECODER_0 A0
+#define PIN_DECODER_1 A1
+#define PIN_DECODER_2 A2
+#define PIN_DECODER_3 A3
 
 // распиновка ламп
-byte digitMask[] = {7, 3, 6, 4, 1, 9, 8, 0, 5, 2}; // маска дешифратора платы in12_turned (цифры нормальные)
-byte opts[] = {KEY0, KEY1, KEY2, KEY3};            // порядок индикаторов слева направо
+byte digitMask[] = {7, 3, 6, 4, 1, 9, 8, 0, 5, 2};            // маска дешифратора платы in12_turned (цифры нормальные)
+byte opts[] = {PIN_HRS_L, PIN_HRS_R, PIN_MINS_L, PIN_MINS_R}; // порядок индикаторов слева направо
 
 #include "GyverHacks.h"
 
 void setDig(byte digit)
 {
   digit = digitMask[digit];
-  setPin(DECODER3, bitRead(digit, 0));
-  setPin(DECODER1, bitRead(digit, 1));
-  setPin(DECODER0, bitRead(digit, 2));
-  setPin(DECODER2, bitRead(digit, 3));
+  setPin(PIN_DECODER_3, bitRead(digit, 0));
+  setPin(PIN_DECODER_1, bitRead(digit, 1));
+  setPin(PIN_DECODER_0, bitRead(digit, 2));
+  setPin(PIN_DECODER_2, bitRead(digit, 3));
 }
 
 void setup()
@@ -50,17 +48,17 @@ void setup()
   Serial.begin(9600);
 
   // настройка пинов на выход
-  pinMode(DECODER0, OUTPUT);
-  pinMode(DECODER1, OUTPUT);
-  pinMode(DECODER2, OUTPUT);
-  pinMode(DECODER3, OUTPUT);
-  pinMode(KEY0, OUTPUT);
-  pinMode(KEY1, OUTPUT);
-  pinMode(KEY2, OUTPUT);
-  pinMode(KEY3, OUTPUT);
-  pinMode(GEN, OUTPUT);
-  pinMode(DOT, OUTPUT);
-  pinMode(BACKL, OUTPUT);
+  pinMode(PIN_DECODER_0, OUTPUT);
+  pinMode(PIN_DECODER_1, OUTPUT);
+  pinMode(PIN_DECODER_2, OUTPUT);
+  pinMode(PIN_DECODER_3, OUTPUT);
+  pinMode(PIN_HRS_L, OUTPUT);
+  pinMode(PIN_HRS_R, OUTPUT);
+  pinMode(PIN_MINS_L, OUTPUT);
+  pinMode(PIN_MINS_R, OUTPUT);
+  pinMode(PIN_GEN, OUTPUT);
+  pinMode(PIN_DOT, OUTPUT);
+  pinMode(PIN_BKLIGHT, OUTPUT);
 
   // задаем частоту ШИМ на 9 и 10 выводах 31 кГц
   TCCR1B = TCCR1B & 0b11111000 | 1; // ставим делитель 1
@@ -74,8 +72,8 @@ void setup()
   TCCR2A |= (1 << WGM21);   // включить CTC режим для COMPA
   TIMSK2 |= (1 << OCIE2A);  // включить прерывания по совпадению COMPA
 */
-  setPWM(BACKL, 1); // шим на светодиоды подсветки
-  setPWM(DOT, 1);   // шим на точку (разделитель часы:минуты)
+  setPWM(PIN_BKLIGHT, 1); // шим на светодиоды подсветки
+  setPWM(PIN_DOT, 1);     // шим на точку (разделитель часы:минуты)
 }
 
 void loop()

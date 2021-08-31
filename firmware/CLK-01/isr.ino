@@ -19,10 +19,10 @@ ISR(TIMER2_COMPA_vect)
     if (indiDimm[curIndi] > 0)
     {
       byte thisDig = digitMask[indiDigits[curIndi]];
-      setPin(DECODER3, bitRead(thisDig, 0));
-      setPin(DECODER1, bitRead(thisDig, 1));
-      setPin(DECODER0, bitRead(thisDig, 2));
-      setPin(DECODER2, bitRead(thisDig, 3));
+      setPin(PIN_DECODER_3, bitRead(thisDig, 0));
+      setPin(PIN_DECODER_1, bitRead(thisDig, 1));
+      setPin(PIN_DECODER_0, bitRead(thisDig, 2));
+      setPin(PIN_DECODER_2, bitRead(thisDig, 3));
       setPin(opts[curIndi], anodeStates[curIndi]); // включить анод на текущую лампу
     }
   }

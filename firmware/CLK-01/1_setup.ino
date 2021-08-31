@@ -1,20 +1,18 @@
 void setup()
 {
-  // случайное зерно для генератора случайных чисел
   randomSeed(analogRead(6) + analogRead(7));
 
-  // настройка пинов на выход
-  pinMode(DECODER0, OUTPUT);
-  pinMode(DECODER1, OUTPUT);
-  pinMode(DECODER2, OUTPUT);
-  pinMode(DECODER3, OUTPUT);
-  pinMode(KEY0, OUTPUT);
-  pinMode(KEY1, OUTPUT);
-  pinMode(KEY2, OUTPUT);
-  pinMode(KEY3, OUTPUT);
-  pinMode(GEN, OUTPUT);
-  pinMode(DOT, OUTPUT);
-  pinMode(BACKL, OUTPUT);
+  pinMode(PIN_DECODER_0, OUTPUT);
+  pinMode(PIN_DECODER_1, OUTPUT);
+  pinMode(PIN_DECODER_2, OUTPUT);
+  pinMode(PIN_DECODER_3, OUTPUT);
+  pinMode(PIN_HRS_L, OUTPUT);
+  pinMode(PIN_HRS_R, OUTPUT);
+  pinMode(PIN_MINS_L, OUTPUT);
+  pinMode(PIN_MINS_R, OUTPUT);
+  pinMode(PIN_GEN, OUTPUT);
+  pinMode(PIN_DOT, OUTPUT);
+  pinMode(PIN_BKLIGHT, OUTPUT);
 
   // задаем частоту ШИМ на 9 и 10 выводах 31 кГц
   TCCR1B = (TCCR1B & 0b11111000) | 1; // ставим делитель 1

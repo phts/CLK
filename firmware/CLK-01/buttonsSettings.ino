@@ -74,11 +74,11 @@ void switchBacklight()
   EEPROM.put(1, BACKL_MODE);
   if (BACKL_MODE == 1)
   {
-    setPWM(BACKL, backlMaxBright);
+    setPWM(PIN_BKLIGHT, backlMaxBright);
   }
   else if (BACKL_MODE == 2)
   {
-    digitalWrite(BACKL, 0);
+    digitalWrite(PIN_BKLIGHT, 0);
   }
 }
 

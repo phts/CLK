@@ -29,11 +29,11 @@ void backlBrightTick()
           backlBrightFlag = false;
         }
       }
-      setPWM(BACKL, getPWM_CRT(backlBrightCounter));
+      setPWM(PIN_BKLIGHT, getPWM_CRT(backlBrightCounter));
     }
     else
     {
-      digitalWrite(BACKL, 0);
+      digitalWrite(PIN_BKLIGHT, 0);
     }
   }
 }
@@ -61,7 +61,7 @@ void dotBrightTick()
         dotBrightCounter = 0;
       }
     }
-    setPWM(DOT, getPWM_CRT(dotBrightCounter));
+    setPWM(PIN_DOT, getPWM_CRT(dotBrightCounter));
   }
 }
 
@@ -101,7 +101,7 @@ void changeBright()
   //change PWM to apply backlMaxBright in case of maximum bright mode
   if (BACKL_MODE == 1)
   {
-    setPWM(BACKL, backlMaxBright);
+    setPWM(PIN_BKLIGHT, backlMaxBright);
   }
 #endif
 }
