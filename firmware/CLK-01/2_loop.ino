@@ -2,18 +2,18 @@ void loop()
 {
   if (dotTimer.isReady())
   {
-    calculateTime(); // каждые 500 мс пересчёт и отправка времени
+    calculateTime();
   }
-  if (newTimeFlag && mode == MODE_CLOCK)
+  if (timeJustChanged && mode == MODE_CLOCK)
   {
-    flipTick(); // перелистывание цифр
+    flipTick();
   }
-  dotBrightTick();   // плавное мигание точки
-  backlBrightTick(); // плавное мигание подсветки ламп
-  if (GLITCH_ALLOWED)
+  dotBrightTick();
+  backlBrightTick();
+  if (currentGlitchesState)
   {
-    glitchTick(); // глюки
+    glitchTick();
   }
-  buttonsTick();  // кнопки
-  settingsTick(); // настройки
+  buttonsTick();
+  settingsTick();
 }

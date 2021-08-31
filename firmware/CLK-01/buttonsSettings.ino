@@ -1,3 +1,6 @@
+int8_t changeHrs, changeMins;
+boolean modeAdjustLampState = false;
+
 void settingsTick()
 {
   if (mode == MODE_ADJUST)
@@ -46,37 +49,37 @@ void incMinutes()
 
 void switchEffects()
 {
-  if (++FLIP_EFFECT >= FLIP_EFFECT_NUM)
+  if (++currentEffectsMode >= EFFECTS_SPEEDS_AMOUNT)
   {
-    FLIP_EFFECT = 0;
+    currentEffectsMode = 0;
   }
-  EEPROM.put(0, FLIP_EFFECT);
-  flipTimer.setInterval(FLIP_SPEED[FLIP_EFFECT]);
+  EEPROM.put(MEMORY_CELL_EFFECTS, currentEffectsMode);
+  flipTimer.setInterval(EFFECTS_SPEED[currentEffectsMode]);
   for (byte i = 0; i < 4; i++)
   {
-    indiDimm[i] = indiMaxBright;
+    indicatorBrightness[i] = indicatorMaxBrightness;
     anodeStates[i] = 1;
   }
-  // показать эффект
-  newTimeFlag = true;
+
+  timeJustChanged = true;
   for (byte i = 0; i < 4; i++)
   {
-    indiDigits[i] = FLIP_EFFECT;
+    indicatorDigits[i] = currentEffectsMode;
   }
 }
 
 void switchBacklight()
 {
-  if (++BACKL_MODE >= 3)
+  if (++currentBklightMode >= 3)
   {
-    BACKL_MODE = 0;
+    currentBklightMode = 0;
   }
-  EEPROM.put(1, BACKL_MODE);
-  if (BACKL_MODE == 1)
+  EEPROM.put(MEMORY_CELL_BKLIGHT, currentBklightMode);
+  if (currentBklightMode == 1)
   {
-    setPWM(PIN_BKLIGHT, backlMaxBright);
+    setPWM(PIN_BKLIGHT, bklightMaxBrightness);
   }
-  else if (BACKL_MODE == 2)
+  else if (currentBklightMode == 2)
   {
     digitalWrite(PIN_BKLIGHT, 0);
   }
@@ -84,8 +87,8 @@ void switchBacklight()
 
 void toggleGlitches()
 {
-  GLITCH_ALLOWED = !GLITCH_ALLOWED;
-  EEPROM.put(2, GLITCH_ALLOWED);
+  currentGlitchesState = !currentGlitchesState;
+  EEPROM.put(MEMORY_CELL_GLITCHES, currentGlitchesState);
 }
 
 void startAdjust()

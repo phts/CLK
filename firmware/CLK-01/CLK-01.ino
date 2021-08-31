@@ -1,53 +1,52 @@
-#define DUTY 180 // скважность ШИМ. От скважности зависит напряжение! у меня 175 вольт при значении 180 и 145 вольт при 120
+#define DUTY_CYCLE 180 // 175V for 180, 145V for 120
 
-// ======================= ЭФФЕКТЫ =======================
-// эффекты перелистывания часов
-byte FLIP_EFFECT = 1;
-// Выбранный активен при первом запуске и меняется кнопками. Запоминается в память
-// 0 - нет эффекта
-// 1 - плавное угасание и появление (рекомендуемая скорость: 100-150)
-// 2 - перемотка по порядку числа (рекомендуемая скорость: 50-80)
-// 3 - перемотка по порядку катодов в лампе (рекомендуемая скорость: 30-50)
-// 4 - поезд (рекомендуемая скорость: 50-170)
-// 5 - резинка (рекомендуемая скорость: 50-150)
+#define EFFECT_NONE 0
+#define EFFECT_DECAY 1
+#define EFFECT_LOOP_D 2
+#define EFFECT_LOOP_C 3
+#define EFFECT_TRAIN 4
+#define EFFECT_RUBBER 5
 
-// =======================  ЯРКОСТЬ =======================
-#define NIGHT_LIGHT 1  // менять яркость от времени суток (1 вкл, 0 выкл)
-#define NIGHT_START 23 // час перехода на ночную подсветку (BRIGHT_N)
-#define NIGHT_END 7    // час перехода на дневную подсветку (BRIGHT)
+#define BKLIGHT_FLASH 0
+#define BKLIGHT_ON 1
+#define BKLIGHT_OFF 2
 
-#define INDI_BRIGHT 23  // яркость цифр дневная (1 - 24) !на 24 могут быть фантомные цифры!
-#define INDI_BRIGHT_N 3 // яркость ночная (1 - 24)
+#define GLITCHES_OFF 0
+#define GLITCHES_ON 1
 
-#define DOT_BRIGHT 35   // яркость точки дневная (1 - 255)
-#define DOT_BRIGHT_N 15 // яркость точки ночная (1 - 255)
+#define NIGHT_LIGHT_OFF 0
+#define NIGHT_LIGHT_ON 1
+#define NIGHT_LIGHT NIGHT_LIGHT_ON
+#define NIGHT_START 23
+#define NIGHT_END 7
 
-#define BACKL_BRIGHT 250    // макс. яркость подсветки ламп дневная (0 - 255)
-#define BACKL_BRIGHT_N 50   // макс. яркость подсветки ламп ночная (0 - 255, 0 - подсветка выключена)
-#define BACKL_MIN_BRIGHT 20 // мин. яркость подсветки ламп в режиме дыхание (0 - 255)
-#define BACKL_PAUSE 400     // пауза "темноты" между вспышками подсветки ламп в режиме дыхание, мс
+#define INDICATOR_BRIGHTNESS 23      // 1--24
+#define INDICATOR_BRIGHTNESS_NIGHT 3 // 1--24
 
-// =======================  ГЛЮКИ =======================
-#define GLITCH_MIN 30  // минимальное время между глюками, с
-#define GLITCH_MAX 120 // максимальное время между глюками, с
+#define DOT_BRIGHTNESS 35       // 1--255
+#define DOT_BRIGHTNESS_NIGHT 15 // 1--255
 
-// ======================  МИГАНИЕ =======================
-#define DOT_TIME 500 // время мигания точки, мс
-#define DOT_TIMER 20 // шаг яркости точки, мс
+#define BKLIGHT_BRIGHTNESS 250      // 0--255
+#define BKLIGHT_BRIGHTNESS_NIGHT 50 // 0--255, 0=off
+#define BKLIGHT_MIN_BRIGHTNESS 20   // 0--255
+#define BKLIGHT_DELAY 400           // milliseconds
+#define BKLIGHT_PERIOD 5000         // milliseconds
+#define BKLIGHT_STEPS 2
 
-#define BACKL_STEP 2    // шаг мигания подсветки
-#define BACKL_TIME 5000 // период подсветки, мс
+#define GLITCH_MIN_INTERVAL 30  // seconds
+#define GLITCH_MAX_INTERVAL 120 // seconds
 
-// ==================  АНТИОТРАВЛЕНИЕ ====================
-#define BURN_TIME 10   // период обхода индикаторов в режиме очистки, мс
-#define BURN_LOOPS 3   // количество циклов очистки за каждый период
-#define BURN_PERIOD 15 // период антиотравления, минут
+#define DOT_INTERVAL 500        // milliseconds
+#define DOT_BRIGHTNESS_TIMER 20 // milliseconds
 
-// *********************** ДЛЯ РАЗРАБОТЧИКОВ ***********************
-byte BACKL_MODE = 0;                          // Выбранный активен при запуске и меняется кнопками
-byte FLIP_SPEED[] = {0, 130, 50, 40, 70, 70}; // скорость эффектов, мс (количество не меняй)
-byte FLIP_EFFECT_NUM = sizeof(FLIP_SPEED);    // количество эффектов
-boolean GLITCH_ALLOWED = 1;                   // 1 - включить, 0 - выключить глюки. Управляется кнопкой
+#define BURN_LOOP_DELAY 10 // milliseconds
+#define BURN_LOOPS 3
+#define BURN_PERIOD 15 // minutes
+
+#define SYNC_RTC_INTERVAL 15 // minutes
+
+byte EFFECTS_SPEED[] = {0, 130, 50, 40, 70, 70};
+byte EFFECTS_SPEEDS_AMOUNT = sizeof(EFFECTS_SPEED);
 
 #define PIN_HRS_L 3
 #define PIN_HRS_R 4
@@ -64,10 +63,17 @@ boolean GLITCH_ALLOWED = 1;                   // 1 - включить, 0 - вы�
 #define PIN_DECODER_2 A2
 #define PIN_DECODER_3 A3
 
-// распиновка ламп
-const byte digitMask[] = {7, 3, 6, 4, 1, 9, 8, 0, 5, 2};            // маска дешифратора платы in12_turned (цифры нормальные)
-const byte opts[] = {PIN_HRS_L, PIN_HRS_R, PIN_MINS_L, PIN_MINS_R}; // порядок индикаторов слева направо
-const byte cathodeMask[] = {1, 6, 2, 7, 5, 0, 4, 9, 8, 3};          // порядок катодов in12
+#define MEMORY_CELL_FIRST_RUN 1023
+#define MEMORY_FLAG_FIRST_RUN 100
+#define MEMORY_CELL_EFFECTS 0
+#define MEMORY_CELL_BKLIGHT 1
+#define MEMORY_CELL_GLITCHES 2
+
+byte currentEffectsMode = EFFECT_DECAY;
+byte currentBklightMode = BKLIGHT_FLASH;
+boolean currentGlitchesState = GLITCHES_ON;
+
+const byte DIGIT_TO_DECODER_VALUE[] = {7, 3, 6, 4, 1, 9, 8, 0, 5, 2};
 
 /*
   ард ног ном

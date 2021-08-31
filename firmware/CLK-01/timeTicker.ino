@@ -1,8 +1,9 @@
+boolean isDotTurnedOn;
 byte minsCount = 0;
 void calculateTime()
 {
-  dotFlag = !dotFlag;
-  if (dotFlag)
+  isDotTurnedOn = !isDotTurnedOn;
+  if (isDotTurnedOn)
   {
     dotBrightFlag = true;
     dotBrightDirection = true;
@@ -10,15 +11,15 @@ void calculateTime()
     secs++;
     if (secs > 59)
     {
-      newTimeFlag = true; // флаг что нужно поменять время
+      timeJustChanged = true;
       secs = 0;
       mins++;
       minsCount++;
 
-      if (minsCount >= 15)
-      { // каждые 15 мин
+      if (minsCount >= SYNC_RTC_INTERVAL)
+      {
         minsCount = 0;
-        DateTime now = rtc.now(); // синхронизация с RTC
+        DateTime now = rtc.now();
         secs = now.second();
         mins = now.minute();
         hrs = now.hour();
@@ -26,7 +27,7 @@ void calculateTime()
 
       if (mins % BURN_PERIOD == 0)
       {
-        burnIndicators(); // чистим чистим!
+        burnIndicators();
       }
     }
     if (mins > 59)
@@ -39,9 +40,9 @@ void calculateTime()
       }
       changeBright();
     }
-    if (newTimeFlag)
+    if (timeJustChanged)
     {
-      setNewTime(); // обновляем массив времени
+      setNewTime();
     }
   }
 }

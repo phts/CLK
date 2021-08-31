@@ -6,13 +6,13 @@ void burnIndicators()
     {
       for (byte i = 0; i < 4; i++)
       {
-        indiDigits[i]--;
-        if (indiDigits[i] < 0)
+        indicatorDigits[i]--;
+        if (indicatorDigits[i] < 0)
         {
-          indiDigits[i] = 9;
+          indicatorDigits[i] = 9;
         }
       }
-      delay(BURN_TIME);
+      delay(BURN_LOOP_DELAY);
     }
   }
 }

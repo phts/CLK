@@ -1,11 +1,11 @@
 // отправить на индикаторы
 void sendTime(byte hours, byte minutes)
 {
-  indiDigits[0] = (byte)hours / 10;
-  indiDigits[1] = (byte)hours % 10;
+  indicatorDigits[0] = (byte)hours / 10;
+  indicatorDigits[1] = (byte)hours % 10;
 
-  indiDigits[2] = (byte)minutes / 10;
-  indiDigits[3] = (byte)minutes % 10;
+  indicatorDigits[2] = (byte)minutes / 10;
+  indicatorDigits[3] = (byte)minutes % 10;
 }
 
 // для эффектов

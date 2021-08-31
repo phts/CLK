@@ -1,17 +1,5 @@
-/*
-  Проверочный скетч к проекту "Часы на ГРИ v2"
-  Страница проекта (схемы, описания): https://alexgyver.ru/nixieclock_v2/
-  Исходники на GitHub: https://github.com/AlexGyver/NixieClock_v2
-  Нравится, как написан код? Поддержи автора! https://alexgyver.ru/support_alex/
-  Автор: AlexGyver Technologies, 2018
-  https://AlexGyver.ru/
-*/
-
-// "минимальный" код для работы часов, можете начать с него разработку своей прошивки
-// проверочный код для индикаторов, выводит 0-9 по очереди на каждую лампу
-
-#define DELAY 1000 // задержка между сменой цифр, мс
-#define DUTY 180   // скважность ШИМ. От скважности зависит напряжение! у меня 175 вольт при значении 180 и 145 вольт при 120
+#define DELAY 1000
+#define DUTY_CYCLE 180
 
 #define PIN_HRS_L 3
 #define PIN_HRS_R 4
@@ -29,14 +17,14 @@
 #define PIN_DECODER_3 A3
 
 // распиновка ламп
-byte digitMask[] = {7, 3, 6, 4, 1, 9, 8, 0, 5, 2};            // маска дешифратора платы in12_turned (цифры нормальные)
-byte opts[] = {PIN_HRS_L, PIN_HRS_R, PIN_MINS_L, PIN_MINS_R}; // порядок индикаторов слева направо
+byte DIGIT_TO_DECODER_VALUE[] = {7, 3, 6, 4, 1, 9, 8, 0, 5, 2};         // маска дешифратора платы in12_turned (цифры нормальные)
+byte INDICATOR_PINS[] = {PIN_HRS_L, PIN_HRS_R, PIN_MINS_L, PIN_MINS_R}; // порядок индикаторов слева направо
 
 #include "GyverHacks.h"
 
 void setDig(byte digit)
 {
-  digit = digitMask[digit];
+  digit = DIGIT_TO_DECODER_VALUE[digit];
   setPin(PIN_DECODER_3, bitRead(digit, 0));
   setPin(PIN_DECODER_1, bitRead(digit, 1));
   setPin(PIN_DECODER_0, bitRead(digit, 2));
@@ -65,7 +53,7 @@ void setup()
 
   // включаем ШИМ
   // от скважности зависит напряжение! у 175 вольт при значении 180 и 145 вольт при 120
-  setPWM(9, DUTY);
+  setPWM(9, DUTY_CYCLE);
   /*
   // перенастраиваем частоту ШИМ на пинах 3 и 11 на 7.8 кГц и разрешаем прерывания по совпадению
   TCCR2B = (TCCR2B & B11111000) | 2;    // делитель 8
@@ -80,14 +68,13 @@ void loop()
 {
   for (byte i = 0; i < 4; i++)
   {
-    setPin(opts[i], 1);
-    // тупо перебираем числа от 0 до 1
+    setPin(INDICATOR_PINS[i], 1);
     for (byte k = 0; k < 10; k++)
     {
       setDig(k);
       Serial.println("ind #" + String(i) + " digit: " + String(k));
       delay(DELAY);
     }
-    setPin(opts[i], 0);
+    setPin(INDICATOR_PINS[i], 0);
   }
 }

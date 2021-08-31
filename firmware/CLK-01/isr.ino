@@ -1,29 +1,31 @@
-// динамическая индикация в прерывании таймера 2
+const byte INDICATOR_PINS[] = {PIN_HRS_L, PIN_HRS_R, PIN_MINS_L, PIN_MINS_R};
+volatile int8_t curInd;
+volatile int8_t arr[4];
+
 ISR(TIMER2_COMPA_vect)
 {
-  indiCounter[curIndi]++; // счётчик индикатора
-  if (indiCounter[curIndi] >= indiDimm[curIndi])
-  {                           // если достигли порога диммирования
-    setPin(opts[curIndi], 0); // выключить текущий индикатор
+  arr[curInd]++;
+  if (arr[curInd] >= indicatorBrightness[curInd])
+  {
+    setPin(INDICATOR_PINS[curInd], 0);
   }
 
-  if (indiCounter[curIndi] > 25)
-  {                           // достигли порога в 25 единиц
-    indiCounter[curIndi] = 0; // сброс счетчика лампы
-    if (++curIndi >= 4)
+  if (arr[curInd] > 25)
+  {
+    arr[curInd] = 0;
+    if (++curInd >= 4)
     {
-      curIndi = 0; // смена лампы закольцованная
+      curInd = 0;
     }
 
-    // отправить цифру из массива indiDigits согласно типу лампы
-    if (indiDimm[curIndi] > 0)
+    if (indicatorBrightness[curInd] > 0)
     {
-      byte thisDig = digitMask[indiDigits[curIndi]];
+      byte thisDig = DIGIT_TO_DECODER_VALUE[indicatorDigits[curInd]];
       setPin(PIN_DECODER_3, bitRead(thisDig, 0));
       setPin(PIN_DECODER_1, bitRead(thisDig, 1));
       setPin(PIN_DECODER_0, bitRead(thisDig, 2));
       setPin(PIN_DECODER_2, bitRead(thisDig, 3));
-      setPin(opts[curIndi], anodeStates[curIndi]); // включить анод на текущую лампу
+      setPin(INDICATOR_PINS[curInd], anodeStates[curInd]);
     }
   }
 }

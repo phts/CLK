@@ -1,11 +1,18 @@
+const byte CATHOD_TO_DIGIT[] = {1, 6, 2, 7, 5, 0, 4, 9, 8, 3};
+boolean flipInit;
+bool trainLeaving;
+byte startCathode[4], endCathode[4];
+byte currentLamp, flipEffectStages;
+boolean flipIndics[4];
+
 void flipTick()
 {
-  if (FLIP_EFFECT == 0)
+  if (currentEffectsMode == EFFECT_NONE)
   {
     sendTime(hrs, mins);
-    newTimeFlag = false;
+    timeJustChanged = false;
   }
-  else if (FLIP_EFFECT == 1)
+  else if (currentEffectsMode == EFFECT_DECAY)
   {
     if (!flipInit)
     {
@@ -13,7 +20,7 @@ void flipTick()
       // запоминаем, какие цифры поменялись и будем менять их яркость
       for (byte i = 0; i < 4; i++)
       {
-        if (indiDigits[i] != newTime[i])
+        if (indicatorDigits[i] != newTime[i])
           flipIndics[i] = true;
         else
           flipIndics[i] = false;
@@ -34,25 +41,25 @@ void flipTick()
       else
       {
         indiBrightCounter++; // увеличиваем яркость
-        if (indiBrightCounter >= indiMaxBright)
-        {                                    // достигли предела
-          indiBrightDirection = false;       // меняем направление
-          indiBrightCounter = indiMaxBright; // устанавливаем максимум
+        if (indiBrightCounter >= indicatorMaxBrightness)
+        {                                             // достигли предела
+          indiBrightDirection = false;                // меняем направление
+          indiBrightCounter = indicatorMaxBrightness; // устанавливаем максимум
           // выходим из цикла изменения
           flipInit = false;
-          newTimeFlag = false;
+          timeJustChanged = false;
         }
       }
       for (byte i = 0; i < 4; i++)
       {
         if (flipIndics[i])
         {
-          indiDimm[i] = indiBrightCounter; // применяем яркость
+          indicatorBrightness[i] = indiBrightCounter; // применяем яркость
         }
       }
     }
   }
-  else if (FLIP_EFFECT == 2)
+  else if (currentEffectsMode == EFFECT_LOOP_D)
   {
     if (!flipInit)
     {
@@ -60,7 +67,7 @@ void flipTick()
       // запоминаем, какие цифры поменялись и будем менять их
       for (byte i = 0; i < 4; i++)
       {
-        if (indiDigits[i] != newTime[i])
+        if (indicatorDigits[i] != newTime[i])
         {
           flipIndics[i] = true;
         }
@@ -78,12 +85,12 @@ void flipTick()
       {
         if (flipIndics[i])
         {
-          indiDigits[i]--;
-          if (indiDigits[i] < 0)
+          indicatorDigits[i]--;
+          if (indicatorDigits[i] < 0)
           {
-            indiDigits[i] = 9;
+            indicatorDigits[i] = 9;
           }
-          if (indiDigits[i] == newTime[i])
+          if (indicatorDigits[i] == newTime[i])
           {
             flipIndics[i] = false;
           }
@@ -97,13 +104,11 @@ void flipTick()
       { // если ни одну из 4 цифр менять не нужно
         // выходим из цикла изменения
         flipInit = false;
-        newTimeFlag = false;
+        timeJustChanged = false;
       }
     }
-
-    //byte cathodeMask[] = {1, 0, 2, 9, 3, 8, 4, 7, 5, 6};  // порядок катодов in14
   }
-  else if (FLIP_EFFECT == 3)
+  else if (currentEffectsMode == EFFECT_LOOP_C)
   {
     if (!flipInit)
     {
@@ -111,16 +116,16 @@ void flipTick()
       // запоминаем, какие цифры поменялись и будем менять их
       for (byte i = 0; i < 4; i++)
       {
-        if (indiDigits[i] != newTime[i])
+        if (indicatorDigits[i] != newTime[i])
         {
           flipIndics[i] = true;
           for (byte c = 0; c < 10; c++)
           {
-            if (cathodeMask[c] == indiDigits[i])
+            if (indicatorDigits[i] == CATHOD_TO_DIGIT[c])
             {
               startCathode[i] = c;
             }
-            if (cathodeMask[c] == newTime[i])
+            if (newTime[i] == CATHOD_TO_DIGIT[c])
             {
               endCathode[i] = c;
             }
@@ -143,12 +148,12 @@ void flipTick()
           if (startCathode[i] > endCathode[i])
           {
             startCathode[i]--;
-            indiDigits[i] = cathodeMask[startCathode[i]];
+            indicatorDigits[i] = CATHOD_TO_DIGIT[startCathode[i]];
           }
           else if (startCathode[i] < endCathode[i])
           {
             startCathode[i]++;
-            indiDigits[i] = cathodeMask[startCathode[i]];
+            indicatorDigits[i] = CATHOD_TO_DIGIT[startCathode[i]];
           }
           else
           {
@@ -164,12 +169,11 @@ void flipTick()
       { // если ни одну из 4 цифр менять не нужно
         // выходим из цикла изменения
         flipInit = false;
-        newTimeFlag = false;
+        timeJustChanged = false;
       }
     }
   }
-  // --- train --- //
-  else if (FLIP_EFFECT == 4)
+  else if (currentEffectsMode == EFFECT_TRAIN)
   {
     if (!flipInit)
     {
@@ -184,7 +188,7 @@ void flipTick()
       {
         for (byte i = 3; i > currentLamp; i--)
         {
-          indiDigits[i] = indiDigits[i - 1];
+          indicatorDigits[i] = indicatorDigits[i - 1];
         }
         anodeStates[currentLamp] = 0;
         currentLamp++;
@@ -199,22 +203,21 @@ void flipTick()
       { //trainLeaving == false
         for (byte i = currentLamp; i > 0; i--)
         {
-          indiDigits[i] = indiDigits[i - 1];
+          indicatorDigits[i] = indicatorDigits[i - 1];
         }
-        indiDigits[0] = newTime[3 - currentLamp];
+        indicatorDigits[0] = newTime[3 - currentLamp];
         anodeStates[currentLamp] = 1;
         currentLamp++;
         if (currentLamp >= 4)
         {
           flipInit = false;
-          newTimeFlag = false;
+          timeJustChanged = false;
         }
       }
     }
   }
 
-  // --- elastic band --- //
-  else if (FLIP_EFFECT == 5)
+  else if (currentEffectsMode == EFFECT_RUBBER)
   {
     if (!flipInit)
     {
@@ -231,7 +234,7 @@ void flipTick()
         break;
       case 2:
         anodeStates[2] = 0;
-        indiDigits[3] = indiDigits[2];
+        indicatorDigits[3] = indicatorDigits[2];
         anodeStates[3] = 1;
         break;
       case 3:
@@ -239,12 +242,12 @@ void flipTick()
         break;
       case 4:
         anodeStates[1] = 0;
-        indiDigits[2] = indiDigits[1];
+        indicatorDigits[2] = indicatorDigits[1];
         anodeStates[2] = 1;
         break;
       case 5:
         anodeStates[2] = 0;
-        indiDigits[3] = indiDigits[1];
+        indicatorDigits[3] = indicatorDigits[1];
         anodeStates[3] = 1;
         break;
       case 6:
@@ -252,17 +255,17 @@ void flipTick()
         break;
       case 7:
         anodeStates[0] = 0;
-        indiDigits[1] = indiDigits[0];
+        indicatorDigits[1] = indicatorDigits[0];
         anodeStates[1] = 1;
         break;
       case 8:
         anodeStates[1] = 0;
-        indiDigits[2] = indiDigits[0];
+        indicatorDigits[2] = indicatorDigits[0];
         anodeStates[2] = 1;
         break;
       case 9:
         anodeStates[2] = 0;
-        indiDigits[3] = indiDigits[0];
+        indicatorDigits[3] = indicatorDigits[0];
         anodeStates[3] = 1;
         break;
       case 10:
@@ -270,54 +273,54 @@ void flipTick()
         //sendTime(hrs,mins);
         break;
       case 11:
-        indiDigits[0] = newTime[3];
+        indicatorDigits[0] = newTime[3];
         anodeStates[0] = 1;
         break;
       case 12:
         anodeStates[0] = 0;
-        indiDigits[1] = newTime[3];
+        indicatorDigits[1] = newTime[3];
         anodeStates[1] = 1;
         break;
       case 13:
         anodeStates[1] = 0;
-        indiDigits[2] = newTime[3];
+        indicatorDigits[2] = newTime[3];
         anodeStates[2] = 1;
         break;
       case 14:
         anodeStates[2] = 0;
-        indiDigits[3] = newTime[3];
+        indicatorDigits[3] = newTime[3];
         anodeStates[3] = 1;
         break;
       case 15:
-        indiDigits[0] = newTime[2];
+        indicatorDigits[0] = newTime[2];
         anodeStates[0] = 1;
         break;
       case 16:
         anodeStates[0] = 0;
-        indiDigits[1] = newTime[2];
+        indicatorDigits[1] = newTime[2];
         anodeStates[1] = 1;
         break;
       case 17:
         anodeStates[1] = 0;
-        indiDigits[2] = newTime[2];
+        indicatorDigits[2] = newTime[2];
         anodeStates[2] = 1;
         break;
       case 18:
-        indiDigits[0] = newTime[1];
+        indicatorDigits[0] = newTime[1];
         anodeStates[0] = 1;
         break;
       case 19:
         anodeStates[0] = 0;
-        indiDigits[1] = newTime[1];
+        indicatorDigits[1] = newTime[1];
         anodeStates[1] = 1;
         break;
       case 20:
-        indiDigits[0] = newTime[0];
+        indicatorDigits[0] = newTime[0];
         anodeStates[0] = 1;
         break;
       case 21:
         flipInit = false;
-        newTimeFlag = false;
+        timeJustChanged = false;
       }
     }
   }

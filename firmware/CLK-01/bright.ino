@@ -1,31 +1,31 @@
 void backlBrightTick()
 {
-  if (BACKL_MODE == 0 && backlBrightTimer.isReady())
+  if (currentBklightMode == 0 && backlBrightTimer.isReady())
   {
-    if (backlMaxBright > 0)
+    if (bklightMaxBrightness > 0)
     {
       if (backlBrightDirection)
       {
         if (!backlBrightFlag)
         {
           backlBrightFlag = true;
-          backlBrightTimer.setInterval((float)BACKL_STEP / backlMaxBright / 2 * BACKL_TIME);
+          backlBrightTimer.setInterval((float)BKLIGHT_STEPS / bklightMaxBrightness / 2 * BKLIGHT_PERIOD);
         }
-        backlBrightCounter += BACKL_STEP;
-        if (backlBrightCounter >= backlMaxBright)
+        backlBrightCounter += BKLIGHT_STEPS;
+        if (backlBrightCounter >= bklightMaxBrightness)
         {
           backlBrightDirection = false;
-          backlBrightCounter = backlMaxBright;
+          backlBrightCounter = bklightMaxBrightness;
         }
       }
       else
       {
-        backlBrightCounter -= BACKL_STEP;
-        if (backlBrightCounter <= BACKL_MIN_BRIGHT)
+        backlBrightCounter -= BKLIGHT_STEPS;
+        if (backlBrightCounter <= BKLIGHT_MIN_BRIGHTNESS)
         {
           backlBrightDirection = true;
-          backlBrightCounter = BACKL_MIN_BRIGHT;
-          backlBrightTimer.setInterval(BACKL_PAUSE);
+          backlBrightCounter = BKLIGHT_MIN_BRIGHTNESS;
+          backlBrightTimer.setInterval(BKLIGHT_DELAY);
           backlBrightFlag = false;
         }
       }
@@ -45,10 +45,10 @@ void dotBrightTick()
     if (dotBrightDirection)
     {
       dotBrightCounter += dotBrightStep;
-      if (dotBrightCounter >= dotMaxBright)
+      if (dotBrightCounter >= dotMaxBrightness)
       {
         dotBrightDirection = false;
-        dotBrightCounter = dotMaxBright;
+        dotBrightCounter = dotMaxBrightness;
       }
     }
     else
@@ -71,37 +71,37 @@ void changeBright()
   // установка яркости всех светилок от времени суток
   if ((hrs >= NIGHT_START && hrs <= 23) || (hrs >= 0 && hrs < NIGHT_END))
   {
-    indiMaxBright = INDI_BRIGHT_N;
-    dotMaxBright = DOT_BRIGHT_N;
-    backlMaxBright = BACKL_BRIGHT_N;
+    indicatorMaxBrightness = INDICATOR_BRIGHTNESS_NIGHT;
+    dotMaxBrightness = DOT_BRIGHTNESS_NIGHT;
+    bklightMaxBrightness = BKLIGHT_BRIGHTNESS_NIGHT;
   }
   else
   {
-    indiMaxBright = INDI_BRIGHT;
-    dotMaxBright = DOT_BRIGHT;
-    backlMaxBright = BACKL_BRIGHT;
+    indicatorMaxBrightness = INDICATOR_BRIGHTNESS;
+    dotMaxBrightness = DOT_BRIGHTNESS;
+    bklightMaxBrightness = BKLIGHT_BRIGHTNESS;
   }
   for (byte i = 0; i < 4; i++)
   {
-    indiDimm[i] = indiMaxBright;
+    indicatorBrightness[i] = indicatorMaxBrightness;
   }
 
-  dotBrightStep = ceil((float)dotMaxBright * 2 / DOT_TIME * DOT_TIMER);
+  dotBrightStep = ceil((float)dotMaxBrightness * 2 / DOT_INTERVAL * DOT_BRIGHTNESS_TIMER);
   if (dotBrightStep == 0)
   {
     dotBrightStep = 1;
   }
 
-  if (backlMaxBright > 0)
+  if (bklightMaxBrightness > 0)
   {
-    backlBrightTimer.setInterval((float)BACKL_STEP / backlMaxBright / 2 * BACKL_TIME);
+    backlBrightTimer.setInterval((float)BKLIGHT_STEPS / bklightMaxBrightness / 2 * BKLIGHT_PERIOD);
   }
-  indiBrightCounter = indiMaxBright;
+  indiBrightCounter = indicatorMaxBrightness;
 
-  //change PWM to apply backlMaxBright in case of maximum bright mode
-  if (BACKL_MODE == 1)
+  //change PWM to apply bklightMaxBrightness in case of maximum bright mode
+  if (currentBklightMode == 1)
   {
-    setPWM(PIN_BKLIGHT, backlMaxBright);
+    setPWM(PIN_BKLIGHT, bklightMaxBrightness);
   }
 #endif
 }

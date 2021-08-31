@@ -1,4 +1,3 @@
-// библиотеки
 #include "timer2Minim.h"
 #include <GyverButton.h>
 #include <Wire.h>
@@ -10,10 +9,10 @@
 
 RTC_DS3231 rtc;
 
-timerMinim dotTimer(500);             // полсекундный таймер для часов
-timerMinim dotBrightTimer(DOT_TIMER); // таймер шага яркости точки
-timerMinim backlBrightTimer(30);      // таймер шага яркости подсветки
-timerMinim flipTimer(FLIP_SPEED[FLIP_EFFECT]);
+timerMinim dotTimer(500);                        // полсекундный таймер для часов
+timerMinim dotBrightTimer(DOT_BRIGHTNESS_TIMER); // таймер шага яркости точки
+timerMinim backlBrightTimer(30);                 // таймер шага яркости подсветки
+timerMinim flipTimer(EFFECTS_SPEED[currentEffectsMode]);
 timerMinim glitchTimer(1000);
 timerMinim modeAdjustBlinkTimer(500);
 
@@ -21,32 +20,20 @@ GButton btnMode(PIN_BTN_MODE, HIGH_PULL, NORM_OPEN);
 GButton btnBklight(PIN_BTN_BKLIGHT, HIGH_PULL, NORM_OPEN);
 GButton btnEffects(PIN_BTN_EFFECTS, HIGH_PULL, NORM_OPEN);
 
-volatile int8_t indiDimm[4];    // величина диммирования (0-24)
-volatile int8_t indiCounter[4]; // счётчик каждого индикатора (0-24)
-volatile int8_t indiDigits[4];  // цифры, которые должны показать индикаторы (0-10)
-volatile int8_t curIndi;        // текущий индикатор (0-3)
+volatile int8_t indicatorBrightness[4]; // 0--24
+volatile int8_t indicatorDigits[4];     // 0--9
 
-boolean dotFlag;
 int8_t hrs, mins, secs;
-boolean changeFlag;
-boolean blinkFlag;
-byte indiMaxBright = INDI_BRIGHT, dotMaxBright = DOT_BRIGHT, backlMaxBright = BACKL_BRIGHT;
+byte indicatorMaxBrightness = INDICATOR_BRIGHTNESS;
+byte dotMaxBrightness = DOT_BRIGHTNESS;
+byte bklightMaxBrightness = BKLIGHT_BRIGHTNESS;
 boolean dotBrightFlag, dotBrightDirection, backlBrightFlag, backlBrightDirection, indiBrightDirection;
 int dotBrightCounter, backlBrightCounter, indiBrightCounter;
 byte dotBrightStep;
-boolean newTimeFlag;
-boolean flipIndics[4];
+boolean timeJustChanged;
 byte newTime[4];
-boolean flipInit;
-byte startCathode[4], endCathode[4];
-byte glitchCounter, glitchMax, glitchIndic;
-boolean glitchFlag, indiState;
 byte mode = MODE_CLOCK;
-int8_t changeHrs, changeMins;
-boolean modeAdjustLampState = false;
 boolean anodeStates[] = {1, 1, 1, 1};
-byte currentLamp, flipEffectStages;
-bool trainLeaving;
 
 const uint8_t CRTgamma[256] PROGMEM = {
     0,
