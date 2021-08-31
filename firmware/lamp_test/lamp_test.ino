@@ -21,16 +21,16 @@
 // 3 другие индикаторы
 
 // пины
-#define KEY0 3   // часы
-#define KEY1 4   // часы
-#define KEY2 5   // минуты
-#define KEY3 6   // минуты
-#define BTN1 7   // кнопка 1
-#define BTN2 8   // кнопка 2
+#define KEY0 3 // часы
+#define KEY1 4 // часы
+#define KEY2 5 // минуты
+#define KEY3 6 // минуты
+#define BTN_MODE 7
+#define BTN_BKLIGHT 8
 #define GEN 9    // генератор
 #define DOT 10   // точка
 #define BACKL 11 // подсветка
-#define BTN3 12  // кнопка 3
+#define BTN_EFFECTS 12
 
 #define DECODER0 A0
 #define DECODER1 A1

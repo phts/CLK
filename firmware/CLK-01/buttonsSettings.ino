@@ -1,12 +1,12 @@
 void settingsTick()
 {
-  if (curMode == 1)
+  if (mode == MODE_ADJUST)
   {
-    if (blinkTimer.isReady())
+    if (modeAdjustBlinkTimer.isReady())
     {
       sendTime(changeHrs, changeMins);
-      lampState = !lampState;
-      if (lampState)
+      modeAdjustLampState = !modeAdjustLampState;
+      if (modeAdjustLampState)
       {
         anodeStates[0] = 1;
         anodeStates[1] = 1;
@@ -15,161 +15,134 @@ void settingsTick()
       }
       else
       {
-        if (!currentDigit)
-        {
-          anodeStates[0] = 0;
-          anodeStates[1] = 0;
-        }
-        else
-        {
-          anodeStates[2] = 0;
-          anodeStates[3] = 0;
-        }
+        anodeStates[0] = 0;
+        anodeStates[1] = 0;
+        anodeStates[2] = 0;
+        anodeStates[3] = 0;
       }
     }
   }
 }
 
+void incHours()
+{
+  changeHrs++;
+  if (changeHrs > 23)
+  {
+    changeHrs = 0;
+  }
+  sendTime(changeHrs, changeMins);
+}
+
+void incMinutes()
+{
+  changeMins++;
+  if (changeMins > 23)
+  {
+    changeMins = 0;
+  }
+  sendTime(changeHrs, changeMins);
+}
+
+void switchEffects()
+{
+  if (++FLIP_EFFECT >= FLIP_EFFECT_NUM)
+  {
+    FLIP_EFFECT = 0;
+  }
+  EEPROM.put(0, FLIP_EFFECT);
+  flipTimer.setInterval(FLIP_SPEED[FLIP_EFFECT]);
+  for (byte i = 0; i < 4; i++)
+  {
+    indiDimm[i] = indiMaxBright;
+    anodeStates[i] = 1;
+  }
+  // показать эффект
+  newTimeFlag = true;
+  for (byte i = 0; i < 4; i++)
+  {
+    indiDigits[i] = FLIP_EFFECT;
+  }
+}
+
+void switchBacklight()
+{
+  if (++BACKL_MODE >= 3)
+  {
+    BACKL_MODE = 0;
+  }
+  EEPROM.put(1, BACKL_MODE);
+  if (BACKL_MODE == 1)
+  {
+    setPWM(BACKL, backlMaxBright);
+  }
+  else if (BACKL_MODE == 2)
+  {
+    digitalWrite(BACKL, 0);
+  }
+}
+
+void toggleGlitches()
+{
+  GLITCH_ALLOWED = !GLITCH_ALLOWED;
+  EEPROM.put(2, GLITCH_ALLOWED);
+}
+
+void startAdjust()
+{
+  anodeStates[0] = 1;
+  anodeStates[1] = 1;
+  anodeStates[2] = 1;
+  anodeStates[3] = 1;
+  changeHrs = hrs;
+  changeMins = mins;
+}
+
+void finishAdjust()
+{
+  hrs = changeHrs;
+  mins = changeMins;
+  secs = 0;
+  rtc.adjust(DateTime(2019, 12, 5, hrs, mins, 0));
+  changeBright();
+}
+
 void buttonsTick()
 {
-  btnSet.tick();
-  btnL.tick();
-  btnR.tick();
+  btnMode.tick();
+  btnEffects.tick();
+  btnBklight.tick();
 
-  if (curMode == 1)
+  if (btnMode.isHold())
   {
-    if (btnR.isClick())
+    if (mode != MODE_ADJUST)
     {
-      if (!currentDigit)
-      {
-        changeHrs++;
-        if (changeHrs > 23)
-        {
-          changeHrs = 0;
-        }
-      }
-      else
-      {
-        changeMins++;
-        if (changeMins > 59)
-        {
-          changeMins = 0;
-          changeHrs++;
-          if (changeHrs > 23)
-          {
-            changeHrs = 0;
-          }
-        }
-      }
-      sendTime(changeHrs, changeMins);
+      startAdjust();
     }
-    if (btnL.isClick())
+    mode = MODE_ADJUST;
+    if (btnEffects.isClick())
     {
-      if (!currentDigit)
-      {
-        changeHrs--;
-        if (changeHrs < 0)
-        {
-          changeHrs = 23;
-        }
-      }
-      else
-      {
-        changeMins--;
-        if (changeMins < 0)
-        {
-          changeMins = 59;
-          changeHrs--;
-          if (changeHrs < 0)
-          {
-            changeHrs = 23;
-          }
-        }
-      }
-      sendTime(changeHrs, changeMins);
+      incHours();
+    }
+    else if (btnBklight.isClick())
+    {
+      incMinutes();
     }
   }
-  else if (curMode == 0)
+  else
   {
-    // переключение эффектов цифр
-    if (btnR.isClick())
+    if (mode != MODE_CLOCK)
     {
-      if (++FLIP_EFFECT >= FLIP_EFFECT_NUM)
-      {
-        FLIP_EFFECT = 0;
-      }
-      EEPROM.put(0, FLIP_EFFECT);
-      flipTimer.setInterval(FLIP_SPEED[FLIP_EFFECT]);
-      for (byte i = 0; i < 4; i++)
-      {
-        indiDimm[i] = indiMaxBright;
-        anodeStates[i] = 1;
-      }
-      // показать эффект
-      newTimeFlag = true;
-      for (byte i = 0; i < 4; i++)
-      {
-        indiDigits[i] = FLIP_EFFECT;
-      }
+      finishAdjust();
     }
-
-    // переключение эффектов подсветки
-    if (btnL.isClick())
+    mode = MODE_CLOCK;
+    if (btnEffects.isClick())
     {
-      if (++BACKL_MODE >= 3)
-      {
-        BACKL_MODE = 0;
-      }
-      EEPROM.put(1, BACKL_MODE);
-      if (BACKL_MODE == 1)
-      {
-        setPWM(BACKL, backlMaxBright);
-      }
-      else if (BACKL_MODE == 2)
-      {
-        digitalWrite(BACKL, 0);
-      }
+      switchEffects();
     }
-
-    // переключение глюков
-    if (btnL.isHolded())
+    if (btnBklight.isClick())
     {
-      GLITCH_ALLOWED = !GLITCH_ALLOWED;
-      EEPROM.put(2, GLITCH_ALLOWED);
-    }
-  }
-
-  if (btnSet.isHolded())
-  {
-    anodeStates[0] = 1;
-    anodeStates[1] = 1;
-    anodeStates[2] = 1;
-    anodeStates[3] = 1;
-    currentDigit = false;
-    if (++curMode >= 2)
-    {
-      curMode = 0;
-    }
-    switch (curMode)
-    {
-    case 0:
-      hrs = changeHrs;
-      mins = changeMins;
-      secs = 0;
-      rtc.adjust(DateTime(2019, 12, 5, hrs, mins, 0));
-      changeBright();
-      break;
-    case 1:
-      changeHrs = hrs;
-      changeMins = mins;
-      break;
-    }
-  }
-  if (btnSet.isClick())
-  {
-    if (curMode == 1)
-    {
-      currentDigit = !currentDigit;
+      switchBacklight();
     }
   }
 }

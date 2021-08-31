@@ -4,7 +4,7 @@ void loop()
   {
     calculateTime(); // каждые 500 мс пересчёт и отправка времени
   }
-  if (newTimeFlag && curMode == 0)
+  if (newTimeFlag && mode == MODE_CLOCK)
   {
     flipTick(); // перелистывание цифр
   }

@@ -2,15 +2,9 @@
 
 ## Control
 
-### Time mode
+### "Clock" mode
 
-Single click on button "-" selects backlight:
-
-- Smooth flashing
-- Turned on
-- Turned off
-
-Single click on button "+" selects effects when minutes change:
+Single click on button "EFFECTS" selects effects when minutes change:
 
 - None
 - Decay
@@ -19,14 +13,16 @@ Single click on button "+" selects effects when minutes change:
 - Train
 - Rubber band
 
-Holding button "+" toggles glitches on/off.
+Single click on button "BKLIGHT" selects backlight:
 
-Holding "Adjust" button enters to _adjust time mode_.
+- Smooth flashing
+- Turned on
+- Turned off
 
-### Adjust time mode
+Holding button "EFFECTS" toggles glitches on/off.
 
-Single click on button "adjust" selects digits to adjust.
+### "Adjust time" mode
 
-Single click on button "+" / "-" increases/decreases value.
+Single click on button "HOURS" increases hour value.
 
-Holding "Adjust" button leaves from _adjust time mode_.
+Single click on button "MINUTES" increases minute value.

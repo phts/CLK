@@ -5,6 +5,9 @@
 #include <RTClib.h>
 #include <EEPROM.h>
 
+#define MODE_CLOCK 0
+#define MODE_ADJUST 1
+
 RTC_DS3231 rtc;
 
 // таймеры
@@ -13,12 +16,12 @@ timerMinim dotBrightTimer(DOT_TIMER); // таймер шага яркости т
 timerMinim backlBrightTimer(30);      // таймер шага яркости подсветки
 timerMinim flipTimer(FLIP_SPEED[FLIP_EFFECT]);
 timerMinim glitchTimer(1000);
-timerMinim blinkTimer(500);
+timerMinim modeAdjustBlinkTimer(500);
 
 // кнопки
-GButton btnSet(BTN1, HIGH_PULL, NORM_OPEN);
-GButton btnL(BTN2, HIGH_PULL, NORM_OPEN);
-GButton btnR(BTN3, HIGH_PULL, NORM_OPEN);
+GButton btnMode(BTN_MODE, HIGH_PULL, NORM_OPEN);
+GButton btnBklight(BTN_BKLIGHT, HIGH_PULL, NORM_OPEN);
+GButton btnEffects(BTN_EFFECTS, HIGH_PULL, NORM_OPEN);
 
 // переменные
 volatile int8_t indiDimm[4];    // величина диммирования (0-24)
@@ -41,10 +44,9 @@ boolean flipInit;
 byte startCathode[4], endCathode[4];
 byte glitchCounter, glitchMax, glitchIndic;
 boolean glitchFlag, indiState;
-byte curMode = 0;
-boolean currentDigit = false;
+byte mode = MODE_CLOCK;
 int8_t changeHrs, changeMins;
-boolean lampState = false;
+boolean modeAdjustLampState = false;
 boolean anodeStates[] = {1, 1, 1, 1};
 byte currentLamp, flipEffectStages;
 bool trainLeaving;
