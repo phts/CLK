@@ -41,26 +41,14 @@ void setupMemory()
 
 void setupBrightness()
 {
+  resetInticatorsMaxBrightness();
+  resetDotBrightness();
   updateBrightness();
-  for (byte i = 0; i < 4; i++)
-  {
-    indicatorBrightness[i] = indicatorMaxBrightness;
-  }
-
-  dotBrightStep = ceil((float)dotMaxBrightness * 2 / DOT_INTERVAL * DOT_BRIGHTNESS_TIMER);
-  if (dotBrightStep == 0)
-  {
-    dotBrightStep = 1;
-  }
-  indiBrightCounter = indicatorMaxBrightness;
 }
 
 void setupTimers()
 {
-  if (bklightMaxBrightness > 0)
-  {
-    bklightBrightnessTimer.setInterval((float)BKLIGHT_STEPS / bklightMaxBrightness / 2 * BKLIGHT_PERIOD);
-  }
+  resetBklightBrightnessTimer();
   glitchTimer.setInterval(random(GLITCH_MIN_INTERVAL * 1000L, GLITCH_MAX_INTERVAL * 1000L));
   flipTimer.setInterval(EFFECTS_SPEED[currentEffectsMode]);
 }

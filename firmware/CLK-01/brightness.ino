@@ -1,71 +1,10 @@
-boolean backlBrightFlag, backlBrightDirection;
-int backlBrightCounter;
-
-void bklightBrightnessTick()
+void resetInticatorsMaxBrightness()
 {
-  if (currentBklightMode == 0 && bklightBrightnessTimer.isReady())
+  for (byte i = 0; i < 4; i++)
   {
-    if (bklightMaxBrightness > 0)
-    {
-      if (backlBrightDirection)
-      {
-        if (!backlBrightFlag)
-        {
-          backlBrightFlag = true;
-          bklightBrightnessTimer.setInterval((float)BKLIGHT_STEPS / bklightMaxBrightness / 2 * BKLIGHT_PERIOD);
-        }
-        backlBrightCounter += BKLIGHT_STEPS;
-        if (backlBrightCounter >= bklightMaxBrightness)
-        {
-          backlBrightDirection = false;
-          backlBrightCounter = bklightMaxBrightness;
-        }
-      }
-      else
-      {
-        backlBrightCounter -= BKLIGHT_STEPS;
-        if (backlBrightCounter <= BKLIGHT_MIN_BRIGHTNESS)
-        {
-          backlBrightDirection = true;
-          backlBrightCounter = BKLIGHT_MIN_BRIGHTNESS;
-          bklightBrightnessTimer.setInterval(BKLIGHT_DELAY);
-          backlBrightFlag = false;
-        }
-      }
-      setPWM(PIN_BKLIGHT, getPWM_CRT(backlBrightCounter));
-    }
-    else
-    {
-      digitalWrite(PIN_BKLIGHT, 0);
-    }
+    indicatorBrightness[i] = indicatorMaxBrightness;
   }
-}
-
-void dotBrightnessTick()
-{
-  if (dotBrightFlag && dotBrightnessTimer.isReady())
-  {
-    if (dotBrightDirection)
-    {
-      dotBrightCounter += dotBrightStep;
-      if (dotBrightCounter >= dotMaxBrightness)
-      {
-        dotBrightDirection = false;
-        dotBrightCounter = dotMaxBrightness;
-      }
-    }
-    else
-    {
-      dotBrightCounter -= dotBrightStep;
-      if (dotBrightCounter <= 0)
-      {
-        dotBrightDirection = true;
-        dotBrightFlag = false;
-        dotBrightCounter = 0;
-      }
-    }
-    setPWM(PIN_DOT, getPWM_CRT(dotBrightCounter));
-  }
+  resetEffects();
 }
 
 void updateBrightness()
@@ -83,22 +22,9 @@ void updateBrightness()
     dotMaxBrightness = DOT_BRIGHTNESS;
     bklightMaxBrightness = BKLIGHT_BRIGHTNESS;
   }
-  for (byte i = 0; i < 4; i++)
-  {
-    indicatorBrightness[i] = indicatorMaxBrightness;
-  }
-
-  dotBrightStep = ceil((float)dotMaxBrightness * 2 / DOT_INTERVAL * DOT_BRIGHTNESS_TIMER);
-  if (dotBrightStep == 0)
-  {
-    dotBrightStep = 1;
-  }
-
-  if (bklightMaxBrightness > 0)
-  {
-    bklightBrightnessTimer.setInterval((float)BKLIGHT_STEPS / bklightMaxBrightness / 2 * BKLIGHT_PERIOD);
-  }
-  indiBrightCounter = indicatorMaxBrightness;
+  resetInticatorsMaxBrightness();
+  resetDotBrightness();
+  resetBklightBrightnessTimer();
 
   //change PWM to apply bklightMaxBrightness in case of maximum bright mode
   if (currentBklightMode == 1)

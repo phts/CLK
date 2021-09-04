@@ -11,17 +11,11 @@ void settingsTick()
       modeAdjustLampState = !modeAdjustLampState;
       if (modeAdjustLampState)
       {
-        anodeStates[0] = 1;
-        anodeStates[1] = 1;
-        anodeStates[2] = 1;
-        anodeStates[3] = 1;
+        turnOnAllLamps();
       }
       else
       {
-        anodeStates[0] = 0;
-        anodeStates[1] = 0;
-        anodeStates[2] = 0;
-        anodeStates[3] = 0;
+        turnOffAllLamps();
       }
     }
   }
@@ -55,11 +49,8 @@ void switchEffects()
   }
   EEPROM.put(MEMORY_CELL_EFFECTS, currentEffectsMode);
   flipTimer.setInterval(EFFECTS_SPEED[currentEffectsMode]);
-  for (byte i = 0; i < 4; i++)
-  {
-    indicatorBrightness[i] = indicatorMaxBrightness;
-    anodeStates[i] = 1;
-  }
+  resetInticatorsMaxBrightness();
+  turnOnAllLamps();
 
   timeJustChanged = true;
   for (byte i = 0; i < 4; i++)
@@ -93,10 +84,7 @@ void toggleGlitches()
 
 void startAdjust()
 {
-  anodeStates[0] = 1;
-  anodeStates[1] = 1;
-  anodeStates[2] = 1;
-  anodeStates[3] = 1;
+  turnOnAllLamps();
   changeHrs = hrs;
   changeMins = mins;
 }

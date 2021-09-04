@@ -6,9 +6,7 @@ void timeTick()
   isDotTurnedOn = !isDotTurnedOn;
   if (isDotTurnedOn)
   {
-    dotBrightFlag = true;
-    dotBrightDirection = true;
-    dotBrightCounter = 0;
+    resetDot();
     secs++;
     if (secs > 59)
     {

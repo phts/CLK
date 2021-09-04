@@ -5,6 +5,12 @@ byte startCathode[4], endCathode[4];
 byte currentLamp, flipEffectStages;
 boolean flipIndics[4];
 boolean indiBrightDirection;
+int indiBrightCounter;
+
+void resetEffects()
+{
+  indiBrightCounter = indicatorMaxBrightness;
+}
 
 void flipTick()
 {
