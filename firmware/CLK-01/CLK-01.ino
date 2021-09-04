@@ -74,8 +74,7 @@ byte EFFECTS_SPEEDS_AMOUNT = sizeof(EFFECTS_SPEED);
 #define ADJ_TIME_HOURS_INTERVAL 150
 #define ADJ_TIME_HOURS_TIMEOUT 200
 
-byte currentEffectsMode = EFFECT_DECAY;
-byte currentBklightMode = BKLIGHT_FLASH;
-boolean currentGlitchesState = GLITCHES_ON;
+#define MODE_CLOCK 0
+#define MODE_ADJUST 1
 
 const byte DIGIT_TO_DECODER_VALUE[] = {7, 3, 6, 4, 1, 9, 8, 0, 5, 2};

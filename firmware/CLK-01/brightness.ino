@@ -71,7 +71,6 @@ void dotBrightnessTick()
 void updateBrightness()
 {
 #if (NIGHT_LIGHT == 1)
-  // установка яркости всех светилок от времени суток
   if ((hrs >= NIGHT_START && hrs <= 23) || (hrs >= 0 && hrs < NIGHT_END))
   {
     indicatorMaxBrightness = INDICATOR_BRIGHTNESS_NIGHT;
