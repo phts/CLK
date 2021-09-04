@@ -1,6 +1,6 @@
 boolean isDotTurnedOn;
 byte minsCount = 0;
-void calculateTime()
+void timeTick()
 {
   isDotTurnedOn = !isDotTurnedOn;
   if (isDotTurnedOn)

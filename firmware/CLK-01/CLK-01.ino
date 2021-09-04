@@ -79,11 +79,3 @@ byte currentBklightMode = BKLIGHT_FLASH;
 boolean currentGlitchesState = GLITCHES_ON;
 
 const byte DIGIT_TO_DECODER_VALUE[] = {7, 3, 6, 4, 1, 9, 8, 0, 5, 2};
-
-/*
-  ард ног ном
-  А0  7   4
-  А1  6   2
-  А2  4   8
-  А3  3   1
-*/

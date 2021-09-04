@@ -4,6 +4,7 @@ bool trainLeaving;
 byte startCathode[4], endCathode[4];
 byte currentLamp, flipEffectStages;
 boolean flipIndics[4];
+boolean indiBrightDirection;
 
 void flipTick()
 {

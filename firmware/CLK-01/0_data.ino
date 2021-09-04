@@ -9,9 +9,9 @@
 
 RTC_DS3231 rtc;
 
-timerMinim dotTimer(500);                        // полсекундный таймер для часов
-timerMinim dotBrightTimer(DOT_BRIGHTNESS_TIMER); // таймер шага яркости точки
-timerMinim backlBrightTimer(30);                 // таймер шага яркости подсветки
+timerMinim dotTimer(500);
+timerMinim dotBrightnessTimer(DOT_BRIGHTNESS_TIMER);
+timerMinim bklightBrightnessTimer(30);
 timerMinim flipTimer(EFFECTS_SPEED[currentEffectsMode]);
 timerMinim glitchTimer(1000);
 timerMinim modeAdjustBlinkTimer(500);
@@ -27,8 +27,8 @@ int8_t hrs, mins, secs;
 byte indicatorMaxBrightness = INDICATOR_BRIGHTNESS;
 byte dotMaxBrightness = DOT_BRIGHTNESS;
 byte bklightMaxBrightness = BKLIGHT_BRIGHTNESS;
-boolean dotBrightFlag, dotBrightDirection, backlBrightFlag, backlBrightDirection, indiBrightDirection;
-int dotBrightCounter, backlBrightCounter, indiBrightCounter;
+boolean dotBrightFlag, dotBrightDirection;
+int dotBrightCounter, indiBrightCounter;
 byte dotBrightStep;
 boolean timeJustChanged;
 byte newTime[4];

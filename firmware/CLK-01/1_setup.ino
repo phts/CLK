@@ -59,7 +59,7 @@ void setupTimers()
 {
   if (bklightMaxBrightness > 0)
   {
-    backlBrightTimer.setInterval((float)BKLIGHT_STEPS / bklightMaxBrightness / 2 * BKLIGHT_PERIOD);
+    bklightBrightnessTimer.setInterval((float)BKLIGHT_STEPS / bklightMaxBrightness / 2 * BKLIGHT_PERIOD);
   }
   glitchTimer.setInterval(random(GLITCH_MIN_INTERVAL * 1000L, GLITCH_MAX_INTERVAL * 1000L));
   flipTimer.setInterval(EFFECTS_SPEED[currentEffectsMode]);

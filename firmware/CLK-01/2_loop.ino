@@ -2,14 +2,14 @@ void loop()
 {
   if (dotTimer.isReady())
   {
-    calculateTime();
+    timeTick();
   }
   if (timeJustChanged && mode == MODE_CLOCK)
   {
     flipTick();
   }
-  dotBrightTick();
-  backlBrightTick();
+  dotBrightnessTick();
+  bklightBrightnessTick();
   if (currentGlitchesState)
   {
     glitchTick();

@@ -1,6 +1,9 @@
-void backlBrightTick()
+boolean backlBrightFlag, backlBrightDirection;
+int backlBrightCounter;
+
+void bklightBrightnessTick()
 {
-  if (currentBklightMode == 0 && backlBrightTimer.isReady())
+  if (currentBklightMode == 0 && bklightBrightnessTimer.isReady())
   {
     if (bklightMaxBrightness > 0)
     {
@@ -9,7 +12,7 @@ void backlBrightTick()
         if (!backlBrightFlag)
         {
           backlBrightFlag = true;
-          backlBrightTimer.setInterval((float)BKLIGHT_STEPS / bklightMaxBrightness / 2 * BKLIGHT_PERIOD);
+          bklightBrightnessTimer.setInterval((float)BKLIGHT_STEPS / bklightMaxBrightness / 2 * BKLIGHT_PERIOD);
         }
         backlBrightCounter += BKLIGHT_STEPS;
         if (backlBrightCounter >= bklightMaxBrightness)
@@ -25,7 +28,7 @@ void backlBrightTick()
         {
           backlBrightDirection = true;
           backlBrightCounter = BKLIGHT_MIN_BRIGHTNESS;
-          backlBrightTimer.setInterval(BKLIGHT_DELAY);
+          bklightBrightnessTimer.setInterval(BKLIGHT_DELAY);
           backlBrightFlag = false;
         }
       }
@@ -38,9 +41,9 @@ void backlBrightTick()
   }
 }
 
-void dotBrightTick()
+void dotBrightnessTick()
 {
-  if (dotBrightFlag && dotBrightTimer.isReady())
+  if (dotBrightFlag && dotBrightnessTimer.isReady())
   {
     if (dotBrightDirection)
     {
@@ -94,7 +97,7 @@ void updateBrightness()
 
   if (bklightMaxBrightness > 0)
   {
-    backlBrightTimer.setInterval((float)BKLIGHT_STEPS / bklightMaxBrightness / 2 * BKLIGHT_PERIOD);
+    bklightBrightnessTimer.setInterval((float)BKLIGHT_STEPS / bklightMaxBrightness / 2 * BKLIGHT_PERIOD);
   }
   indiBrightCounter = indicatorMaxBrightness;
 
