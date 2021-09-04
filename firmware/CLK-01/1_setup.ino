@@ -74,4 +74,9 @@ void setup()
 
   // скорость режима при запуске
   flipTimer.setInterval(EFFECTS_SPEED[currentEffectsMode]);
+
+  btnEffects.setStepTimeout(ADJ_TIME_HOURS_INTERVAL);
+  btnEffects.setTimeout(ADJ_TIME_HOURS_TIMEOUT);
+  btnBklight.setStepTimeout(ADJ_TIME_MINS_INTERVAL);
+  btnBklight.setTimeout(ADJ_TIME_MINS_TIMEOUT);
 }

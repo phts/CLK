@@ -69,6 +69,11 @@ byte EFFECTS_SPEEDS_AMOUNT = sizeof(EFFECTS_SPEED);
 #define MEMORY_CELL_BKLIGHT 1
 #define MEMORY_CELL_GLITCHES 2
 
+#define ADJ_TIME_MINS_INTERVAL 80
+#define ADJ_TIME_MINS_TIMEOUT 200
+#define ADJ_TIME_HOURS_INTERVAL 150
+#define ADJ_TIME_HOURS_TIMEOUT 200
+
 byte currentEffectsMode = EFFECT_DECAY;
 byte currentBklightMode = BKLIGHT_FLASH;
 boolean currentGlitchesState = GLITCHES_ON;

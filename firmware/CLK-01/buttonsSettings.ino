@@ -123,11 +123,11 @@ void buttonsTick()
       startAdjust();
     }
     mode = MODE_ADJUST;
-    if (btnEffects.isClick())
+    if (btnEffects.isPress() || btnEffects.isStep())
     {
       incHours();
     }
-    else if (btnBklight.isClick())
+    else if (btnBklight.isPress() || btnBklight.isStep())
     {
       incMinutes();
     }
@@ -139,11 +139,11 @@ void buttonsTick()
       finishAdjust();
     }
     mode = MODE_CLOCK;
-    if (btnEffects.isClick())
+    if (btnEffects.isPress())
     {
       switchEffects();
     }
-    if (btnBklight.isClick())
+    if (btnBklight.isPress())
     {
       switchBacklight();
     }
