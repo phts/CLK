@@ -65,7 +65,7 @@ void dotBrightTick()
   }
 }
 
-void changeBright()
+void updateBrightness()
 {
 #if (NIGHT_LIGHT == 1)
   // установка яркости всех светилок от времени суток

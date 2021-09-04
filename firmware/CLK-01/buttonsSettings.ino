@@ -107,7 +107,7 @@ void finishAdjust()
   mins = changeMins;
   secs = 0;
   rtc.adjust(DateTime(2019, 12, 5, hrs, mins, 0));
-  changeBright();
+  updateBrightness();
 }
 
 void buttonsTick()

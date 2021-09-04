@@ -38,7 +38,7 @@ void calculateTime()
       {
         hrs = 0;
       }
-      changeBright();
+      updateBrightness();
     }
     if (timeJustChanged)
     {
