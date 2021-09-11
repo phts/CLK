@@ -57,10 +57,10 @@ void setup()
 {
   randomSeed(analogRead(6) + analogRead(7));
 
-  pinMode(PIN_DECODER_0, OUTPUT);
-  pinMode(PIN_DECODER_1, OUTPUT);
-  pinMode(PIN_DECODER_2, OUTPUT);
-  pinMode(PIN_DECODER_3, OUTPUT);
+  pinMode(DECODER_PIN_7, OUTPUT);
+  pinMode(DECODER_PIN_6, OUTPUT);
+  pinMode(DECODER_PIN_4, OUTPUT);
+  pinMode(DECODER_PIN_3, OUTPUT);
   pinMode(PIN_HRS_L, OUTPUT);
   pinMode(PIN_HRS_R, OUTPUT);
   pinMode(PIN_MINS_L, OUTPUT);

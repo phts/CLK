@@ -11,10 +11,10 @@
 #define PIN_DOT 10
 #define PIN_BKLIGHT 11
 #define PIN_BTN_EFFECTS 12
-#define PIN_DECODER_0 A0
-#define PIN_DECODER_1 A1
-#define PIN_DECODER_2 A2
-#define PIN_DECODER_3 A3
+#define DECODER_PIN_7 A0
+#define DECODER_PIN_6 A1
+#define DECODER_PIN_4 A2
+#define DECODER_PIN_3 A3
 
 // распиновка ламп
 byte DIGIT_TO_DECODER_VALUE[] = {7, 3, 6, 4, 1, 9, 8, 0, 5, 2};         // маска дешифратора платы in12_turned (цифры нормальные)
@@ -25,10 +25,10 @@ byte INDICATOR_PINS[] = {PIN_HRS_L, PIN_HRS_R, PIN_MINS_L, PIN_MINS_R}; // по�
 void setDig(byte digit)
 {
   digit = DIGIT_TO_DECODER_VALUE[digit];
-  setPin(PIN_DECODER_3, bitRead(digit, 0));
-  setPin(PIN_DECODER_1, bitRead(digit, 1));
-  setPin(PIN_DECODER_0, bitRead(digit, 2));
-  setPin(PIN_DECODER_2, bitRead(digit, 3));
+  setPin(DECODER_PIN_3, bitRead(digit, 0));
+  setPin(DECODER_PIN_6, bitRead(digit, 1));
+  setPin(DECODER_PIN_7, bitRead(digit, 2));
+  setPin(DECODER_PIN_4, bitRead(digit, 3));
 }
 
 void setup()
@@ -36,10 +36,10 @@ void setup()
   Serial.begin(9600);
 
   // настройка пинов на выход
-  pinMode(PIN_DECODER_0, OUTPUT);
-  pinMode(PIN_DECODER_1, OUTPUT);
-  pinMode(PIN_DECODER_2, OUTPUT);
-  pinMode(PIN_DECODER_3, OUTPUT);
+  pinMode(DECODER_PIN_7, OUTPUT);
+  pinMode(DECODER_PIN_6, OUTPUT);
+  pinMode(DECODER_PIN_4, OUTPUT);
+  pinMode(DECODER_PIN_3, OUTPUT);
   pinMode(PIN_HRS_L, OUTPUT);
   pinMode(PIN_HRS_R, OUTPUT);
   pinMode(PIN_MINS_L, OUTPUT);

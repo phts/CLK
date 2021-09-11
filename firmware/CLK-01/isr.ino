@@ -1,3 +1,4 @@
+const byte DIGIT_TO_DECODER_VALUE[] = {7, 3, 6, 4, 1, 9, 8, 0, 5, 2};
 const byte INDICATOR_PINS[] = {PIN_HRS_L, PIN_HRS_R, PIN_MINS_L, PIN_MINS_R};
 volatile int8_t curInd;
 volatile int8_t arr[4];
@@ -20,11 +21,11 @@ ISR(TIMER2_COMPA_vect)
 
     if (indicatorBrightness[curInd] > 0)
     {
-      byte thisDig = DIGIT_TO_DECODER_VALUE[indicatorDigits[curInd]];
-      setPin(PIN_DECODER_3, bitRead(thisDig, 0));
-      setPin(PIN_DECODER_1, bitRead(thisDig, 1));
-      setPin(PIN_DECODER_0, bitRead(thisDig, 2));
-      setPin(PIN_DECODER_2, bitRead(thisDig, 3));
+      byte tmp = DIGIT_TO_DECODER_VALUE[indicatorDigits[curInd]];
+      setPin(DECODER_PIN_3, bitRead(tmp, 0));
+      setPin(DECODER_PIN_6, bitRead(tmp, 1));
+      setPin(DECODER_PIN_7, bitRead(tmp, 2));
+      setPin(DECODER_PIN_4, bitRead(tmp, 3));
       setPin(INDICATOR_PINS[curInd], anodeStates[curInd]);
     }
   }
