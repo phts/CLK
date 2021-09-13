@@ -16,9 +16,8 @@
 #define DECODER_PIN_4 A2
 #define DECODER_PIN_3 A3
 
-// распиновка ламп
-byte DIGIT_TO_DECODER_VALUE[] = {7, 3, 6, 4, 1, 9, 8, 0, 5, 2};         // маска дешифратора платы in12_turned (цифры нормальные)
-byte INDICATOR_PINS[] = {PIN_HRS_L, PIN_HRS_R, PIN_MINS_L, PIN_MINS_R}; // порядок индикаторов слева направо
+const byte DIGIT_TO_DECODER_VALUE[] = {3, 2, 7, 4, 1, 9, 8, 0, 5, 6};
+byte INDICATOR_PINS[] = {PIN_HRS_L, PIN_HRS_R, PIN_MINS_L, PIN_MINS_R};
 
 #include "GyverHacks.h"
 
@@ -34,8 +33,6 @@ void setDig(byte digit)
 void setup()
 {
   Serial.begin(9600);
-
-  // настройка пинов на выход
   pinMode(DECODER_PIN_7, OUTPUT);
   pinMode(DECODER_PIN_6, OUTPUT);
   pinMode(DECODER_PIN_4, OUTPUT);
@@ -47,21 +44,10 @@ void setup()
   pinMode(PIN_GEN, OUTPUT);
   pinMode(PIN_DOT, OUTPUT);
   pinMode(PIN_BKLIGHT, OUTPUT);
-
-  // задаем частоту ШИМ на 9 и 10 выводах 31 кГц
   TCCR1B = TCCR1B & 0b11111000 | 1; // ставим делитель 1
-
-  // включаем ШИМ
-  // от скважности зависит напряжение! у 175 вольт при значении 180 и 145 вольт при 120
   setPWM(9, DUTY_CYCLE);
-  /*
-  // перенастраиваем частоту ШИМ на пинах 3 и 11 на 7.8 кГц и разрешаем прерывания по совпадению
-  TCCR2B = (TCCR2B & B11111000) | 2;    // делитель 8
-  TCCR2A |= (1 << WGM21);   // включить CTC режим для COMPA
-  TIMSK2 |= (1 << OCIE2A);  // включить прерывания по совпадению COMPA
-*/
-  setPWM(PIN_BKLIGHT, 1); // шим на светодиоды подсветки
-  setPWM(PIN_DOT, 1);     // шим на точку (разделитель часы:минуты)
+  setPWM(PIN_BKLIGHT, 1);
+  setPWM(PIN_DOT, 1);
 }
 
 void loop()

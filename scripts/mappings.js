@@ -2,7 +2,7 @@ function decToBin(x) {
   return x.toString(2).padStart(4, '0').split('').reverse().join('')
 }
 
-const CLK_DIGIT_TO_DECODER_VALUE = [7, 3, 6, 4, 1, 9, 8, 0, 5, 2]
+const CLK_DIGIT_TO_DECODER_VALUE = [3, 2, 7, 4, 1, 9, 8, 0, 5, 6]
 const DECODER_VALUE_TO_PIN = [16,15,8,9,13,14,11,10,1,2]
 const DECODER_PIN_TO_CONNECTOR_PIN = {
   1: 1,
@@ -11,10 +11,10 @@ const DECODER_PIN_TO_CONNECTOR_PIN = {
   15: 4,
   14: 5,
   13: 6,
-  8: 7,
-  11: 8,
-  10: 9,
-  9: 10,
+  11: 7,
+  10: 8,
+  9: 9,
+  8: 10,
 }
 const CONNECTOR_PIN_TO_LAMP_PIN = {
   1: 6,
