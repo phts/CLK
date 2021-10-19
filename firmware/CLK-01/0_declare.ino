@@ -10,7 +10,8 @@ byte currentEffectsMode = EFFECT_DECAY;
 byte currentBklightMode = BKLIGHT_FLASH;
 boolean currentGlitchesState = GLITCHES_ON;
 
-timerMinim dotTimer(500);
+timerMinim timeTimer(1000);
+timerMinim dotTimer(DOT_TIMER);
 timerMinim dotBrightnessTimer(DOT_BRIGHTNESS_TIMER);
 timerMinim bklightBrightnessTimer(30);
 timerMinim flipTimer(EFFECTS_SPEED[currentEffectsMode]);

@@ -14,6 +14,9 @@
 #define GLITCHES_OFF 0
 #define GLITCHES_ON 1
 
+#define DOT_MODE_SIMPLE 0
+#define DOT_MODE_SMOOTH 1
+
 #define NIGHT_LIGHT_OFF 0
 #define NIGHT_LIGHT_ON 1
 #define NIGHT_LIGHT NIGHT_LIGHT_ON
@@ -36,7 +39,8 @@
 #define GLITCH_MIN_INTERVAL 30  // seconds
 #define GLITCH_MAX_INTERVAL 120 // seconds
 
-#define DOT_INTERVAL 500        // milliseconds
+#define DOT_MODE DOT_MODE_SIMPLE
+#define DOT_TIMER 2000          // milliseconds
 #define DOT_BRIGHTNESS_TIMER 20 // milliseconds
 
 #define BURN_LOOP_DELAY 10 // milliseconds

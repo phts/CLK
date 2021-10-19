@@ -1,52 +1,46 @@
-boolean isDotTurnedOn;
 byte minsCount = 0;
 
 void timeTick()
 {
-  if (!dotTimer.isReady())
+  if (!timeTimer.isReady())
   {
     return;
   }
-  isDotTurnedOn = !isDotTurnedOn;
-  if (isDotTurnedOn)
+  secs++;
+  if (secs > 59)
   {
-    resetDot();
-    secs++;
-    if (secs > 59)
-    {
-      timeJustChanged = true;
-      secs = 0;
-      mins++;
-      minsCount++;
+    timeJustChanged = true;
+    secs = 0;
+    mins++;
+    minsCount++;
 
-      if (minsCount >= SYNC_RTC_INTERVAL)
-      {
-        minsCount = 0;
-        DateTime now = rtc.now();
-        secs = now.second();
-        mins = now.minute();
-        hrs = now.hour();
-      }
+    if (minsCount >= SYNC_RTC_INTERVAL)
+    {
+      minsCount = 0;
+      DateTime now = rtc.now();
+      secs = now.second();
+      mins = now.minute();
+      hrs = now.hour();
+    }
 
-      if (mins % BURN_PERIOD == 0)
-      {
-        burnIndicators();
-      }
-    }
-    if (mins > 59)
+    if (mins % BURN_PERIOD == 0)
     {
-      mins = 0;
-      hrs++;
-      if (hrs > 23)
-      {
-        hrs = 0;
-      }
-      updateBrightness();
+      burnIndicators();
     }
-    if (timeJustChanged)
+  }
+  if (mins > 59)
+  {
+    mins = 0;
+    hrs++;
+    if (hrs > 23)
     {
-      setNewTime();
+      hrs = 0;
     }
+    updateBrightness();
+  }
+  if (timeJustChanged)
+  {
+    setNewTime();
   }
 }
 

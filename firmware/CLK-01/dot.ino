@@ -1,47 +1,71 @@
-byte dotBrightStep;
-boolean dotBrightFlag, dotBrightDirection;
-int dotBrightCounter;
+byte dotSmoothStep;
+boolean isDotReady, dotUpDirection;
+int dotBrightness;
+boolean isDotTurnedOn;
 
-void dotBrightnessTick()
+void dotTick()
 {
-  if (!(dotBrightFlag && dotBrightnessTimer.isReady()))
+  if (DOT_MODE == DOT_MODE_SMOOTH && isDotReady)
+  {
+    dotBrightnessTick();
+  }
+  if (!dotTimer.isReady())
   {
     return;
   }
-  if (dotBrightDirection)
+  if (DOT_MODE == DOT_MODE_SIMPLE)
   {
-    dotBrightCounter += dotBrightStep;
-    if (dotBrightCounter >= dotMaxBrightness)
+    dotBrightness = dotBrightness == 0 ? dotMaxBrightness : 0;
+    setPWM(PIN_DOT, getPWM_CRT(dotBrightness));
+    return;
+  }
+
+  if (DOT_MODE == DOT_MODE_SMOOTH)
+  {
+    resetDot();
+    return;
+  }
+}
+
+void dotBrightnessTick()
+{
+  if (!dotBrightnessTimer.isReady())
+  {
+    return;
+  }
+  if (dotUpDirection)
+  {
+    dotBrightness += dotSmoothStep;
+    if (dotBrightness >= dotMaxBrightness)
     {
-      dotBrightDirection = false;
-      dotBrightCounter = dotMaxBrightness;
+      dotUpDirection = false;
+      dotBrightness = dotMaxBrightness;
     }
   }
   else
   {
-    dotBrightCounter -= dotBrightStep;
-    if (dotBrightCounter <= 0)
+    dotBrightness -= dotSmoothStep;
+    if (dotBrightness <= 0)
     {
-      dotBrightDirection = true;
-      dotBrightFlag = false;
-      dotBrightCounter = 0;
+      isDotReady = false;
+      dotBrightness = 0;
     }
   }
-  setPWM(PIN_DOT, getPWM_CRT(dotBrightCounter));
+  setPWM(PIN_DOT, getPWM_CRT(dotBrightness));
 }
 
 void resetDot()
 {
-  dotBrightFlag = true;
-  dotBrightDirection = true;
-  dotBrightCounter = 0;
+  isDotReady = true;
+  dotUpDirection = true;
+  dotBrightness = 0;
 }
 
 void resetDotBrightness()
 {
-  dotBrightStep = ceil((float)dotMaxBrightness * 2 / DOT_INTERVAL * DOT_BRIGHTNESS_TIMER);
-  if (dotBrightStep == 0)
+  dotSmoothStep = ceil((float)dotMaxBrightness * 2 / DOT_TIMER * DOT_BRIGHTNESS_TIMER);
+  if (dotSmoothStep == 0)
   {
-    dotBrightStep = 1;
+    dotSmoothStep = 1;
   }
 }

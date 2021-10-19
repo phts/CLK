@@ -5,7 +5,7 @@ void loop()
   {
     flipTick();
   }
-  dotBrightnessTick();
+  dotTick();
   bklightBrightnessTick();
   if (currentGlitchesState)
   {
