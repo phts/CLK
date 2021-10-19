@@ -1,9 +1,6 @@
 void loop()
 {
-  if (dotTimer.isReady())
-  {
-    timeTick();
-  }
+  timeTick();
   if (timeJustChanged && mode == MODE_CLOCK)
   {
     flipTick();

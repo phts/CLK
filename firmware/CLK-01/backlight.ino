@@ -3,41 +3,46 @@ int backlBrightCounter;
 
 void bklightBrightnessTick()
 {
-  if (currentBklightMode == 0 && bklightBrightnessTimer.isReady())
+  if (currentBklightMode != BKLIGHT_FLASH)
   {
-    if (bklightMaxBrightness > 0)
+    return;
+  }
+  if (!bklightBrightnessTimer.isReady())
+  {
+    return;
+  }
+  if (bklightMaxBrightness > 0)
+  {
+    if (backlBrightDirection)
     {
-      if (backlBrightDirection)
+      if (!backlBrightFlag)
       {
-        if (!backlBrightFlag)
-        {
-          backlBrightFlag = true;
-          resetBklightBrightnessTimer();
-        }
-        backlBrightCounter += BKLIGHT_STEPS;
-        if (backlBrightCounter >= bklightMaxBrightness)
-        {
-          backlBrightDirection = false;
-          backlBrightCounter = bklightMaxBrightness;
-        }
+        backlBrightFlag = true;
+        resetBklightBrightnessTimer();
       }
-      else
+      backlBrightCounter += BKLIGHT_STEPS;
+      if (backlBrightCounter >= bklightMaxBrightness)
       {
-        backlBrightCounter -= BKLIGHT_STEPS;
-        if (backlBrightCounter <= BKLIGHT_MIN_BRIGHTNESS)
-        {
-          backlBrightDirection = true;
-          backlBrightCounter = BKLIGHT_MIN_BRIGHTNESS;
-          bklightBrightnessTimer.setInterval(BKLIGHT_DELAY);
-          backlBrightFlag = false;
-        }
+        backlBrightDirection = false;
+        backlBrightCounter = bklightMaxBrightness;
       }
-      setPWM(PIN_BKLIGHT, getPWM_CRT(backlBrightCounter));
     }
     else
     {
-      digitalWrite(PIN_BKLIGHT, 0);
+      backlBrightCounter -= BKLIGHT_STEPS;
+      if (backlBrightCounter <= BKLIGHT_MIN_BRIGHTNESS)
+      {
+        backlBrightDirection = true;
+        backlBrightCounter = BKLIGHT_MIN_BRIGHTNESS;
+        bklightBrightnessTimer.setInterval(BKLIGHT_DELAY);
+        backlBrightFlag = false;
+      }
     }
+    setPWM(PIN_BKLIGHT, getPWM_CRT(backlBrightCounter));
+  }
+  else
+  {
+    digitalWrite(PIN_BKLIGHT, 0);
   }
 }
 

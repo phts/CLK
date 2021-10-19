@@ -27,7 +27,7 @@ void updateBrightness()
   resetBklightBrightnessTimer();
 
   //change PWM to apply bklightMaxBrightness in case of maximum bright mode
-  if (currentBklightMode == 1)
+  if (currentBklightMode == BKLIGHT_ON)
   {
     setPWM(PIN_BKLIGHT, bklightMaxBrightness);
   }

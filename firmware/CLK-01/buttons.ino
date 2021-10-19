@@ -5,18 +5,19 @@ void settingsTick()
 {
   if (mode == MODE_ADJUST)
   {
-    if (modeAdjustBlinkTimer.isReady())
+    if (!modeAdjustBlinkTimer.isReady())
     {
-      sendTime(changeHrs, changeMins);
-      modeAdjustLampState = !modeAdjustLampState;
-      if (modeAdjustLampState)
-      {
-        turnOnAllLamps();
-      }
-      else
-      {
-        turnOffAllLamps();
-      }
+      return;
+    }
+    sendTime(changeHrs, changeMins);
+    modeAdjustLampState = !modeAdjustLampState;
+    if (modeAdjustLampState)
+    {
+      turnOnAllLamps();
+    }
+    else
+    {
+      turnOffAllLamps();
     }
   }
 }
@@ -66,11 +67,11 @@ void switchBacklight()
     currentBklightMode = 0;
   }
   EEPROM.put(MEMORY_CELL_BKLIGHT, currentBklightMode);
-  if (currentBklightMode == 1)
+  if (currentBklightMode == BKLIGHT_ON)
   {
     setPWM(PIN_BKLIGHT, bklightMaxBrightness);
   }
-  else if (currentBklightMode == 2)
+  else if (currentBklightMode == BKLIGHT_OFF)
   {
     digitalWrite(PIN_BKLIGHT, 0);
   }

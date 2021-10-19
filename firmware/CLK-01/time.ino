@@ -3,6 +3,10 @@ byte minsCount = 0;
 
 void timeTick()
 {
+  if (!dotTimer.isReady())
+  {
+    return;
+  }
   isDotTurnedOn = !isDotTurnedOn;
   if (isDotTurnedOn)
   {

@@ -4,29 +4,30 @@ int dotBrightCounter;
 
 void dotBrightnessTick()
 {
-  if (dotBrightFlag && dotBrightnessTimer.isReady())
+  if (!(dotBrightFlag && dotBrightnessTimer.isReady()))
   {
-    if (dotBrightDirection)
-    {
-      dotBrightCounter += dotBrightStep;
-      if (dotBrightCounter >= dotMaxBrightness)
-      {
-        dotBrightDirection = false;
-        dotBrightCounter = dotMaxBrightness;
-      }
-    }
-    else
-    {
-      dotBrightCounter -= dotBrightStep;
-      if (dotBrightCounter <= 0)
-      {
-        dotBrightDirection = true;
-        dotBrightFlag = false;
-        dotBrightCounter = 0;
-      }
-    }
-    setPWM(PIN_DOT, getPWM_CRT(dotBrightCounter));
+    return;
   }
+  if (dotBrightDirection)
+  {
+    dotBrightCounter += dotBrightStep;
+    if (dotBrightCounter >= dotMaxBrightness)
+    {
+      dotBrightDirection = false;
+      dotBrightCounter = dotMaxBrightness;
+    }
+  }
+  else
+  {
+    dotBrightCounter -= dotBrightStep;
+    if (dotBrightCounter <= 0)
+    {
+      dotBrightDirection = true;
+      dotBrightFlag = false;
+      dotBrightCounter = 0;
+    }
+  }
+  setPWM(PIN_DOT, getPWM_CRT(dotBrightCounter));
 }
 
 void resetDot()
