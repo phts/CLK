@@ -1,8 +1,12 @@
 # PHTS CLK-01
 
+<center><image width="400" src="https://image.easyeda.com/pullimage/eZfHBXqBWeyuq8u5oUy41QWFKAyJxHvFhsioJCOD.jpeg"></center>
+
+<center><i>Work in progress</i></center>
+
 ## Hardware
 
-Hosted on [EasyEDA].
+Hosted on [EasyEDA/phts/CLK-01].
 
 ![PHTS CLK-01](https://image.easyeda.com/documents/f8e8fa42a9a74f4194dbb38830f3f9a2.png)
 
@@ -72,10 +76,8 @@ Single click on button "MINUTES" increases minute value.
 | `NIGHT_START`                |  0&ndash;23 | Hour when night mode should start                                     |
 | `SYNC_RTC_INTERVAL`          |     minutes | How frequent to sync time with RTC module                             |
 
-|
-
 ### Override settings locally
 
 Clone `settings.h.example` into `settings.h` and redefine variables.
 
-[easyeda]: https://oshwlab.com/phts/CLK-01
+[easyeda/phts/clk-01]: https://oshwlab.com/phts/CLK-01
