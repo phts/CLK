@@ -32,11 +32,11 @@ void setupMemory()
     EEPROM.put(MEMORY_CELL_FIRST_RUN, MEMORY_FLAG_FIRST_RUN);
     EEPROM.put(MEMORY_CELL_EFFECTS, currentEffectsMode);
     EEPROM.put(MEMORY_CELL_BKLIGHT, currentBklightMode);
-    EEPROM.put(MEMORY_CELL_GLITCHES, currentGlitchesState);
+    EEPROM.put(MEMORY_CELL_GLITCHES, currentGlitchesMode);
   }
   EEPROM.get(MEMORY_CELL_EFFECTS, currentEffectsMode);
   EEPROM.get(MEMORY_CELL_BKLIGHT, currentBklightMode);
-  EEPROM.get(MEMORY_CELL_GLITCHES, currentGlitchesState);
+  EEPROM.get(MEMORY_CELL_GLITCHES, currentGlitchesMode);
 }
 
 void setupBrightness()

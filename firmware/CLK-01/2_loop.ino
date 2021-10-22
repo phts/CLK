@@ -7,7 +7,7 @@ void loop()
   }
   dotTick();
   bklightBrightnessTick();
-  if (currentGlitchesState)
+  if (currentGlitchesMode == GLITCHES_ON)
   {
     glitchTick();
   }

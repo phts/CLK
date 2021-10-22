@@ -79,8 +79,8 @@ void switchBacklight()
 
 void toggleGlitches()
 {
-  currentGlitchesState = !currentGlitchesState;
-  EEPROM.put(MEMORY_CELL_GLITCHES, currentGlitchesState);
+  currentGlitchesMode = !currentGlitchesMode;
+  EEPROM.put(MEMORY_CELL_GLITCHES, currentGlitchesMode);
 }
 
 void startAdjust()

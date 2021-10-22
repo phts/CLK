@@ -8,7 +8,7 @@ RTC_DS3231 rtc;
 
 byte currentEffectsMode = EFFECT_DECAY;
 byte currentBklightMode = BKLIGHT_FLASH;
-boolean currentGlitchesState = GLITCHES_ON;
+boolean currentGlitchesMode = GLITCHES_ON;
 
 timerMinim timeTimer(1000);
 timerMinim dotTimer(DOT_TIMER);
