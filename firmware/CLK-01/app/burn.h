@@ -4,7 +4,7 @@
 byte oldHrs = -1;
 bool burnInProgress = false;
 byte burnOnMinutes[BURN_TIMES_IN_HOUR];
-byte burnOnMinutesSize = burnOnMinutesSize;
+byte burnOnMinutesSize = sizeof(burnOnMinutes);
 
 void burnIndicators()
 {
