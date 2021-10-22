@@ -1,4 +1,4 @@
-# PHTS CLK-01
+# PHTS CLK-\*\*
 
 Based on [AlexGyver's NixieClock_v2] with a lot of fixes, improvements and refactorings.
 
