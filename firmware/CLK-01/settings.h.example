@@ -1,0 +1,7 @@
+#ifndef settings_h
+#define settings_h
+
+#undef INITIAL_BKLIGHT_MODE
+#define INITIAL_BKLIGHT_MODE BKLIGHT_OFF
+
+#endif

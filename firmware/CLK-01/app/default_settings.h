@@ -1,5 +1,5 @@
-#ifndef settings_h
-#define settings_h
+#ifndef default_settings_h
+#define default_settings_h
 
 #define INITIAL_EFFECTS_MODE EFFECT_LOOP_C;
 #define INITIAL_BKLIGHT_MODE BKLIGHT_ON;
