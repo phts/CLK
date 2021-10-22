@@ -30,6 +30,10 @@ void setupRtc()
 
 void setupMemory()
 {
+  if (MEMORY != MEMORY_ENABLED)
+  {
+    return;
+  }
   if (EEPROM.read(MEMORY_CELL_FIRST_RUN) != MEMORY_FLAG_FIRST_RUN)
   {
     EEPROM.put(MEMORY_CELL_FIRST_RUN, MEMORY_FLAG_FIRST_RUN);
