@@ -10,10 +10,14 @@
 #define EFFECT_LOOP_C 3
 #define EFFECT_TRAIN 4
 #define EFFECT_RUBBER 5
+#define EFFECT_AMOUNT 6
 
-#define BKLIGHT_FLASH 0
+#define BKLIGHT_OFF 0
 #define BKLIGHT_ON 1
-#define BKLIGHT_OFF 2
+#define BKLIGHT_ON_60 2
+#define BKLIGHT_ON_30 3
+#define BKLIGHT_FLASH 4
+#define BKLIGHT_AMOUNT 5
 
 #define GLITCHES_OFF 0
 #define GLITCHES_ON 1

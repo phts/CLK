@@ -65,19 +65,12 @@ void switchEffects()
 
 void switchBacklight()
 {
-  if (++currentBklightMode >= 3)
+  if (++currentBklightMode >= BKLIGHT_AMOUNT)
   {
     currentBklightMode = 0;
   }
   EEPROM.put(MEMORY_CELL_BKLIGHT, currentBklightMode);
-  if (currentBklightMode == BKLIGHT_ON)
-  {
-    setPWM(PIN_BKLIGHT, bklightMaxBrightness);
-  }
-  else if (currentBklightMode == BKLIGHT_OFF)
-  {
-    digitalWrite(PIN_BKLIGHT, 0);
-  }
+  resetBklightBrightness();
 }
 
 void toggleGlitches()

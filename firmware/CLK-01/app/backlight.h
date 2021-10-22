@@ -18,6 +18,18 @@ void resetBklightBrightness()
   {
     setPWM(PIN_BKLIGHT, bklightMaxBrightness);
   }
+  else if (currentBklightMode == BKLIGHT_ON_30)
+  {
+    setPWM(PIN_BKLIGHT, bklightMaxBrightness / 3);
+  }
+  else if (currentBklightMode == BKLIGHT_ON_60)
+  {
+    setPWM(PIN_BKLIGHT, bklightMaxBrightness / 3 * 2);
+  }
+  else if (currentBklightMode == BKLIGHT_OFF)
+  {
+    digitalWrite(PIN_BKLIGHT, 0);
+  }
   resetBklightBrightnessTimer();
 }
 

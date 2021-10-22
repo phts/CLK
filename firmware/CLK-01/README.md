@@ -25,9 +25,11 @@ Single click on button "EFFECTS" selects effects when minutes change:
 
 Single click on button "BKLIGHT" selects backlight:
 
-- Smooth flashing
-- Turned on
 - Turned off
+- Turned on (100%)
+- Turned on (60%)
+- Turned on (30%)
+- Smooth flashing
 
 Holding button "EFFECTS" toggles glitches on/off.
 
