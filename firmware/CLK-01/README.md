@@ -55,7 +55,7 @@ Single click on button "MINUTES" increases minute value.
 | `BKLIGHT_STEPS`              |             | How smooth backlight should be changed (flashing mode)                |
 | `BURN_LOOP_DELAY`            |          ms | How long to wait between "burn" loops                                 |
 | `BURN_LOOPS`                 |             | How many loops to run "burn"                                          |
-| `BURN_TIMES_IN_HOUR`         |             | How many times need to burn indicators during an hour                 |
+| `BURN_TIMES_PER_HOUR`        |             | How many times need to burn indicators during an hour                 |
 | `DEBUG`                      |             | If enabled, prints debug messages into Serial port                    |
 | `DOT_BRIGHTNESS_INTERVAL`    |          ms | How fast dot brightness should change during blinking (smooth mode)   |
 | `DOT_BRIGHTNESS_NIGHT`       | 0&ndash;255 | Dot brightness on nighttime                                           |
