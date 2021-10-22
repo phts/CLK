@@ -35,6 +35,5 @@
 #define MODE_ADJUST 1
 
 byte EFFECTS_SPEED[] = {0, 130, 50, 40, 70, 70};
-byte EFFECTS_SPEEDS_AMOUNT = sizeof(EFFECTS_SPEED);
 
 #endif

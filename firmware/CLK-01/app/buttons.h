@@ -47,7 +47,7 @@ void incMinutes()
 
 void switchEffects()
 {
-  if (++currentEffectsMode >= EFFECTS_SPEEDS_AMOUNT)
+  if (++currentEffectsMode >= EFFECT_AMOUNT)
   {
     currentEffectsMode = 0;
   }
