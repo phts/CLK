@@ -33,9 +33,9 @@
 #define DOT_TIMER 2000          // milliseconds
 #define DOT_BRIGHTNESS_TIMER 20 // milliseconds
 
+#define BURN_TIMES_IN_HOUR 3
 #define BURN_LOOP_DELAY 10 // milliseconds
 #define BURN_LOOPS 3
-#define BURN_PERIOD 15 // minutes
 
 #define SYNC_RTC_INTERVAL 15 // minutes
 

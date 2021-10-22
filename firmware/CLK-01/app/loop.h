@@ -16,6 +16,7 @@ void loop()
   }
   buttonsTick();
   settingsTick();
+  burnTick();
 }
 
 #endif

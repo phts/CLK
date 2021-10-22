@@ -34,11 +34,6 @@ void timeTick()
       mins = now.minute();
       hrs = now.hour();
     }
-
-    if (mins % BURN_PERIOD == 0)
-    {
-      burnIndicators();
-    }
   }
   if (mins > 59)
   {
