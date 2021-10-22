@@ -86,9 +86,9 @@ void setup()
   setupTimers();
 
   btnEffects.setStepTimeout(ADJ_TIME_HOURS_INTERVAL);
-  btnEffects.setTimeout(ADJ_TIME_HOURS_TIMEOUT);
+  btnEffects.setTimeout(ADJ_TIME_HOURS_HOLD_TIME);
   btnBklight.setStepTimeout(ADJ_TIME_MINS_INTERVAL);
-  btnBklight.setTimeout(ADJ_TIME_MINS_TIMEOUT);
+  btnBklight.setTimeout(ADJ_TIME_MINS_HOLD_TIME);
 }
 
 #endif

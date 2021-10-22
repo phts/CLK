@@ -30,8 +30,8 @@
 #define GLITCH_MAX_INTERVAL 120 // seconds
 
 #define DOT_MODE DOT_MODE_SIMPLE
-#define DOT_TIMER 2000          // milliseconds
-#define DOT_BRIGHTNESS_TIMER 20 // milliseconds
+#define DOT_INTERVAL 2000          // milliseconds
+#define DOT_BRIGHTNESS_INTERVAL 20 // milliseconds
 
 #define BURN_TIMES_IN_HOUR 3
 #define BURN_LOOP_DELAY 10 // milliseconds
@@ -59,8 +59,8 @@
 #define MEMORY_FLAG_FIRST_RUN 100
 
 #define ADJ_TIME_MINS_INTERVAL 80
-#define ADJ_TIME_MINS_TIMEOUT 200
+#define ADJ_TIME_MINS_HOLD_TIME 200
 #define ADJ_TIME_HOURS_INTERVAL 150
-#define ADJ_TIME_HOURS_TIMEOUT 200
+#define ADJ_TIME_HOURS_HOLD_TIME 200
 
 #endif

@@ -15,7 +15,7 @@ void resetDot()
 
 void resetDotBrightness()
 {
-  dotSmoothStep = ceil((float)dotMaxBrightness * 2 / DOT_TIMER * DOT_BRIGHTNESS_TIMER);
+  dotSmoothStep = ceil((float)dotMaxBrightness * 2 / DOT_INTERVAL * DOT_BRIGHTNESS_INTERVAL);
   if (dotSmoothStep == 0)
   {
     dotSmoothStep = 1;

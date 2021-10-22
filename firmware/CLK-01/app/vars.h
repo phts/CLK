@@ -14,8 +14,8 @@ byte currentBklightMode = INITIAL_BKLIGHT_MODE;
 boolean currentGlitchesMode = INITIAL_GLITCHES_MODE;
 
 timerMinim timeTimer(1000);
-timerMinim dotTimer(DOT_TIMER);
-timerMinim dotBrightnessTimer(DOT_BRIGHTNESS_TIMER);
+timerMinim dotTimer(DOT_INTERVAL);
+timerMinim dotBrightnessTimer(DOT_BRIGHTNESS_INTERVAL);
 timerMinim bklightBrightnessTimer(30);
 timerMinim flipTimer(EFFECTS_SPEED[currentEffectsMode]);
 timerMinim glitchTimer(1000);
