@@ -9,7 +9,7 @@ void resetInticatorsMaxBrightness()
 
 void updateBrightness()
 {
-#if (NIGHT_LIGHT == 1)
+#if (NIGHT_MODE == NIGHT_MODE_ENABLED)
   if ((hrs >= NIGHT_START && hrs <= 23) || (hrs >= 0 && hrs < NIGHT_END))
   {
     indicatorMaxBrightness = INDICATOR_BRIGHTNESS_NIGHT;
