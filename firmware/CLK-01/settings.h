@@ -1,8 +1,8 @@
 #ifndef settings_h
 #define settings_h
 
-#define INITIAL_EFFECTS_MODE EFFECT_DECAY;
-#define INITIAL_BKLIGHT_MODE BKLIGHT_FLASH;
+#define INITIAL_EFFECTS_MODE EFFECT_LOOP_C;
+#define INITIAL_BKLIGHT_MODE BKLIGHT_ON;
 #define INITIAL_GLITCHES_MODE GLITCHES_ON;
 
 #define DUTY_CYCLE 180 // 175V for 180, 145V for 120
@@ -17,11 +17,11 @@
 #define DOT_BRIGHTNESS 35       // 1--255
 #define DOT_BRIGHTNESS_NIGHT 15 // 1--255
 
-#define BKLIGHT_BRIGHTNESS 250      // 0--255
+#define BKLIGHT_BRIGHTNESS 150      // 0--255
 #define BKLIGHT_BRIGHTNESS_NIGHT 50 // 0--255, 0=off
 #define BKLIGHT_MIN_BRIGHTNESS 20   // 0--255
 #define BKLIGHT_DELAY 400           // milliseconds
-#define BKLIGHT_PERIOD 5000         // milliseconds
+#define BKLIGHT_PERIOD 10000        // milliseconds
 #define BKLIGHT_STEPS 2
 
 #define GLITCH_MIN_INTERVAL 30  // seconds
