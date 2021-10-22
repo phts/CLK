@@ -1,6 +1,8 @@
 #ifndef default_settings_h
 #define default_settings_h
 
+#define DEBUG DEBUG_OFF
+
 #define INITIAL_EFFECTS_MODE EFFECT_LOOP_C;
 #define INITIAL_BKLIGHT_MODE BKLIGHT_ON;
 #define INITIAL_GLITCHES_MODE GLITCHES_ON;

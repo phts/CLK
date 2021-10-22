@@ -1,6 +1,7 @@
 #ifndef app_h
 #define app_h
 
+#include "debug.h"
 #include "vars.h"
 #include "helpers.h"
 #include "utils.h"

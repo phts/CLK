@@ -1,6 +1,9 @@
 #ifndef constants_h
 #define constants_h
 
+#define DEBUG_OFF 0
+#define DEBUG_ON 1
+
 #define EFFECT_NONE 0
 #define EFFECT_DECAY 1
 #define EFFECT_LOOP_D 2

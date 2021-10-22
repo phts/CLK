@@ -58,6 +58,7 @@ void setupTimers()
 
 void setup()
 {
+  setupDebug();
   randomSeed(analogRead(6) + analogRead(7));
 
   pinMode(DECODER_PIN_7, OUTPUT);
