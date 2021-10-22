@@ -1,3 +1,4 @@
 .vscode/
 
 firmware/CLK-01/settings.h
+*.code-workspace
