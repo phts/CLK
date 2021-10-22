@@ -1,3 +1,6 @@
+#ifndef setup_h
+#define setup_h
+
 void setupPwm()
 {
   // задаем частоту ШИМ на 9 и 10 выводах 31 кГц
@@ -41,7 +44,7 @@ void setupMemory()
 
 void setupBrightness()
 {
-  resetInticatorsMaxBrightness();
+  resetIndicatorMaxBrightness();
   resetDotBrightness();
   updateBrightness();
 }
@@ -73,7 +76,7 @@ void setup()
   setupRtc();
   setupMemory();
 
-  sendTime(hrs, mins);
+  showTime(hrs, mins);
   setupBrightness();
   setupTimers();
 
@@ -82,3 +85,5 @@ void setup()
   btnBklight.setStepTimeout(ADJ_TIME_MINS_INTERVAL);
   btnBklight.setTimeout(ADJ_TIME_MINS_TIMEOUT);
 }
+
+#endif

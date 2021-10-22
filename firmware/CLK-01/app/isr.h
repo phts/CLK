@@ -1,3 +1,6 @@
+#ifndef isr_h
+#define isr_h
+
 const byte DIGIT_TO_DECODER_VALUE[] = {3, 2, 7, 4, 1, 9, 8, 0, 5, 6};
 const byte INDICATOR_PINS[] = {PIN_HRS_L, PIN_HRS_R, PIN_MINS_L, PIN_MINS_R};
 volatile int8_t curInd;
@@ -30,3 +33,5 @@ ISR(TIMER2_COMPA_vect)
     }
   }
 }
+
+#endif

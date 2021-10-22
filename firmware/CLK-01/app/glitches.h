@@ -1,3 +1,6 @@
+#ifndef glitches_h
+#define glitches_h
+
 byte glitchCounter, glitchMax, glitchIndic;
 boolean glitchFlag, indiState;
 
@@ -29,3 +32,5 @@ void glitchTick()
     }
   }
 }
+
+#endif

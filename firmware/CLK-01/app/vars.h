@@ -1,3 +1,6 @@
+#ifndef vars_h
+#define vars_h
+
 #include <timer2Minim.h>
 #include <GyverButton.h>
 #include <Wire.h>
@@ -6,9 +9,9 @@
 
 RTC_DS3231 rtc;
 
-byte currentEffectsMode = EFFECT_DECAY;
-byte currentBklightMode = BKLIGHT_FLASH;
-boolean currentGlitchesMode = GLITCHES_ON;
+byte currentEffectsMode = INITIAL_EFFECTS_MODE;
+byte currentBklightMode = INITIAL_BKLIGHT_MODE;
+boolean currentGlitchesMode = INITIAL_GLITCHES_MODE;
 
 timerMinim timeTimer(1000);
 timerMinim dotTimer(DOT_TIMER);
@@ -292,3 +295,5 @@ const uint8_t CRTgamma[256] PROGMEM = {
     253,
     255,
 };
+
+#endif

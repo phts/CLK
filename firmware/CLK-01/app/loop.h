@@ -1,3 +1,6 @@
+#ifndef loop_h
+#define loop_h
+
 void loop()
 {
   timeTick();
@@ -14,3 +17,5 @@ void loop()
   buttonsTick();
   settingsTick();
 }
+
+#endif

@@ -1,5 +1,25 @@
+#ifndef backlight_h
+#define backlight_h
+
 boolean backlBrightFlag, backlBrightDirection;
 int backlBrightCounter;
+
+void resetBklightBrightnessTimer()
+{
+  if (bklightMaxBrightness > 0)
+  {
+    bklightBrightnessTimer.setInterval((float)BKLIGHT_STEPS / bklightMaxBrightness / 2 * BKLIGHT_PERIOD);
+  }
+}
+
+void resetBklightBrightness()
+{
+  if (currentBklightMode == BKLIGHT_ON)
+  {
+    setPWM(PIN_BKLIGHT, bklightMaxBrightness);
+  }
+  resetBklightBrightnessTimer();
+}
 
 void bklightBrightnessTick()
 {
@@ -46,10 +66,4 @@ void bklightBrightnessTick()
   }
 }
 
-void resetBklightBrightnessTimer()
-{
-  if (bklightMaxBrightness > 0)
-  {
-    bklightBrightnessTimer.setInterval((float)BKLIGHT_STEPS / bklightMaxBrightness / 2 * BKLIGHT_PERIOD);
-  }
-}
+#endif

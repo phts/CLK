@@ -1,3 +1,6 @@
+#ifndef utils_h
+#define utils_h
+
 byte getPWM_CRT(byte val)
 {
   return pgm_read_byte(&(CRTgamma[val]));
@@ -78,3 +81,5 @@ void setPWM(uint8_t pin, uint16_t duty)
     }
   }
 }
+
+#endif

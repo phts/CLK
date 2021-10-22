@@ -1,3 +1,6 @@
+#ifndef effects_h
+#define effects_h
+
 const byte CATHOD_TO_DIGIT[] = {1, 6, 2, 7, 5, 0, 4, 9, 8, 3};
 boolean flipInit;
 bool trainLeaving;
@@ -16,7 +19,7 @@ void flipTick()
 {
   if (currentEffectsMode == EFFECT_NONE)
   {
-    sendTime(hrs, mins);
+    showTime(hrs, mins);
     timeJustChanged = false;
   }
   else if (currentEffectsMode == EFFECT_DECAY)
@@ -42,7 +45,7 @@ void flipTick()
         {                             // если яркость меньше нуля
           indiBrightDirection = true; // меняем направление изменения
           indiBrightCounter = 0;      // обнуляем яркость
-          sendTime(hrs, mins);        // меняем цифры
+          showTime(hrs, mins);        // меняем цифры
         }
       }
       else
@@ -203,7 +206,7 @@ void flipTick()
         {
           trainLeaving = false; //coming
           currentLamp = 0;
-          //sendTime(hrs, mins);
+          //showTime(hrs, mins);
         }
       }
       else
@@ -277,7 +280,7 @@ void flipTick()
         break;
       case 10:
         anodeStates[3] = 0;
-        //sendTime(hrs,mins);
+        //showTime(hrs,mins);
         break;
       case 11:
         indicatorDigits[0] = newTime[3];
@@ -332,3 +335,5 @@ void flipTick()
     }
   }
 }
+
+#endif

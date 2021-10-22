@@ -1,3 +1,6 @@
+#ifndef burn_h
+#define burn_h
+
 void burnIndicators()
 {
   for (byte k = 0; k < BURN_LOOPS; k++)
@@ -16,3 +19,5 @@ void burnIndicators()
     }
   }
 }
+
+#endif

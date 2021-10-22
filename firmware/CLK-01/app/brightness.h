@@ -1,4 +1,7 @@
-void resetInticatorsMaxBrightness()
+#ifndef brightness_h
+#define brightness_h
+
+void resetIndicatorMaxBrightness()
 {
   for (byte i = 0; i < 4; i++)
   {
@@ -22,14 +25,10 @@ void updateBrightness()
     dotMaxBrightness = DOT_BRIGHTNESS;
     bklightMaxBrightness = BKLIGHT_BRIGHTNESS;
   }
-  resetInticatorsMaxBrightness();
+  resetIndicatorMaxBrightness();
   resetDotBrightness();
-  resetBklightBrightnessTimer();
-
-  //change PWM to apply bklightMaxBrightness in case of maximum bright mode
-  if (currentBklightMode == BKLIGHT_ON)
-  {
-    setPWM(PIN_BKLIGHT, bklightMaxBrightness);
-  }
+  resetBklightBrightness();
 #endif
 }
+
+#endif

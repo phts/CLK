@@ -1,3 +1,6 @@
+#ifndef buttons_h
+#define buttons_h
+
 int8_t changeHrs, changeMins;
 boolean modeAdjustLampState = false;
 
@@ -9,7 +12,7 @@ void settingsTick()
     {
       return;
     }
-    sendTime(changeHrs, changeMins);
+    showTime(changeHrs, changeMins);
     modeAdjustLampState = !modeAdjustLampState;
     if (modeAdjustLampState)
     {
@@ -29,7 +32,7 @@ void incHours()
   {
     changeHrs = 0;
   }
-  sendTime(changeHrs, changeMins);
+  showTime(changeHrs, changeMins);
 }
 
 void incMinutes()
@@ -39,7 +42,7 @@ void incMinutes()
   {
     changeMins = 0;
   }
-  sendTime(changeHrs, changeMins);
+  showTime(changeHrs, changeMins);
 }
 
 void switchEffects()
@@ -50,7 +53,7 @@ void switchEffects()
   }
   EEPROM.put(MEMORY_CELL_EFFECTS, currentEffectsMode);
   flipTimer.setInterval(EFFECTS_SPEED[currentEffectsMode]);
-  resetInticatorsMaxBrightness();
+  resetIndicatorMaxBrightness();
   turnOnAllLamps();
 
   timeJustChanged = true;
@@ -138,3 +141,5 @@ void buttonsTick()
     }
   }
 }
+
+#endif
