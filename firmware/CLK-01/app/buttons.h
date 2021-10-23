@@ -32,6 +32,8 @@ void incHours()
   {
     changeHrs = 0;
   }
+  modeAdjustBlinkTimer.reset();
+  turnOnAllLamps();
   showTime(changeHrs, changeMins);
 }
 
@@ -42,6 +44,8 @@ void incMinutes()
   {
     changeMins = 0;
   }
+  modeAdjustBlinkTimer.reset();
+  turnOnAllLamps();
   showTime(changeHrs, changeMins);
 }
 
@@ -92,6 +96,7 @@ void finishAdjust()
   mins = changeMins;
   secs = 0;
   rtc.adjust(DateTime(2019, 12, 5, hrs, mins, 0));
+  turnOnAllLamps();
   updateBrightness();
 }
 
