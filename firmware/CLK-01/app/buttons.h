@@ -6,22 +6,23 @@ boolean modeAdjustLampState = false;
 
 void settingsTick()
 {
-  if (mode == MODE_ADJUST)
+  if (mode != MODE_ADJUST)
   {
-    if (!modeAdjustBlinkTimer.isReady())
-    {
-      return;
-    }
-    showTime(changeHrs, changeMins);
-    modeAdjustLampState = !modeAdjustLampState;
-    if (modeAdjustLampState)
-    {
-      turnOnAllLamps();
-    }
-    else
-    {
-      turnOffAllLamps();
-    }
+    return;
+  }
+  if (!modeAdjustBlinkTimer.isReady())
+  {
+    return;
+  }
+  showTime(changeHrs, changeMins);
+  modeAdjustLampState = !modeAdjustLampState;
+  if (modeAdjustLampState)
+  {
+    turnOnAllLamps();
+  }
+  else
+  {
+    turnOffAllLamps();
   }
 }
 
@@ -124,7 +125,7 @@ void buttonsTick()
   }
   else
   {
-    if (mode != MODE_CLOCK)
+    if (mode == MODE_ADJUST)
     {
       finishAdjust();
     }

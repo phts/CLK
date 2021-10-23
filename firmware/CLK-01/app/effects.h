@@ -2,13 +2,13 @@
 #define effects_h
 
 const byte CATHOD_TO_DIGIT[] = {1, 6, 2, 7, 5, 0, 4, 9, 8, 3};
-boolean flipInit;
+boolean flipInProgress;
 bool trainLeaving;
 byte startCathode[4], endCathode[4];
 byte currentLamp, flipEffectStages;
-boolean flipIndics[4];
-boolean indiBrightDirection;
-int indiBrightCounter;
+boolean indicatorsToFlip[4];
+boolean decayDirection;
+int decayIndicatorBrightness;
 
 void flipTick()
 {
@@ -19,68 +19,55 @@ void flipTick()
   }
   else if (currentEffectsMode == EFFECT_DECAY)
   {
-    if (!flipInit)
+    if (!flipInProgress)
     {
-      flipInit = true;
-      // запоминаем, какие цифры поменялись и будем менять их яркость
+      flipInProgress = true;
       for (byte i = 0; i < 4; i++)
       {
-        if (indicatorDigits[i] != newTime[i])
-          flipIndics[i] = true;
-        else
-          flipIndics[i] = false;
+        indicatorsToFlip[i] = indicatorDigits[i] != newTime[i];
       }
       decayIndicatorBrightness = indicatorMaxBrightness;
     }
     if (flipTimer.isReady())
     {
-      if (!indiBrightDirection)
+      if (!decayDirection)
       {
-        indiBrightCounter--; // уменьшаем яркость
-        if (indiBrightCounter <= 0)
-        {                             // если яркость меньше нуля
-          indiBrightDirection = true; // меняем направление изменения
-          indiBrightCounter = 0;      // обнуляем яркость
-          showTime(hrs, mins);        // меняем цифры
+        decayIndicatorBrightness--;
+        if (decayIndicatorBrightness <= 0)
+        {
+          decayDirection = true;
+          decayIndicatorBrightness = 0;
+          showTime(hrs, mins);
         }
       }
       else
       {
-        indiBrightCounter++; // увеличиваем яркость
-        if (indiBrightCounter >= indicatorMaxBrightness)
-        {                                             // достигли предела
-          indiBrightDirection = false;                // меняем направление
-          indiBrightCounter = indicatorMaxBrightness; // устанавливаем максимум
-          // выходим из цикла изменения
-          flipInit = false;
+        decayIndicatorBrightness++;
+        if (decayIndicatorBrightness >= indicatorMaxBrightness)
+        {
+          decayDirection = false;
+          decayIndicatorBrightness = indicatorMaxBrightness;
+          flipInProgress = false;
           timeJustChanged = false;
         }
       }
       for (byte i = 0; i < 4; i++)
       {
-        if (flipIndics[i])
+        if (indicatorsToFlip[i])
         {
-          indicatorBrightness[i] = indiBrightCounter; // применяем яркость
+          indicatorBrightness[i] = decayIndicatorBrightness;
         }
       }
     }
   }
   else if (currentEffectsMode == EFFECT_LOOP_D)
   {
-    if (!flipInit)
+    if (!flipInProgress)
     {
-      flipInit = true;
-      // запоминаем, какие цифры поменялись и будем менять их
+      flipInProgress = true;
       for (byte i = 0; i < 4; i++)
       {
-        if (indicatorDigits[i] != newTime[i])
-        {
-          flipIndics[i] = true;
-        }
-        else
-        {
-          flipIndics[i] = false;
-        }
+        indicatorsToFlip[i] = indicatorDigits[i] != newTime[i];
       }
     }
 
@@ -89,7 +76,7 @@ void flipTick()
       byte flipCounter = 0;
       for (byte i = 0; i < 4; i++)
       {
-        if (flipIndics[i])
+        if (indicatorsToFlip[i])
         {
           indicatorDigits[i]--;
           if (indicatorDigits[i] < 0)
@@ -98,33 +85,31 @@ void flipTick()
           }
           if (indicatorDigits[i] == newTime[i])
           {
-            flipIndics[i] = false;
+            indicatorsToFlip[i] = false;
           }
         }
         else
         {
-          flipCounter++; // счётчик цифр, которые не надо менять
+          flipCounter++;
         }
       }
       if (flipCounter == 4)
-      { // если ни одну из 4 цифр менять не нужно
-        // выходим из цикла изменения
-        flipInit = false;
+      {
+        flipInProgress = false;
         timeJustChanged = false;
       }
     }
   }
   else if (currentEffectsMode == EFFECT_LOOP_C)
   {
-    if (!flipInit)
+    if (!flipInProgress)
     {
-      flipInit = true;
-      // запоминаем, какие цифры поменялись и будем менять их
+      flipInProgress = true;
       for (byte i = 0; i < 4; i++)
       {
-        if (indicatorDigits[i] != newTime[i])
+        indicatorsToFlip[i] = indicatorDigits[i] != newTime[i];
+        if (indicatorsToFlip[i])
         {
-          flipIndics[i] = true;
           for (byte c = 0; c < 10; c++)
           {
             if (indicatorDigits[i] == CATHOD_TO_DIGIT[c])
@@ -137,10 +122,6 @@ void flipTick()
             }
           }
         }
-        else
-        {
-          flipIndics[i] = false;
-        }
       }
     }
 
@@ -149,7 +130,7 @@ void flipTick()
       byte flipCounter = 0;
       for (byte i = 0; i < 4; i++)
       {
-        if (flipIndics[i])
+        if (indicatorsToFlip[i])
         {
           if (startCathode[i] > endCathode[i])
           {
@@ -163,7 +144,7 @@ void flipTick()
           }
           else
           {
-            flipIndics[i] = false;
+            indicatorsToFlip[i] = false;
           }
         }
         else
@@ -172,18 +153,17 @@ void flipTick()
         }
       }
       if (flipCounter == 4)
-      { // если ни одну из 4 цифр менять не нужно
-        // выходим из цикла изменения
-        flipInit = false;
+      {
+        flipInProgress = false;
         timeJustChanged = false;
       }
     }
   }
   else if (currentEffectsMode == EFFECT_TRAIN)
   {
-    if (!flipInit)
+    if (!flipInProgress)
     {
-      flipInit = true;
+      flipInProgress = true;
       currentLamp = 0;
       trainLeaving = true;
       flipTimer.reset();
@@ -200,13 +180,12 @@ void flipTick()
         currentLamp++;
         if (currentLamp >= 4)
         {
-          trainLeaving = false; //coming
+          trainLeaving = false;
           currentLamp = 0;
-          //showTime(hrs, mins);
         }
       }
       else
-      { //trainLeaving == false
+      {
         for (byte i = currentLamp; i > 0; i--)
         {
           indicatorDigits[i] = indicatorDigits[i - 1];
@@ -216,7 +195,7 @@ void flipTick()
         currentLamp++;
         if (currentLamp >= 4)
         {
-          flipInit = false;
+          flipInProgress = false;
           timeJustChanged = false;
         }
       }
@@ -225,9 +204,9 @@ void flipTick()
 
   else if (currentEffectsMode == EFFECT_RUBBER)
   {
-    if (!flipInit)
+    if (!flipInProgress)
     {
-      flipInit = true;
+      flipInProgress = true;
       flipEffectStages = 0;
       flipTimer.reset();
     }
@@ -276,7 +255,6 @@ void flipTick()
         break;
       case 10:
         anodeStates[3] = 0;
-        //showTime(hrs,mins);
         break;
       case 11:
         indicatorDigits[0] = newTime[3];
@@ -325,7 +303,7 @@ void flipTick()
         anodeStates[0] = 1;
         break;
       case 21:
-        flipInit = false;
+        flipInProgress = false;
         timeJustChanged = false;
       }
     }
