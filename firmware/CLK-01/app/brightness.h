@@ -7,7 +7,6 @@ void resetIndicatorMaxBrightness()
   {
     indicatorBrightness[i] = indicatorMaxBrightness;
   }
-  resetEffects();
 }
 
 void updateBrightness()

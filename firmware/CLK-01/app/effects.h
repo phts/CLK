@@ -10,11 +10,6 @@ boolean flipIndics[4];
 boolean indiBrightDirection;
 int indiBrightCounter;
 
-void resetEffects()
-{
-  indiBrightCounter = indicatorMaxBrightness;
-}
-
 void flipTick()
 {
   if (currentEffectsMode == EFFECT_NONE)
@@ -35,6 +30,7 @@ void flipTick()
         else
           flipIndics[i] = false;
       }
+      decayIndicatorBrightness = indicatorMaxBrightness;
     }
     if (flipTimer.isReady())
     {
