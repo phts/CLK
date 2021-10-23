@@ -43,6 +43,7 @@ Single click on button "MINUTES" increases minute value.
 
 | Name                         |      Values | Description                                                           |
 | ---------------------------- | ----------: | --------------------------------------------------------------------- |
+| `ADJ_TIME_BLINK_INTERVAL`    |          ms | How fast indicators blonk during adjust time" mode                    |
 | `ADJ_TIME_HOURS_INTERVAL`    |          ms | How fast values are changed while button is pressed                   |
 | `ADJ_TIME_HOURS_HOLD_TIME`   |          ms | How long need to hold button to start repeating                       |
 | `ADJ_TIME_MINS_INTERVAL`     |          ms | How fast values are changed while button is pressed                   |

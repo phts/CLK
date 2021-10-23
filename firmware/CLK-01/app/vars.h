@@ -19,7 +19,7 @@ timerMinim dotBrightnessTimer(DOT_BRIGHTNESS_INTERVAL);
 timerMinim bklightBrightnessTimer(30);
 timerMinim flipTimer(EFFECTS_SPEED[currentEffectsMode]);
 timerMinim glitchTimer(1000);
-timerMinim modeAdjustBlinkTimer(500);
+timerMinim modeAdjustBlinkTimer(ADJ_TIME_BLINK_INTERVAL);
 
 GButton btnMode(PIN_BTN_MODE, HIGH_PULL, NORM_OPEN);
 GButton btnBklight(PIN_BTN_BKLIGHT, HIGH_PULL, NORM_OPEN);
