@@ -38,7 +38,7 @@ void incHours()
 void incMinutes()
 {
   changeMins++;
-  if (changeMins > 23)
+  if (changeMins > 59)
   {
     changeMins = 0;
   }
