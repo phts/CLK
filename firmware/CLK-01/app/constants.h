@@ -4,14 +4,6 @@
 #define DEBUG_OFF 0
 #define DEBUG_ON 1
 
-#define EFFECT_NONE 0
-#define EFFECT_DECAY 1
-#define EFFECT_LOOP_D 2
-#define EFFECT_LOOP_C 3
-#define EFFECT_TRAIN 4
-#define EFFECT_RUBBER 5
-#define EFFECT_AMOUNT 6
-
 #define BKLIGHT_OFF 0
 #define BKLIGHT_ON 1
 #define BKLIGHT_ON_60 2
@@ -37,7 +29,5 @@
 
 #define MODE_CLOCK 0
 #define MODE_ADJUST 1
-
-byte EFFECTS_SPEED[] = {0, 130, 50, 40, 70, 70};
 
 #endif

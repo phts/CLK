@@ -1,12 +1,14 @@
 #ifndef loop_h
 #define loop_h
 
+#include "effects.h"
+
 void loop()
 {
   timeTick();
   if (timeJustChanged && mode == MODE_CLOCK)
   {
-    flipTick();
+    effects.tick();
   }
   dotTick();
   bklightBrightnessTick();

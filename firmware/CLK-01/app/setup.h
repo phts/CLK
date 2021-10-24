@@ -1,6 +1,8 @@
 #ifndef setup_h
 #define setup_h
 
+#include "effects.h"
+
 void setupPwm()
 {
   // задаем частоту ШИМ на 9 и 10 выводах 31 кГц
@@ -37,13 +39,15 @@ void setupMemory()
   if (EEPROM.read(MEMORY_CELL_FIRST_RUN) != MEMORY_FLAG_FIRST_RUN)
   {
     EEPROM.put(MEMORY_CELL_FIRST_RUN, MEMORY_FLAG_FIRST_RUN);
-    EEPROM.put(MEMORY_CELL_EFFECTS, currentEffectsMode);
+    EEPROM.put(MEMORY_CELL_EFFECTS, effects.getMode());
     EEPROM.put(MEMORY_CELL_BKLIGHT, currentBklightMode);
     EEPROM.put(MEMORY_CELL_GLITCHES, currentGlitchesMode);
   }
-  EEPROM.get(MEMORY_CELL_EFFECTS, currentEffectsMode);
+  byte newEffectMode;
+  EEPROM.get(MEMORY_CELL_EFFECTS, newEffectMode);
   EEPROM.get(MEMORY_CELL_BKLIGHT, currentBklightMode);
   EEPROM.get(MEMORY_CELL_GLITCHES, currentGlitchesMode);
+  effects.setMode(newEffectMode);
 }
 
 void setupBrightness()
@@ -57,7 +61,6 @@ void setupTimers()
 {
   resetBklightBrightnessTimer();
   glitchTimer.setInterval(random(GLITCH_MIN_INTERVAL * 1000L, GLITCH_MAX_INTERVAL * 1000L));
-  flipTimer.setInterval(EFFECTS_SPEED[currentEffectsMode]);
 }
 
 void setup()
@@ -83,6 +86,7 @@ void setup()
 
   showTime(hrs, mins);
   setupBrightness();
+  effects.setup();
   setupTimers();
 
   btnEffects.setStepTimeout(ADJ_TIME_HOURS_INTERVAL);

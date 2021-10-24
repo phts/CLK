@@ -1,6 +1,8 @@
 #ifndef buttons_h
 #define buttons_h
 
+#include "effects.h"
+
 int8_t changeHrs, changeMins;
 boolean modeAdjustLampState = false;
 
@@ -52,19 +54,15 @@ void incMinutes()
 
 void switchEffects()
 {
-  if (++currentEffectsMode >= EFFECT_AMOUNT)
-  {
-    currentEffectsMode = 0;
-  }
-  EEPROM.put(MEMORY_CELL_EFFECTS, currentEffectsMode);
-  flipTimer.setInterval(EFFECTS_SPEED[currentEffectsMode]);
+  effects.toggle();
+  EEPROM.put(MEMORY_CELL_EFFECTS, effects.getMode());
   resetIndicatorMaxBrightness();
   turnOnAllLamps();
 
   timeJustChanged = true;
   for (byte i = 0; i < 4; i++)
   {
-    indicatorDigits[i] = currentEffectsMode;
+    indicatorDigits[i] = effects.getMode();
   }
 }
 
