@@ -1,12 +1,15 @@
 #ifndef buttons_h
 #define buttons_h
 
+#include "time.h"
 #include "effects.h"
 #include "backlight.h"
 #include "glitches.h"
 
 int8_t changeHrs, changeMins;
 boolean modeSetLampState = false;
+boolean isEffectsDemoRunning = false;
+byte cachedTimeArray[4] = {0, 0, 0, 0};
 
 void settingsTick()
 {
@@ -60,12 +63,12 @@ void switchEffects()
   EEPROM.put(MEMORY_CELL_EFFECTS, effects.getMode());
   resetIndicatorMaxBrightness();
   turnOnAllLamps();
-
-  timeJustChanged = true;
+  isEffectsDemoRunning = true;
   for (byte i = 0; i < 4; i++)
   {
     indicatorDigits[i] = effects.getMode();
   }
+  convertTimeToArray(time.getHours(), time.getMinutes(), cachedTimeArray);
 }
 
 void switchBacklight()
@@ -83,16 +86,13 @@ void toggleGlitches()
 void startSet()
 {
   turnOnAllLamps();
-  changeHrs = hrs;
-  changeMins = mins;
+  changeHrs = time.getHours();
+  changeMins = time.getMinutes();
 }
 
 void finishSet()
 {
-  hrs = changeHrs;
-  mins = changeMins;
-  secs = 0;
-  rtc.adjust(DateTime(2019, 12, 5, hrs, mins, 0));
+  time.setTime(changeHrs, changeMins);
   turnOnAllLamps();
   updateBrightness();
 }
@@ -102,6 +102,11 @@ void buttonsTick()
   btnMode.tick();
   btnEffects.tick();
   btnBklight.tick();
+
+  if (isEffectsDemoRunning)
+  {
+    isEffectsDemoRunning = effects.tick(time.getHours(), time.getMinutes(), cachedTimeArray);
+  }
 
   if (btnMode.isHold())
   {

@@ -1,6 +1,8 @@
 #ifndef burn_h
 #define burn_h
 
+#include "time.h"
+
 byte oldHrs = -1;
 bool burnInProgress = false;
 byte burnOnMinutes[BURN_TIMES_PER_HOUR];
@@ -31,9 +33,9 @@ void burnTick()
   {
     return;
   }
-  if (oldHrs != hrs)
+  if (oldHrs != time.getHours())
   {
-    oldHrs = hrs;
+    oldHrs = time.getHours();
     debug("New hour! Burn on minutes:");
     for (byte i = 0; i < burnOnMinutesSize; i++)
     {
@@ -47,7 +49,7 @@ void burnTick()
   }
   for (byte i = 0; i < burnOnMinutesSize; i++)
   {
-    if (mins == burnOnMinutes[i] && secs >= 15 && secs <= 45)
+    if (time.getMinutes() == burnOnMinutes[i] && time.getSeconds() >= 15 && time.getSeconds() <= 45)
     {
       burnInProgress = true;
       burnOnMinutes[i] = -1;

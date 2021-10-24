@@ -48,13 +48,14 @@ public:
     setMode(newMode);
   }
 
-  void tick()
+  boolean tick(byte hrs, byte mins, byte newTime[])
   {
     if (mode == EFFECT_NONE)
     {
       showTime(hrs, mins);
-      timeJustChanged = false;
+      return false;
     }
+
     else if (mode == EFFECT_DECAY)
     {
       if (!flipInProgress)
@@ -86,7 +87,7 @@ public:
             decayDirection = false;
             decayIndicatorBrightness = indicatorMaxBrightness;
             flipInProgress = false;
-            timeJustChanged = false;
+            return false;
           }
         }
         for (byte i = 0; i < 4; i++)
@@ -98,6 +99,7 @@ public:
         }
       }
     }
+
     else if (mode == EFFECT_LOOP_D)
     {
       if (!flipInProgress)
@@ -108,7 +110,6 @@ public:
           indicatorsToFlip[i] = indicatorDigits[i] != newTime[i];
         }
       }
-
       if (flipTimer.isReady())
       {
         byte flipCounter = 0;
@@ -134,10 +135,11 @@ public:
         if (flipCounter == 4)
         {
           flipInProgress = false;
-          timeJustChanged = false;
+          return false;
         }
       }
     }
+
     else if (mode == EFFECT_LOOP_C)
     {
       if (!flipInProgress)
@@ -162,7 +164,6 @@ public:
           }
         }
       }
-
       if (flipTimer.isReady())
       {
         byte flipCounter = 0;
@@ -193,10 +194,11 @@ public:
         if (flipCounter == 4)
         {
           flipInProgress = false;
-          timeJustChanged = false;
+          return false;
         }
       }
     }
+
     else if (mode == EFFECT_TRAIN)
     {
       if (!flipInProgress)
@@ -234,7 +236,7 @@ public:
           if (currentLamp >= 4)
           {
             flipInProgress = false;
-            timeJustChanged = false;
+            return false;
           }
         }
       }
@@ -342,10 +344,12 @@ public:
           break;
         case 21:
           flipInProgress = false;
-          timeJustChanged = false;
+          return false;
         }
       }
     }
+
+    return true;
   }
 
 private:
