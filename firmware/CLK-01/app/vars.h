@@ -9,13 +9,11 @@
 
 RTC_DS3231 rtc;
 
-byte currentBklightMode = INITIAL_BKLIGHT_MODE;
 boolean currentGlitchesMode = INITIAL_GLITCHES_MODE;
 
 timerMinim timeTimer(1000);
 timerMinim dotTimer(DOT_INTERVAL);
 timerMinim dotBrightnessTimer(DOT_BRIGHTNESS_INTERVAL);
-timerMinim bklightBrightnessTimer(30);
 timerMinim glitchTimer(1000);
 timerMinim modeAdjustBlinkTimer(ADJ_TIME_BLINK_INTERVAL);
 
@@ -29,7 +27,6 @@ volatile int8_t indicatorDigits[4];     // 0--9
 int8_t hrs, mins, secs;
 byte indicatorMaxBrightness = INDICATOR_BRIGHTNESS;
 byte dotMaxBrightness = DOT_BRIGHTNESS;
-byte bklightMaxBrightness = BKLIGHT_BRIGHTNESS;
 boolean timeJustChanged;
 byte newTime[4];
 byte mode = MODE_CLOCK;

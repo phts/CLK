@@ -1,81 +1,139 @@
 #ifndef backlight_h
 #define backlight_h
 
-boolean backlBrightFlag, backlBrightDirection;
-int backlBrightCounter;
+#include <timer2Minim.h>
 
-void resetBklightBrightnessTimer()
-{
-  if (bklightMaxBrightness > 0)
-  {
-    bklightBrightnessTimer.setInterval((float)BKLIGHT_STEPS / bklightMaxBrightness / 2 * BKLIGHT_PERIOD);
-  }
-}
+#define BKLIGHT_OFF 0
+#define BKLIGHT_ON 1
+#define BKLIGHT_ON_60 2
+#define BKLIGHT_ON_30 3
+#define BKLIGHT_FLASH 4
+#define BKLIGHT_AMOUNT 5
 
-void resetBklightBrightness()
+class Backlight
 {
-  if (currentBklightMode == BKLIGHT_ON)
+public:
+  Backlight(byte initialMode, byte initialMaxBrightness) : brightnessTimer(30)
   {
-    setPWM(PIN_BKLIGHT, bklightMaxBrightness);
+    mode = initialMode;
+    maxBrightness = initialMaxBrightness;
   }
-  else if (currentBklightMode == BKLIGHT_ON_30)
-  {
-    setPWM(PIN_BKLIGHT, bklightMaxBrightness / 3);
-  }
-  else if (currentBklightMode == BKLIGHT_ON_60)
-  {
-    setPWM(PIN_BKLIGHT, bklightMaxBrightness / 3 * 2);
-  }
-  else if (currentBklightMode == BKLIGHT_OFF)
-  {
-    digitalWrite(PIN_BKLIGHT, 0);
-  }
-  resetBklightBrightnessTimer();
-}
 
-void bklightBrightnessTick()
-{
-  if (currentBklightMode != BKLIGHT_FLASH)
+  void setup()
   {
-    return;
+    resetFlashBrightnessTimer();
   }
-  if (!bklightBrightnessTimer.isReady())
+
+  byte getMode()
   {
-    return;
+    return mode;
   }
-  if (bklightMaxBrightness > 0)
+
+  void setMode(byte newMode)
   {
-    if (backlBrightDirection)
+    mode = newMode;
+    resetBrightness();
+  }
+
+  void setNightMode(boolean isNight)
+  {
+    maxBrightness = isNight ? BKLIGHT_BRIGHTNESS_NIGHT : BKLIGHT_BRIGHTNESS;
+    resetBrightness();
+  }
+
+  void toggle()
+  {
+    byte newMode = mode + 1;
+    if (newMode >= BKLIGHT_AMOUNT)
     {
-      if (!backlBrightFlag)
+      newMode = 0;
+    }
+    setMode(newMode);
+  }
+
+  void tick()
+  {
+    if (mode != BKLIGHT_FLASH)
+    {
+      return;
+    }
+    if (!brightnessTimer.isReady())
+    {
+      return;
+    }
+    if (maxBrightness > 0)
+    {
+      if (flashDirection)
       {
-        backlBrightFlag = true;
-        resetBklightBrightnessTimer();
+        if (!flashStarted)
+        {
+          flashStarted = true;
+          resetFlashBrightnessTimer();
+        }
+        currentFlashBrightness += BKLIGHT_STEPS;
+        if (currentFlashBrightness >= maxBrightness)
+        {
+          flashDirection = false;
+          currentFlashBrightness = maxBrightness;
+        }
       }
-      backlBrightCounter += BKLIGHT_STEPS;
-      if (backlBrightCounter >= bklightMaxBrightness)
+      else
       {
-        backlBrightDirection = false;
-        backlBrightCounter = bklightMaxBrightness;
+        currentFlashBrightness -= BKLIGHT_STEPS;
+        if (currentFlashBrightness <= BKLIGHT_MIN_BRIGHTNESS)
+        {
+          flashDirection = true;
+          currentFlashBrightness = BKLIGHT_MIN_BRIGHTNESS;
+          brightnessTimer.setInterval(BKLIGHT_DELAY);
+          flashStarted = false;
+        }
       }
+      setPWM(PIN_BKLIGHT, getPWM_CRT(currentFlashBrightness));
     }
     else
     {
-      backlBrightCounter -= BKLIGHT_STEPS;
-      if (backlBrightCounter <= BKLIGHT_MIN_BRIGHTNESS)
-      {
-        backlBrightDirection = true;
-        backlBrightCounter = BKLIGHT_MIN_BRIGHTNESS;
-        bklightBrightnessTimer.setInterval(BKLIGHT_DELAY);
-        backlBrightFlag = false;
-      }
+      digitalWrite(PIN_BKLIGHT, 0);
     }
-    setPWM(PIN_BKLIGHT, getPWM_CRT(backlBrightCounter));
   }
-  else
+
+private:
+  byte mode;
+  byte maxBrightness;
+  boolean flashStarted;
+  boolean flashDirection;
+  int currentFlashBrightness;
+  timerMinim brightnessTimer;
+
+  void resetFlashBrightnessTimer()
   {
-    digitalWrite(PIN_BKLIGHT, 0);
+    if (maxBrightness > 0)
+    {
+      brightnessTimer.setInterval((float)BKLIGHT_STEPS / maxBrightness / 2 * BKLIGHT_PERIOD);
+    }
   }
-}
+
+  void resetBrightness()
+  {
+    if (mode == BKLIGHT_ON)
+    {
+      setPWM(PIN_BKLIGHT, maxBrightness);
+    }
+    else if (mode == BKLIGHT_ON_30)
+    {
+      setPWM(PIN_BKLIGHT, maxBrightness / 3);
+    }
+    else if (mode == BKLIGHT_ON_60)
+    {
+      setPWM(PIN_BKLIGHT, maxBrightness / 3 * 2);
+    }
+    else if (mode == BKLIGHT_OFF)
+    {
+      digitalWrite(PIN_BKLIGHT, 0);
+    }
+    resetFlashBrightnessTimer();
+  }
+};
+
+Backlight backlight(INITIAL_BKLIGHT_MODE, BKLIGHT_BRIGHTNESS);
 
 #endif
