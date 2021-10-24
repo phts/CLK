@@ -3,6 +3,7 @@
 
 #include "effects.h"
 #include "backlight.h"
+#include "dot.h"
 
 void setupPwm()
 {
@@ -55,7 +56,6 @@ void setupMemory()
 void setupBrightness()
 {
   resetIndicatorMaxBrightness();
-  resetDotBrightness();
   updateBrightness();
 }
 
@@ -87,6 +87,7 @@ void setup()
 
   showTime(hrs, mins);
   setupBrightness();
+  dot.setup();
   effects.setup();
   backlight.setup();
   setupTimers();

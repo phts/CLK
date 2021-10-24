@@ -3,6 +3,7 @@
 
 #include "effects.h"
 #include "backlight.h"
+#include "dot.h"
 
 void loop()
 {
@@ -11,7 +12,7 @@ void loop()
   {
     effects.tick();
   }
-  dotTick();
+  dot.tick();
   backlight.tick();
   if (currentGlitchesMode == GLITCHES_ON)
   {

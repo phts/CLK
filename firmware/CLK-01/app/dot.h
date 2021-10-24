@@ -1,76 +1,114 @@
 #ifndef dot_h
 #define dot_h
 
-byte dotSmoothStep;
-boolean isDotReady, dotUpDirection;
-int dotBrightness;
-boolean isDotTurnedOn;
+#include <timer2Minim.h>
+#include "utils.h"
 
-void resetDot()
-{
-  isDotReady = true;
-  dotUpDirection = true;
-  dotBrightness = 0;
-}
+#define DOT_MODE_SIMPLE 0
+#define DOT_MODE_SMOOTH 1
 
-void resetDotBrightness()
+class Dot
 {
-  dotSmoothStep = ceil((float)dotMaxBrightness * 2 / DOT_INTERVAL * DOT_BRIGHTNESS_INTERVAL);
-  if (dotSmoothStep == 0)
+public:
+  Dot(byte initialMaxBrightness) : timer(DOT_INTERVAL),
+                                   smoothTimer(DOT_BRIGHTNESS_INTERVAL)
   {
-    dotSmoothStep = 1;
+    maxBrightness = initialMaxBrightness;
   }
-}
 
-void dotBrightnessTick()
-{
-  if (!dotBrightnessTimer.isReady())
+  void setup()
   {
-    return;
+    resetBrightness();
   }
-  if (dotUpDirection)
+
+  void setNightMode(boolean isNight)
   {
-    dotBrightness += dotSmoothStep;
-    if (dotBrightness >= dotMaxBrightness)
+    setMaxBrightness(isNight ? DOT_BRIGHTNESS_NIGHT : DOT_BRIGHTNESS);
+  }
+
+  void brightnessTick()
+  {
+    if (!smoothTimer.isReady())
     {
-      dotUpDirection = false;
-      dotBrightness = dotMaxBrightness;
+      return;
+    }
+    if (smoothUpDirection)
+    {
+      smoothBrightness += smoothStep;
+      if (smoothBrightness >= maxBrightness)
+      {
+        smoothUpDirection = false;
+        smoothBrightness = maxBrightness;
+      }
+    }
+    else
+    {
+      smoothBrightness -= smoothStep;
+      if (smoothBrightness <= 0)
+      {
+        smoothReady = false;
+        smoothBrightness = 0;
+      }
+    }
+    setPWM(PIN_DOT, getPWM_CRT(smoothBrightness));
+  }
+
+  void tick()
+  {
+    if (DOT_MODE == DOT_MODE_SMOOTH && smoothReady)
+    {
+      brightnessTick();
+    }
+    if (!timer.isReady())
+    {
+      return;
+    }
+    if (DOT_MODE == DOT_MODE_SIMPLE)
+    {
+      smoothBrightness = smoothBrightness == 0 ? maxBrightness : 0;
+      setPWM(PIN_DOT, getPWM_CRT(smoothBrightness));
+      return;
+    }
+
+    if (DOT_MODE == DOT_MODE_SMOOTH)
+    {
+      resetSmooth();
+      return;
     }
   }
-  else
+
+private:
+  timerMinim timer;
+  timerMinim smoothTimer;
+  byte maxBrightness;
+  byte smoothStep;
+  boolean smoothReady;
+  boolean smoothUpDirection;
+  int smoothBrightness;
+
+  void setMaxBrightness(byte newValue)
   {
-    dotBrightness -= dotSmoothStep;
-    if (dotBrightness <= 0)
+    maxBrightness = newValue;
+    resetBrightness();
+  }
+
+  void resetBrightness()
+  {
+    smoothStep = ceil((float)maxBrightness * 2 / DOT_INTERVAL * DOT_BRIGHTNESS_INTERVAL);
+    if (smoothStep == 0)
     {
-      isDotReady = false;
-      dotBrightness = 0;
+      smoothStep = 1;
     }
   }
-  setPWM(PIN_DOT, getPWM_CRT(dotBrightness));
-}
 
-void dotTick()
-{
-  if (DOT_MODE == DOT_MODE_SMOOTH && isDotReady)
+  void resetSmooth()
   {
-    dotBrightnessTick();
+    smoothReady = true;
+    smoothUpDirection = true;
+    smoothBrightness = 0;
   }
-  if (!dotTimer.isReady())
-  {
-    return;
-  }
-  if (DOT_MODE == DOT_MODE_SIMPLE)
-  {
-    dotBrightness = dotBrightness == 0 ? dotMaxBrightness : 0;
-    setPWM(PIN_DOT, getPWM_CRT(dotBrightness));
-    return;
-  }
+};
 
-  if (DOT_MODE == DOT_MODE_SMOOTH)
-  {
-    resetDot();
-    return;
-  }
-}
+Dot dot(DOT_BRIGHTNESS);
 
 #endif

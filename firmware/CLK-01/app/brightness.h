@@ -2,6 +2,7 @@
 #define brightness_h
 
 #include "backlight.h"
+#include "dot.h"
 
 void resetIndicatorMaxBrightness()
 {
@@ -18,16 +19,14 @@ void updateBrightness()
   if (isNight)
   {
     indicatorMaxBrightness = INDICATOR_BRIGHTNESS_NIGHT;
-    dotMaxBrightness = DOT_BRIGHTNESS_NIGHT;
   }
   else
   {
     indicatorMaxBrightness = INDICATOR_BRIGHTNESS;
-    dotMaxBrightness = DOT_BRIGHTNESS;
   }
   backlight.setNightMode(isNight);
+  dot.setNightMode(isNight);
   resetIndicatorMaxBrightness();
-  resetDotBrightness();
 #endif
 }
 

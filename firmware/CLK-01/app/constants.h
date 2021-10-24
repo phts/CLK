@@ -7,9 +7,6 @@
 #define GLITCHES_OFF 0
 #define GLITCHES_ON 1
 
-#define DOT_MODE_SIMPLE 0
-#define DOT_MODE_SMOOTH 1
-
 #define NIGHT_MODE_DISABLED 0
 #define NIGHT_MODE_ENABLED 1
 
