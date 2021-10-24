@@ -4,12 +4,8 @@
 #include <timer2Minim.h>
 #include <GyverButton.h>
 #include <Wire.h>
-#include <RTClib.h>
 #include <EEPROM.h>
 
-RTC_DS3231 rtc;
-
-timerMinim timeTimer(1000);
 timerMinim modeSetBlinkTimer(MODE_SET_BLINK_INTERVAL);
 
 GButton btnMode(PIN_BTN_MODE, HIGH_PULL, NORM_OPEN);
@@ -19,10 +15,7 @@ GButton btnEffects(PIN_BTN_EFFECTS, HIGH_PULL, NORM_OPEN);
 volatile int8_t indicatorBrightness[4]; // 0--24
 volatile int8_t indicatorDigits[4];     // 0--9
 
-int8_t hrs, mins, secs;
 byte indicatorMaxBrightness = INDICATOR_BRIGHTNESS;
-boolean timeJustChanged;
-byte newTime[4];
 byte mode = MODE_CLOCK;
 boolean anodeStates[] = {1, 1, 1, 1};
 

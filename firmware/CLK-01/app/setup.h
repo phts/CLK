@@ -1,6 +1,7 @@
 #ifndef setup_h
 #define setup_h
 
+#include "time.h"
 #include "effects.h"
 #include "backlight.h"
 #include "dot.h"
@@ -18,19 +19,6 @@ void setupPwm()
   TCCR2B = (TCCR2B & B11111000) | 2; // делитель 8
   TCCR2A |= (1 << WGM21);            // включить CTC режим для COMPA
   TIMSK2 |= (1 << OCIE2A);           // включить прерывания по совпадению COMPA
-}
-
-void setupRtc()
-{
-  rtc.begin();
-  if (rtc.lostPower())
-  {
-    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-  }
-  DateTime now = rtc.now();
-  secs = now.second();
-  mins = now.minute();
-  hrs = now.hour();
 }
 
 void setupMemory()
@@ -79,10 +67,10 @@ void setup()
   pinMode(PIN_BKLIGHT, OUTPUT);
 
   setupPwm();
-  setupRtc();
+  time.setup();
   setupMemory();
 
-  showTime(hrs, mins);
+  showTime(time.getHours(), time.getMinutes());
   setupBrightness();
   dot.setup();
   effects.setup();

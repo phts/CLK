@@ -25,4 +25,15 @@ void showTime(byte hours, byte minutes)
   indicatorDigits[3] = (byte)minutes % 10;
 }
 
+byte *convertTimeToArray(int8_t hrs, int8_t mins)
+{
+  byte arr[4];
+  arr[0] = (byte)hrs / 10;
+  arr[1] = (byte)hrs % 10;
+
+  arr[2] = (byte)mins / 10;
+  arr[3] = (byte)mins % 10;
+  return arr;
+}
+
 #endif

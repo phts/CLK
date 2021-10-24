@@ -40,6 +40,7 @@ public:
     {
       return;
     }
+    byte secs = time.getSeconds();
     if (!glitchFlag && secs > 7 && secs < 55)
     {
       if (timer.isReady())

@@ -1,54 +1,112 @@
 #ifndef time_h
 #define time_h
 
-byte minsCount = 0;
+#include <timer2Minim.h>
+#include <RTClib.h>
 
-void setNewTime()
+struct TimeTickResult
 {
-  newTime[0] = (byte)hrs / 10;
-  newTime[1] = (byte)hrs % 10;
+  boolean changed;
+  int8_t hrs;
+  int8_t mins;
+  byte *newTime;
+  boolean isNewHour;
+};
 
-  newTime[2] = (byte)mins / 10;
-  newTime[3] = (byte)mins % 10;
-}
-
-void timeTick()
+class Time
 {
-  if (!timeTimer.isReady())
+public:
+  Time() : timeTimer(1000)
   {
-    return;
   }
-  secs++;
-  if (secs > 59)
+
+  void setup()
   {
-    timeJustChanged = true;
+    setupRtc();
+  }
+
+  TimeTickResult tick()
+  {
+    timeJustChanged = false;
+    if (!timeTimer.isReady())
+    {
+      return {false, -1, -1, {}};
+    }
+    secs++;
+    if (secs > 59)
+    {
+      timeJustChanged = true;
+      secs = 0;
+      mins++;
+      minsForRtcSync++;
+
+      if (minsForRtcSync >= SYNC_RTC_INTERVAL)
+      {
+        minsForRtcSync = 0;
+        syncRtc();
+      }
+    }
+    if (mins > 59)
+    {
+      mins = 0;
+      hrs++;
+      if (hrs > 23)
+      {
+        hrs = 0;
+      }
+    }
+    return {true, hrs, mins, convertTimeToArray(hrs, mins), mins == 0};
+  }
+
+  void setTime(int8_t newHrs, int8_t newMins)
+  {
+    hrs = newHrs;
+    mins = newMins;
     secs = 0;
-    mins++;
-    minsCount++;
+    rtc.adjust(DateTime(2019, 12, 5, hrs, mins, secs));
+  }
 
-    if (minsCount >= SYNC_RTC_INTERVAL)
-    {
-      minsCount = 0;
-      DateTime now = rtc.now();
-      secs = now.second();
-      mins = now.minute();
-      hrs = now.hour();
-    }
-  }
-  if (mins > 59)
+  int8_t getHours()
   {
-    mins = 0;
-    hrs++;
-    if (hrs > 23)
-    {
-      hrs = 0;
-    }
-    updateBrightness();
+    return hrs;
   }
-  if (timeJustChanged)
+
+  int8_t getMinutes()
   {
-    setNewTime();
+    return mins;
   }
-}
+
+  int8_t getSeconds()
+  {
+    return secs;
+  }
+
+private:
+  RTC_DS3231 rtc;
+  timerMinim timeTimer;
+  byte minsForRtcSync = 0;
+  int8_t hrs, mins, secs;
+  boolean timeJustChanged;
+
+  void setupRtc()
+  {
+    rtc.begin();
+    if (rtc.lostPower())
+    {
+      rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+    }
+    syncRtc();
+  }
+
+  void syncRtc()
+  {
+    DateTime now = rtc.now();
+    secs = now.second();
+    mins = now.minute();
+    hrs = now.hour();
+  }
+};
+
+Time time;
 
 #endif
