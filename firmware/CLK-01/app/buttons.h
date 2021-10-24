@@ -6,21 +6,21 @@
 #include "glitches.h"
 
 int8_t changeHrs, changeMins;
-boolean modeAdjustLampState = false;
+boolean modeSetLampState = false;
 
 void settingsTick()
 {
-  if (mode != MODE_ADJUST)
+  if (mode != MODE_SET)
   {
     return;
   }
-  if (!modeAdjustBlinkTimer.isReady())
+  if (!modeSetBlinkTimer.isReady())
   {
     return;
   }
   showTime(changeHrs, changeMins);
-  modeAdjustLampState = !modeAdjustLampState;
-  if (modeAdjustLampState)
+  modeSetLampState = !modeSetLampState;
+  if (modeSetLampState)
   {
     turnOnAllLamps();
   }
@@ -37,7 +37,7 @@ void incHours()
   {
     changeHrs = 0;
   }
-  modeAdjustBlinkTimer.reset();
+  modeSetBlinkTimer.reset();
   turnOnAllLamps();
   showTime(changeHrs, changeMins);
 }
@@ -49,7 +49,7 @@ void incMinutes()
   {
     changeMins = 0;
   }
-  modeAdjustBlinkTimer.reset();
+  modeSetBlinkTimer.reset();
   turnOnAllLamps();
   showTime(changeHrs, changeMins);
 }
@@ -80,14 +80,14 @@ void toggleGlitches()
   EEPROM.put(MEMORY_CELL_GLITCHES, glitches.getMode());
 }
 
-void startAdjust()
+void startSet()
 {
   turnOnAllLamps();
   changeHrs = hrs;
   changeMins = mins;
 }
 
-void finishAdjust()
+void finishSet()
 {
   hrs = changeHrs;
   mins = changeMins;
@@ -105,11 +105,11 @@ void buttonsTick()
 
   if (btnMode.isHold())
   {
-    if (mode != MODE_ADJUST)
+    if (mode != MODE_SET)
     {
-      startAdjust();
+      startSet();
     }
-    mode = MODE_ADJUST;
+    mode = MODE_SET;
     if (btnEffects.isPress() || btnEffects.isStep())
     {
       incHours();
@@ -121,9 +121,9 @@ void buttonsTick()
   }
   else
   {
-    if (mode == MODE_ADJUST)
+    if (mode == MODE_SET)
     {
-      finishAdjust();
+      finishSet();
     }
     mode = MODE_CLOCK;
     if (btnEffects.isPress())

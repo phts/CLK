@@ -33,7 +33,7 @@ Single click on button "BKLIGHT" selects backlight:
 
 Holding button "EFFECTS" toggles glitches on/off.
 
-### "Adjust time" mode
+### "Set" mode
 
 Single click on button "HOURS" increases hour value.
 
@@ -43,11 +43,6 @@ Single click on button "MINUTES" increases minute value.
 
 | Name                         |      Values | Description                                                           |
 | ---------------------------- | ----------: | --------------------------------------------------------------------- |
-| `ADJ_TIME_BLINK_INTERVAL`    |          ms | How fast indicators blonk during adjust time" mode                    |
-| `ADJ_TIME_HOURS_INTERVAL`    |          ms | How fast values are changed while button is pressed                   |
-| `ADJ_TIME_HOURS_HOLD_TIME`   |          ms | How long need to hold button to start repeating                       |
-| `ADJ_TIME_MINS_INTERVAL`     |          ms | How fast values are changed while button is pressed                   |
-| `ADJ_TIME_MINS_HOLD_TIME`    |          ms | How long need to hold button to start repeating                       |
 | `BKLIGHT_BRIGHTNESS_NIGHT`   | 0&ndash;255 | Backlight brightness on nighttime                                     |
 | `BKLIGHT_BRIGHTNESS`         | 0&ndash;255 | Backlight brightness on daytime                                       |
 | `BKLIGHT_DELAY`              |          ms | How long backlight flashing should wait between                       |
@@ -74,6 +69,11 @@ Single click on button "MINUTES" increases minute value.
 | `MEMORY_CELL_FIRST_RUN`      |             | Memory cell where to store "first run" flag                           |
 | `MEMORY_FLAG_FIRST_RUN`      |             | Value of "first run" flag                                             |
 | `MEMORY`                     |             | Whether enabled memory storage or not                                 |
+| `MODE_SET_BLINK_INTERVAL`    |          ms | How fast indicators blink during "Set" mode                           |
+| `MODE_SET_HOURS_HOLD_TIME`   |          ms | How long need to hold button to start repeating                       |
+| `MODE_SET_HOURS_INTERVAL`    |          ms | How fast values are changed while button is pressed                   |
+| `MODE_SET_MINS_HOLD_TIME`    |          ms | How long need to hold button to start repeating                       |
+| `MODE_SET_MINS_INTERVAL`     |          ms | How fast values are changed while button is pressed                   |
 | `NIGHT_END`                  |  0&ndash;23 | Hour when night mode should end                                       |
 | `NIGHT_MODE`                 |             | Whether enabled night mode (dim all indicators) or not                |
 | `NIGHT_START`                |  0&ndash;23 | Hour when night mode should start                                     |
