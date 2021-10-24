@@ -15,6 +15,6 @@
 #define MEMORY_CELL_GLITCHES 2
 
 #define MODE_CLOCK 0
-#define MODE_ADJUST 1
+#define MODE_SET 1
 
 #endif

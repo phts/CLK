@@ -10,7 +10,7 @@
 RTC_DS3231 rtc;
 
 timerMinim timeTimer(1000);
-timerMinim modeAdjustBlinkTimer(ADJ_TIME_BLINK_INTERVAL);
+timerMinim modeSetBlinkTimer(MODE_SET_BLINK_INTERVAL);
 
 GButton btnMode(PIN_BTN_MODE, HIGH_PULL, NORM_OPEN);
 GButton btnBklight(PIN_BTN_BKLIGHT, HIGH_PULL, NORM_OPEN);

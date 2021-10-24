@@ -89,10 +89,10 @@ void setup()
   backlight.setup();
   glitches.setup();
 
-  btnEffects.setStepTimeout(ADJ_TIME_HOURS_INTERVAL);
-  btnEffects.setTimeout(ADJ_TIME_HOURS_HOLD_TIME);
-  btnBklight.setStepTimeout(ADJ_TIME_MINS_INTERVAL);
-  btnBklight.setTimeout(ADJ_TIME_MINS_HOLD_TIME);
+  btnEffects.setStepTimeout(MODE_SET_HOURS_INTERVAL);
+  btnEffects.setTimeout(MODE_SET_HOURS_HOLD_TIME);
+  btnBklight.setStepTimeout(MODE_SET_MINS_INTERVAL);
+  btnBklight.setTimeout(MODE_SET_MINS_HOLD_TIME);
 }
 
 #endif
