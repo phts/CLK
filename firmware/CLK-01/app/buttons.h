@@ -3,6 +3,7 @@
 
 #include "effects.h"
 #include "backlight.h"
+#include "glitches.h"
 
 int8_t changeHrs, changeMins;
 boolean modeAdjustLampState = false;
@@ -75,8 +76,8 @@ void switchBacklight()
 
 void toggleGlitches()
 {
-  currentGlitchesMode = !currentGlitchesMode;
-  EEPROM.put(MEMORY_CELL_GLITCHES, currentGlitchesMode);
+  glitches.toggle();
+  EEPROM.put(MEMORY_CELL_GLITCHES, glitches.getMode());
 }
 
 void startAdjust()

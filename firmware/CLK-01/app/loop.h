@@ -4,6 +4,7 @@
 #include "effects.h"
 #include "backlight.h"
 #include "dot.h"
+#include "glitches.h"
 
 void loop()
 {
@@ -14,10 +15,7 @@ void loop()
   }
   dot.tick();
   backlight.tick();
-  if (currentGlitchesMode == GLITCHES_ON)
-  {
-    glitchTick();
-  }
+  glitches.tick();
   buttonsTick();
   settingsTick();
   burnTick();

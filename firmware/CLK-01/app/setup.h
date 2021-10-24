@@ -4,6 +4,7 @@
 #include "effects.h"
 #include "backlight.h"
 #include "dot.h"
+#include "glitches.h"
 
 void setupPwm()
 {
@@ -43,25 +44,21 @@ void setupMemory()
     EEPROM.put(MEMORY_CELL_FIRST_RUN, MEMORY_FLAG_FIRST_RUN);
     EEPROM.put(MEMORY_CELL_EFFECTS, effects.getMode());
     EEPROM.put(MEMORY_CELL_BKLIGHT, backlight.getMode());
-    EEPROM.put(MEMORY_CELL_GLITCHES, currentGlitchesMode);
+    EEPROM.put(MEMORY_CELL_GLITCHES, glitches.getMode());
   }
-  byte newEffectMode, newBklightMode;
+  byte newEffectMode, newBklightMode, newGlitchesMode;
   EEPROM.get(MEMORY_CELL_EFFECTS, newEffectMode);
   EEPROM.get(MEMORY_CELL_BKLIGHT, newBklightMode);
-  EEPROM.get(MEMORY_CELL_GLITCHES, currentGlitchesMode);
+  EEPROM.get(MEMORY_CELL_GLITCHES, newGlitchesMode);
   effects.setMode(newEffectMode);
   backlight.setMode(newBklightMode);
+  glitches.setMode(newGlitchesMode);
 }
 
 void setupBrightness()
 {
   resetIndicatorMaxBrightness();
   updateBrightness();
-}
-
-void setupTimers()
-{
-  glitchTimer.setInterval(random(GLITCH_MIN_INTERVAL * 1000L, GLITCH_MAX_INTERVAL * 1000L));
 }
 
 void setup()
@@ -90,7 +87,7 @@ void setup()
   dot.setup();
   effects.setup();
   backlight.setup();
-  setupTimers();
+  glitches.setup();
 
   btnEffects.setStepTimeout(ADJ_TIME_HOURS_INTERVAL);
   btnEffects.setTimeout(ADJ_TIME_HOURS_HOLD_TIME);
