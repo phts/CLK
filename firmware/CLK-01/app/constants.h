@@ -4,9 +4,6 @@
 #define DEBUG_OFF 0
 #define DEBUG_ON 1
 
-#define GLITCHES_OFF 0
-#define GLITCHES_ON 1
-
 #define NIGHT_MODE_DISABLED 0
 #define NIGHT_MODE_ENABLED 1
 

@@ -10,11 +10,11 @@
 #include "backlight.h"
 #include "dot.h"
 #include "brightness.h"
+#include "glitches.h"
 #include "burn.h"
 #include "time.h"
 #include "buttons.h"
 #include "constants.h"
-#include "glitches.h"
 #include "isr.h"
 
 #include "setup.h"

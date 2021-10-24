@@ -9,10 +9,7 @@
 
 RTC_DS3231 rtc;
 
-boolean currentGlitchesMode = INITIAL_GLITCHES_MODE;
-
 timerMinim timeTimer(1000);
-timerMinim glitchTimer(1000);
 timerMinim modeAdjustBlinkTimer(ADJ_TIME_BLINK_INTERVAL);
 
 GButton btnMode(PIN_BTN_MODE, HIGH_PULL, NORM_OPEN);
