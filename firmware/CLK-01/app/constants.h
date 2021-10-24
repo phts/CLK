@@ -4,13 +4,6 @@
 #define DEBUG_OFF 0
 #define DEBUG_ON 1
 
-#define BKLIGHT_OFF 0
-#define BKLIGHT_ON 1
-#define BKLIGHT_ON_60 2
-#define BKLIGHT_ON_30 3
-#define BKLIGHT_FLASH 4
-#define BKLIGHT_AMOUNT 5
-
 #define GLITCHES_OFF 0
 #define GLITCHES_ON 1
 

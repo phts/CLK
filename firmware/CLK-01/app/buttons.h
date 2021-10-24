@@ -2,6 +2,7 @@
 #define buttons_h
 
 #include "effects.h"
+#include "backlight.h"
 
 int8_t changeHrs, changeMins;
 boolean modeAdjustLampState = false;
@@ -68,12 +69,8 @@ void switchEffects()
 
 void switchBacklight()
 {
-  if (++currentBklightMode >= BKLIGHT_AMOUNT)
-  {
-    currentBklightMode = 0;
-  }
-  EEPROM.put(MEMORY_CELL_BKLIGHT, currentBklightMode);
-  resetBklightBrightness();
+  backlight.toggle();
+  EEPROM.put(MEMORY_CELL_BKLIGHT, backlight.getMode());
 }
 
 void toggleGlitches()

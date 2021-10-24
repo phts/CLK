@@ -2,6 +2,7 @@
 #define setup_h
 
 #include "effects.h"
+#include "backlight.h"
 
 void setupPwm()
 {
@@ -40,14 +41,15 @@ void setupMemory()
   {
     EEPROM.put(MEMORY_CELL_FIRST_RUN, MEMORY_FLAG_FIRST_RUN);
     EEPROM.put(MEMORY_CELL_EFFECTS, effects.getMode());
-    EEPROM.put(MEMORY_CELL_BKLIGHT, currentBklightMode);
+    EEPROM.put(MEMORY_CELL_BKLIGHT, backlight.getMode());
     EEPROM.put(MEMORY_CELL_GLITCHES, currentGlitchesMode);
   }
-  byte newEffectMode;
+  byte newEffectMode, newBklightMode;
   EEPROM.get(MEMORY_CELL_EFFECTS, newEffectMode);
-  EEPROM.get(MEMORY_CELL_BKLIGHT, currentBklightMode);
+  EEPROM.get(MEMORY_CELL_BKLIGHT, newBklightMode);
   EEPROM.get(MEMORY_CELL_GLITCHES, currentGlitchesMode);
   effects.setMode(newEffectMode);
+  backlight.setMode(newBklightMode);
 }
 
 void setupBrightness()
@@ -59,7 +61,6 @@ void setupBrightness()
 
 void setupTimers()
 {
-  resetBklightBrightnessTimer();
   glitchTimer.setInterval(random(GLITCH_MIN_INTERVAL * 1000L, GLITCH_MAX_INTERVAL * 1000L));
 }
 
@@ -87,6 +88,7 @@ void setup()
   showTime(hrs, mins);
   setupBrightness();
   effects.setup();
+  backlight.setup();
   setupTimers();
 
   btnEffects.setStepTimeout(ADJ_TIME_HOURS_INTERVAL);
