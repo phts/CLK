@@ -11,10 +11,10 @@
 #define MODE_CLOCK 0
 #define MODE_SET 1
 
-class Buttons
+class Control
 {
 public:
-  Buttons() : blinkTimer(MODE_SET_BLINK_INTERVAL),
+  Control() : blinkTimer(MODE_SET_BLINK_INTERVAL),
               btnMode(PIN_BTN_MODE, HIGH_PULL, NORM_OPEN),
               btnBklight(PIN_BTN_BKLIGHT, HIGH_PULL, NORM_OPEN),
               btnEffects(PIN_BTN_EFFECTS, HIGH_PULL, NORM_OPEN)
@@ -179,6 +179,6 @@ private:
   }
 };
 
-Buttons buttons;
+Control control;
 
 #endif

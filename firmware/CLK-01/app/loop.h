@@ -6,7 +6,7 @@
 #include "backlight.h"
 #include "dot.h"
 #include "glitches.h"
-#include "buttons.h"
+#include "control.h"
 
 boolean isEffectRunning = false;
 TimeTickResult cachedTimeResult;
@@ -15,7 +15,7 @@ byte cachedNewTime[] = {0, 0, 0, 0};
 void loop()
 {
   TimeTickResult res = time.tick();
-  if (res.changed && buttons.isClockMode())
+  if (res.changed && control.isClockMode())
   {
     if (res.isNewHour)
     {
@@ -32,7 +32,7 @@ void loop()
   dot.tick();
   backlight.tick();
   glitches.tick();
-  buttons.tick();
+  control.tick();
   burnTick();
 }
 
