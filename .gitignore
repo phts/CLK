@@ -1,4 +1,5 @@
 .vscode/
+output/
 
 firmware/CLK-01/settings.h
 firmware/CLK-01/version.h
