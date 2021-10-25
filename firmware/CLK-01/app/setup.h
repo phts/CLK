@@ -1,11 +1,13 @@
 #ifndef setup_h
 #define setup_h
 
+#include <EEPROM.h>
 #include "time.h"
 #include "effects.h"
 #include "backlight.h"
 #include "dot.h"
 #include "glitches.h"
+#include "buttons.h"
 
 void setupPwm()
 {
@@ -76,11 +78,7 @@ void setup()
   effects.setup();
   backlight.setup();
   glitches.setup();
-
-  btnEffects.setStepTimeout(MODE_SET_HOURS_INTERVAL);
-  btnEffects.setTimeout(MODE_SET_HOURS_HOLD_TIME);
-  btnBklight.setStepTimeout(MODE_SET_MINS_INTERVAL);
-  btnBklight.setTimeout(MODE_SET_MINS_HOLD_TIME);
+  buttons.setup();
 }
 
 #endif

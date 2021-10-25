@@ -12,8 +12,8 @@
 #include "dot.h"
 #include "brightness.h"
 #include "glitches.h"
-#include "burn.h"
 #include "buttons.h"
+#include "burn.h"
 #include "constants.h"
 #include "isr.h"
 

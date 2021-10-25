@@ -1,22 +1,12 @@
 #ifndef vars_h
 #define vars_h
 
-#include <timer2Minim.h>
-#include <GyverButton.h>
 #include <Wire.h>
-#include <EEPROM.h>
-
-timerMinim modeSetBlinkTimer(MODE_SET_BLINK_INTERVAL);
-
-GButton btnMode(PIN_BTN_MODE, HIGH_PULL, NORM_OPEN);
-GButton btnBklight(PIN_BTN_BKLIGHT, HIGH_PULL, NORM_OPEN);
-GButton btnEffects(PIN_BTN_EFFECTS, HIGH_PULL, NORM_OPEN);
 
 volatile int8_t indicatorBrightness[4]; // 0--24
 volatile int8_t indicatorDigits[4];     // 0--9
 
 byte indicatorMaxBrightness = INDICATOR_BRIGHTNESS;
-byte mode = MODE_CLOCK;
 boolean anodeStates[] = {1, 1, 1, 1};
 
 const uint8_t CRTgamma[256] PROGMEM = {

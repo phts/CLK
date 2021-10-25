@@ -14,7 +14,4 @@
 #define MEMORY_CELL_BKLIGHT 1
 #define MEMORY_CELL_GLITCHES 2
 
-#define MODE_CLOCK 0
-#define MODE_SET 1
-
 #endif
