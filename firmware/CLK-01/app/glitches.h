@@ -9,13 +9,13 @@
 class Glitches
 {
 public:
-  Glitches(boolean initialMode) : timer(1000)
+  Glitches() : timer(1000)
   {
-    mode = initialMode;
   }
 
-  void setup()
+  void setup(boolean initialMode)
   {
+    mode = initialMode;
     timer.setInterval(random(GLITCH_MIN_INTERVAL * 1000L, GLITCH_MAX_INTERVAL * 1000L));
   }
 
@@ -78,6 +78,6 @@ private:
   boolean indiState;
 };
 
-Glitches glitches(INITIAL_GLITCHES_MODE);
+Glitches glitches;
 
 #endif

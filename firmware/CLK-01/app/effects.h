@@ -17,13 +17,13 @@ const byte EFFECTS_SPEED[] = {0, 130, 50, 40, 70, 70};
 class Effects
 {
 public:
-  Effects(byte initialMode) : flipTimer(EFFECTS_SPEED[initialMode])
+  Effects() : flipTimer(0)
   {
-    mode = initialMode;
   }
 
-  void setup()
+  void setup(byte initialMode)
   {
+    mode = initialMode;
     flipTimer.setInterval(EFFECTS_SPEED[mode]);
   }
 
@@ -366,6 +366,6 @@ private:
   timerMinim flipTimer;
 };
 
-Effects effects(INITIAL_EFFECTS_MODE);
+Effects effects;
 
 #endif

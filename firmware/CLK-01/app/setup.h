@@ -1,7 +1,7 @@
 #ifndef setup_h
 #define setup_h
 
-#include <EEPROM.h>
+#include "memory.h"
 #include "time.h"
 #include "effects.h"
 #include "backlight.h"
@@ -21,28 +21,6 @@ void setupPwm()
   TCCR2B = (TCCR2B & B11111000) | 2; // делитель 8
   TCCR2A |= (1 << WGM21);            // включить CTC режим для COMPA
   TIMSK2 |= (1 << OCIE2A);           // включить прерывания по совпадению COMPA
-}
-
-void setupMemory()
-{
-  if (MEMORY != MEMORY_ENABLED)
-  {
-    return;
-  }
-  if (EEPROM.read(MEMORY_CELL_FIRST_RUN) != MEMORY_FLAG_FIRST_RUN)
-  {
-    EEPROM.put(MEMORY_CELL_FIRST_RUN, MEMORY_FLAG_FIRST_RUN);
-    EEPROM.put(MEMORY_CELL_EFFECTS, effects.getMode());
-    EEPROM.put(MEMORY_CELL_BKLIGHT, backlight.getMode());
-    EEPROM.put(MEMORY_CELL_GLITCHES, glitches.getMode());
-  }
-  byte newEffectMode, newBklightMode, newGlitchesMode;
-  EEPROM.get(MEMORY_CELL_EFFECTS, newEffectMode);
-  EEPROM.get(MEMORY_CELL_BKLIGHT, newBklightMode);
-  EEPROM.get(MEMORY_CELL_GLITCHES, newGlitchesMode);
-  effects.setMode(newEffectMode);
-  backlight.setMode(newBklightMode);
-  glitches.setMode(newGlitchesMode);
 }
 
 void setupBrightness()
@@ -70,14 +48,14 @@ void setup()
 
   setupPwm();
   time.setup();
-  setupMemory();
-
   showTime(time.getHours(), time.getMinutes());
+
+  StoredData data = memory.setup(INITIAL_EFFECTS_MODE, INITIAL_BKLIGHT_MODE, INITIAL_GLITCHES_MODE);
   setupBrightness();
   dot.setup();
-  effects.setup();
-  backlight.setup();
-  glitches.setup();
+  effects.setup(data.effectsMode);
+  backlight.setup(data.bklightMode);
+  glitches.setup(data.glitchesMode);
   control.setup();
 }
 

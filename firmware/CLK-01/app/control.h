@@ -1,8 +1,8 @@
 #ifndef buttons_h
 #define buttons_h
 
-#include <EEPROM.h>
 #include <GyverButton.h>
+#include "memory.h"
 #include "time.h"
 #include "effects.h"
 #include "backlight.h"
@@ -141,7 +141,7 @@ private:
   void switchEffects()
   {
     effects.toggle();
-    EEPROM.put(MEMORY_CELL_EFFECTS, effects.getMode());
+    memory.storeEffects(effects.getMode());
     resetIndicatorMaxBrightness();
     turnOnAllLamps();
     isEffectsDemoRunning = true;
@@ -150,13 +150,13 @@ private:
   void switchBacklight()
   {
     backlight.toggle();
-    EEPROM.put(MEMORY_CELL_BKLIGHT, backlight.getMode());
+    memory.storeBacklight(backlight.getMode());
   }
 
   void toggleGlitches()
   {
     glitches.toggle();
-    EEPROM.put(MEMORY_CELL_GLITCHES, glitches.getMode());
+    memory.storeGlitches(glitches.getMode());
   }
 
   void startSet()

@@ -13,14 +13,14 @@
 class Backlight
 {
 public:
-  Backlight(byte initialMode, byte initialMaxBrightness) : brightnessTimer(30)
+  Backlight(byte initialMaxBrightness) : brightnessTimer(30)
   {
-    mode = initialMode;
     maxBrightness = initialMaxBrightness;
   }
 
-  void setup()
+  void setup(byte initialMode)
   {
+    mode = initialMode;
     resetFlashBrightnessTimer();
   }
 
@@ -138,6 +138,6 @@ private:
   }
 };
 
-Backlight backlight(INITIAL_BKLIGHT_MODE, BKLIGHT_BRIGHTNESS);
+Backlight backlight(BKLIGHT_BRIGHTNESS);
 
 #endif
