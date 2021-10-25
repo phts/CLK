@@ -1,7 +1,7 @@
 #ifndef burn_h
 #define burn_h
 
-#include "buttons.h"
+#include "control.h"
 #include "time.h"
 
 byte oldHrs = -1;
@@ -44,7 +44,7 @@ void burnTick()
       debug(String(burnOnMinutes[i]));
     }
   }
-  if (!buttons.isClockMode())
+  if (!control.isClockMode())
   {
     return;
   }

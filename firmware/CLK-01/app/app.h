@@ -12,7 +12,7 @@
 #include "dot.h"
 #include "brightness.h"
 #include "glitches.h"
-#include "buttons.h"
+#include "control.h"
 #include "burn.h"
 #include "constants.h"
 #include "isr.h"

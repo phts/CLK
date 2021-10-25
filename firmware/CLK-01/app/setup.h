@@ -7,7 +7,7 @@
 #include "backlight.h"
 #include "dot.h"
 #include "glitches.h"
-#include "buttons.h"
+#include "control.h"
 
 void setupPwm()
 {
@@ -78,7 +78,7 @@ void setup()
   effects.setup();
   backlight.setup();
   glitches.setup();
-  buttons.setup();
+  control.setup();
 }
 
 #endif
