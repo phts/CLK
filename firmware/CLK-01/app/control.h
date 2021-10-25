@@ -51,12 +51,7 @@ public:
       debug("isEffectsDemoRunning " + String(isEffectsDemoRunning));
       debug("time.getHours() " + String(time.getHours()));
       debug("time.getMinutes() " + String(time.getMinutes()));
-      byte *arr = convertTimeToArray(time.getHours(), time.getMinutes());
-      debug("control arr[0] " + String(arr[0]));
-      debug("control arr[1] " + String(arr[1]));
-      debug("control arr[2] " + String(arr[2]));
-      debug("control arr[3] " + String(arr[3]));
-      isEffectsDemoRunning = effects.tick(time.getHours(), time.getMinutes(), convertTimeToArray(time.getHours(), time.getMinutes()));
+      isEffectsDemoRunning = effects.tick(time.getHours(), time.getMinutes(), cachedTimeArray);
     }
 
     if (btnMode.isHold())
@@ -102,6 +97,7 @@ private:
   int8_t changeHrs, changeMins;
   boolean modeSetLampState = false;
   boolean isEffectsDemoRunning = false;
+  byte cachedTimeArray[4] = {0, 0, 0, 0};
 
   void settingsTick()
   {
@@ -156,6 +152,11 @@ private:
     {
       indicatorDigits[i] = effects.getMode();
     }
+    convertTimeToArray(time.getHours(), time.getMinutes(), cachedTimeArray);
+    debug("control cachedTimeArray[0] " + String(cachedTimeArray[0]));
+    debug("control cachedTimeArray[1] " + String(cachedTimeArray[1]));
+    debug("control cachedTimeArray[2] " + String(cachedTimeArray[2]));
+    debug("control cachedTimeArray[3] " + String(cachedTimeArray[3]));
   }
 
   void switchBacklight()

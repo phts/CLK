@@ -9,7 +9,6 @@ struct TimeTickResult
   boolean changed;
   int8_t hrs;
   int8_t mins;
-  byte *newTime;
   boolean isNewHour;
 };
 
@@ -30,7 +29,7 @@ public:
     timeJustChanged = false;
     if (!timeTimer.isReady())
     {
-      return {false, -1, -1, {}, false};
+      return {false, -1, -1, false};
     }
     secs++;
     if (secs > 59)
@@ -59,10 +58,10 @@ public:
     debug(String(hrs) + ":" + String(mins) + ":" + String(secs));
     if (!timeJustChanged)
     {
-      return {false, -1, -1, {}, false};
+      return {false, -1, -1, false};
     }
 
-    return {timeJustChanged, hrs, mins, convertTimeToArray(hrs, mins), mins == 0};
+    return {timeJustChanged, hrs, mins, mins == 0};
   }
 
   void setTime(int8_t newHrs, int8_t newMins)

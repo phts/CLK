@@ -25,20 +25,18 @@ void showTime(byte hours, byte minutes)
   indicatorDigits[3] = (byte)minutes % 10;
 }
 
-byte *convertTimeToArray(int8_t hrs, int8_t mins)
+void convertTimeToArray(int8_t hrs, int8_t mins, byte result[])
 {
-  byte arr[4];
-  arr[0] = (byte)hrs / 10;
-  arr[1] = (byte)hrs % 10;
+  result[0] = (byte)hrs / 10;
+  result[1] = (byte)hrs % 10;
 
-  arr[2] = (byte)mins / 10;
-  arr[3] = (byte)mins % 10;
+  result[2] = (byte)mins / 10;
+  result[3] = (byte)mins % 10;
 
-  debug("convertTimeToArray arr[0] " + String(arr[0]));
-  debug("convertTimeToArray arr[1] " + String(arr[1]));
-  debug("convertTimeToArray arr[2] " + String(arr[2]));
-  debug("convertTimeToArray arr[3] " + String(arr[3]));
-  return arr;
+  debug("convertTimeToArray result[0] " + String(result[0]));
+  debug("convertTimeToArray result[1] " + String(result[1]));
+  debug("convertTimeToArray result[2] " + String(result[2]));
+  debug("convertTimeToArray result[3] " + String(result[3]));
 }
 
 #endif

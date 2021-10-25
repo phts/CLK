@@ -48,9 +48,8 @@ public:
     setMode(newMode);
   }
 
-  boolean tick(byte hrs, byte mins, byte *newTime)
+  boolean tick(byte hrs, byte mins, byte newTime[])
   {
-
     debug("effects newTime[0] " + String(newTime[0]));
     debug("effects newTime[1] " + String(newTime[1]));
     debug("effects newTime[2] " + String(newTime[2]));

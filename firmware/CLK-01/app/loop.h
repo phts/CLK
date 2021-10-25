@@ -9,7 +9,8 @@
 #include "control.h"
 
 boolean isEffectRunning = false;
-TimeTickResult currentTimeTickResult;
+TimeTickResult cachedTimeResult;
+byte cachedNewTime[] = {0, 0, 0, 0};
 
 void loop()
 {
@@ -24,13 +25,14 @@ void loop()
     {
       updateBrightness();
     }
-    currentTimeTickResult = res;
+    cachedTimeResult = res;
+    convertTimeToArray(res.hrs, res.mins, cachedNewTime);
     isEffectRunning = true;
   }
   if (isEffectRunning)
   {
     debug("isEffectRunning" + String(isEffectRunning));
-    isEffectRunning = effects.tick(currentTimeTickResult.hrs, currentTimeTickResult.mins, currentTimeTickResult.newTime);
+    isEffectRunning = effects.tick(cachedTimeResult.hrs, cachedTimeResult.mins, cachedNewTime);
   }
   dot.tick();
   backlight.tick();
