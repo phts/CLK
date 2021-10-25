@@ -30,7 +30,7 @@ public:
     timeJustChanged = false;
     if (!timeTimer.isReady())
     {
-      return {false, -1, -1, {}};
+      return {false, -1, -1, {}, false};
     }
     secs++;
     if (secs > 59)
@@ -42,6 +42,7 @@ public:
 
       if (minsForRtcSync >= SYNC_RTC_INTERVAL)
       {
+        debug("RTC Sync!");
         minsForRtcSync = 0;
         syncRtc();
       }
@@ -55,7 +56,13 @@ public:
         hrs = 0;
       }
     }
-    return {true, hrs, mins, convertTimeToArray(hrs, mins), mins == 0};
+    debug(String(hrs) + ":" + String(mins) + ":" + String(secs));
+    if (!timeJustChanged)
+    {
+      return {false, -1, -1, {}, false};
+    }
+
+    return {timeJustChanged, hrs, mins, convertTimeToArray(hrs, mins), mins == 0};
   }
 
   void setTime(int8_t newHrs, int8_t newMins)

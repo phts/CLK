@@ -48,8 +48,15 @@ public:
 
     if (isEffectsDemoRunning)
     {
-      byte demoTime = effects.getMode() * 10 + effects.getMode();
-      isEffectsDemoRunning = effects.tick(demoTime, demoTime, convertTimeToArray(demoTime, demoTime));
+      debug("isEffectsDemoRunning " + String(isEffectsDemoRunning));
+      debug("time.getHours() " + String(time.getHours()));
+      debug("time.getMinutes() " + String(time.getMinutes()));
+      byte *arr = convertTimeToArray(time.getHours(), time.getMinutes());
+      debug("control arr[0] " + String(arr[0]));
+      debug("control arr[1] " + String(arr[1]));
+      debug("control arr[2] " + String(arr[2]));
+      debug("control arr[3] " + String(arr[3]));
+      isEffectsDemoRunning = effects.tick(time.getHours(), time.getMinutes(), convertTimeToArray(time.getHours(), time.getMinutes()));
     }
 
     if (btnMode.isHold())
@@ -145,6 +152,10 @@ private:
     resetIndicatorMaxBrightness();
     turnOnAllLamps();
     isEffectsDemoRunning = true;
+    for (byte i = 0; i < 4; i++)
+    {
+      indicatorDigits[i] = effects.getMode();
+    }
   }
 
   void switchBacklight()

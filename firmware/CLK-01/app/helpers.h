@@ -33,6 +33,11 @@ byte *convertTimeToArray(int8_t hrs, int8_t mins)
 
   arr[2] = (byte)mins / 10;
   arr[3] = (byte)mins % 10;
+
+  debug("convertTimeToArray arr[0] " + String(arr[0]));
+  debug("convertTimeToArray arr[1] " + String(arr[1]));
+  debug("convertTimeToArray arr[2] " + String(arr[2]));
+  debug("convertTimeToArray arr[3] " + String(arr[3]));
   return arr;
 }
 
