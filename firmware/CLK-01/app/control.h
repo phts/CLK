@@ -106,14 +106,7 @@ private:
     }
     indicators.showTime(changeHrs, changeMins);
     modeSetLampState = !modeSetLampState;
-    if (modeSetLampState)
-    {
-      indicators.turnAllOn();
-    }
-    else
-    {
-      indicators.turnAllOff();
-    }
+    modeSetLampState ? indicators.turnAllOn() : indicators.turnAllOff();
   }
 
   void incHours()
@@ -168,9 +161,11 @@ private:
 
   void startSet()
   {
-    indicators.turnAllOn();
+    blinkTimer.reset();
+    indicators.turnAllOff();
     changeHrs = time.getHours();
     changeMins = time.getMinutes();
+    modeSetLampState = false;
   }
 
   void finishSet()
