@@ -1,6 +1,9 @@
 #ifndef debug_h
 #define debug_h
 
+#define DEBUG_OFF 0
+#define DEBUG_ON 1
+
 #if DEBUG == DEBUG_ON
 void debug(String str)
 {

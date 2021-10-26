@@ -1,6 +1,7 @@
 #ifndef setup_h
 #define setup_h
 
+#include <Wire.h>
 #include "indicators.h"
 #include "memory.h"
 #include "time.h"
