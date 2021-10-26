@@ -2,7 +2,6 @@
 #define dot_h
 
 #include <timer2Minim.h>
-#include "utils.h"
 
 #define DOT_MODE_SIMPLE 0
 #define DOT_MODE_SMOOTH 1
