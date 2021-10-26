@@ -2,6 +2,7 @@
 #define loop_h
 
 #include "time.h"
+#include "indicators.h"
 #include "effects.h"
 #include "backlight.h"
 #include "dot.h"
@@ -33,7 +34,7 @@ void loop()
   backlight.tick();
   glitches.tick();
   control.tick();
-  burnTick();
+  indicators.burnTick(res.isNewHour, res.mins, res.secs, control.isClockMode());
 }
 
 #endif

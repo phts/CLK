@@ -1,6 +1,7 @@
 #ifndef setup_h
 #define setup_h
 
+#include "indicators.h"
 #include "memory.h"
 #include "time.h"
 #include "effects.h"
@@ -25,7 +26,6 @@ void setupPwm()
 
 void setupBrightness()
 {
-  resetIndicatorMaxBrightness();
   updateBrightness();
 }
 
@@ -48,7 +48,8 @@ void setup()
 
   setupPwm();
   time.setup();
-  showTime(time.getHours(), time.getMinutes());
+  indicators.setup();
+  indicators.showTime(time.getHours(), time.getMinutes());
 
   StoredData data = memory.setup(INITIAL_EFFECTS_MODE, INITIAL_BKLIGHT_MODE, INITIAL_GLITCHES_MODE);
   setupBrightness();

@@ -2,6 +2,7 @@
 #define buttons_h
 
 #include <GyverButton.h>
+#include "indicators.h"
 #include "memory.h"
 #include "time.h"
 #include "effects.h"
@@ -102,15 +103,15 @@ private:
     {
       return;
     }
-    showTime(changeHrs, changeMins);
+    indicators.showTime(changeHrs, changeMins);
     modeSetLampState = !modeSetLampState;
     if (modeSetLampState)
     {
-      turnOnAllLamps();
+      indicators.turnAllOn();
     }
     else
     {
-      turnOffAllLamps();
+      indicators.turnAllOff();
     }
   }
 
@@ -122,8 +123,8 @@ private:
       changeHrs = 0;
     }
     blinkTimer.reset();
-    turnOnAllLamps();
-    showTime(changeHrs, changeMins);
+    indicators.turnAllOn();
+    indicators.showTime(changeHrs, changeMins);
   }
 
   void incMinutes()
@@ -134,20 +135,20 @@ private:
       changeMins = 0;
     }
     blinkTimer.reset();
-    turnOnAllLamps();
-    showTime(changeHrs, changeMins);
+    indicators.turnAllOn();
+    indicators.showTime(changeHrs, changeMins);
   }
 
   void switchEffects()
   {
     effects.toggle();
     memory.storeEffects(effects.getMode());
-    resetIndicatorMaxBrightness();
-    turnOnAllLamps();
+    indicators.resetBrightness();
+    indicators.turnAllOn();
     isEffectsDemoRunning = true;
     for (byte i = 0; i < 4; i++)
     {
-      indicatorDigits[i] = effects.getMode();
+      indicators.digits[i] = effects.getMode();
     }
     convertTimeToArray(time.getHours(), time.getMinutes(), cachedTimeArray);
   }
@@ -166,7 +167,7 @@ private:
 
   void startSet()
   {
-    turnOnAllLamps();
+    indicators.turnAllOn();
     changeHrs = time.getHours();
     changeMins = time.getMinutes();
   }
@@ -174,7 +175,7 @@ private:
   void finishSet()
   {
     time.setTime(changeHrs, changeMins);
-    turnOnAllLamps();
+    indicators.turnAllOn();
     updateBrightness();
   }
 };
