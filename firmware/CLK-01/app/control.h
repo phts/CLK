@@ -31,6 +31,7 @@ public:
     btnEffects.setTimeout(MODE_SET_HOURS_HOLD_TIME);
     btnBklight.setStepTimeout(MODE_SET_MINS_INTERVAL);
     btnBklight.setTimeout(MODE_SET_MINS_HOLD_TIME);
+    btnMode.setTimeout(0);
   }
 
   byte isClockMode()
