@@ -8,6 +8,7 @@
 #include "dot.h"
 #include "glitches.h"
 #include "control.h"
+#include "nightMode.h"
 
 boolean isEffectRunning = false;
 TimeTickResult cachedTimeResult;
@@ -18,10 +19,6 @@ void loop()
   TimeTickResult res = time.tick();
   if (res.changed && control.isClockMode())
   {
-    if (res.isNewHour)
-    {
-      updateBrightness();
-    }
     cachedTimeResult = res;
     convertTimeToArray(res.hrs, res.mins, cachedNewTime);
     isEffectRunning = true;
@@ -35,6 +32,7 @@ void loop()
   glitches.tick();
   control.tick();
   indicators.burnTick(res.isNewHour, res.mins, res.secs, control.isClockMode());
+  nightMode.tick(res.isNewHour, res.hrs);
 }
 
 #endif

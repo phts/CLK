@@ -10,7 +10,6 @@
 #include "effects.h"
 #include "backlight.h"
 #include "dot.h"
-#include "brightness.h"
 #include "glitches.h"
 #include "control.h"
 #include "constants.h"

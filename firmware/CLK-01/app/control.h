@@ -8,6 +8,7 @@
 #include "effects.h"
 #include "backlight.h"
 #include "glitches.h"
+#include "nightMode.h"
 
 #define MODE_CLOCK 0
 #define MODE_SET 1
@@ -176,7 +177,7 @@ private:
   {
     time.setTime(changeHrs, changeMins);
     indicators.turnAllOn();
-    updateBrightness();
+    nightMode.setup(changeHrs);
   }
 };
 
