@@ -13,7 +13,6 @@
 #include "brightness.h"
 #include "glitches.h"
 #include "control.h"
-#include "burn.h"
 #include "constants.h"
 #include "isr.h"
 

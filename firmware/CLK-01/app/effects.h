@@ -2,6 +2,7 @@
 #define effects_h
 
 #include <timer2Minim.h>
+#include "indicators.h"
 
 #define EFFECT_NONE 0
 #define EFFECT_DECAY 1
@@ -50,7 +51,7 @@ public:
   {
     if (mode == EFFECT_NONE)
     {
-      showTime(hrs, mins);
+      indicators.showTime(hrs, mins);
       return false;
     }
 
@@ -61,9 +62,9 @@ public:
         flipInProgress = true;
         for (byte i = 0; i < 4; i++)
         {
-          indicatorsToFlip[i] = indicatorDigits[i] != newTime[i];
+          indicatorsToFlip[i] = indicators.digits[i] != newTime[i];
         }
-        decayIndicatorBrightness = indicatorMaxBrightness;
+        decayIndicatorBrightness = indicators.getMaxBrightness();
       }
       if (flipTimer.isReady())
       {
@@ -74,16 +75,16 @@ public:
           {
             decayDirection = true;
             decayIndicatorBrightness = 0;
-            showTime(hrs, mins);
+            indicators.showTime(hrs, mins);
           }
         }
         else
         {
           decayIndicatorBrightness++;
-          if (decayIndicatorBrightness >= indicatorMaxBrightness)
+          if (decayIndicatorBrightness >= indicators.getMaxBrightness())
           {
             decayDirection = false;
-            decayIndicatorBrightness = indicatorMaxBrightness;
+            decayIndicatorBrightness = indicators.getMaxBrightness();
             flipInProgress = false;
             return false;
           }
@@ -92,7 +93,7 @@ public:
         {
           if (indicatorsToFlip[i])
           {
-            indicatorBrightness[i] = decayIndicatorBrightness;
+            indicators.brightness[i] = decayIndicatorBrightness;
           }
         }
       }
@@ -105,7 +106,7 @@ public:
         flipInProgress = true;
         for (byte i = 0; i < 4; i++)
         {
-          indicatorsToFlip[i] = indicatorDigits[i] != newTime[i];
+          indicatorsToFlip[i] = indicators.digits[i] != newTime[i];
         }
       }
       if (flipTimer.isReady())
@@ -115,12 +116,12 @@ public:
         {
           if (indicatorsToFlip[i])
           {
-            indicatorDigits[i]--;
-            if (indicatorDigits[i] < 0)
+            indicators.digits[i]--;
+            if (indicators.digits[i] < 0)
             {
-              indicatorDigits[i] = 9;
+              indicators.digits[i] = 9;
             }
-            if (indicatorDigits[i] == newTime[i])
+            if (indicators.digits[i] == newTime[i])
             {
               indicatorsToFlip[i] = false;
             }
@@ -145,12 +146,12 @@ public:
         flipInProgress = true;
         for (byte i = 0; i < 4; i++)
         {
-          indicatorsToFlip[i] = indicatorDigits[i] != newTime[i];
+          indicatorsToFlip[i] = indicators.digits[i] != newTime[i];
           if (indicatorsToFlip[i])
           {
             for (byte c = 0; c < 10; c++)
             {
-              if (indicatorDigits[i] == CATHOD_TO_DIGIT[c])
+              if (indicators.digits[i] == CATHOD_TO_DIGIT[c])
               {
                 startCathode[i] = c;
               }
@@ -172,12 +173,12 @@ public:
             if (startCathode[i] > endCathode[i])
             {
               startCathode[i]--;
-              indicatorDigits[i] = CATHOD_TO_DIGIT[startCathode[i]];
+              indicators.digits[i] = CATHOD_TO_DIGIT[startCathode[i]];
             }
             else if (startCathode[i] < endCathode[i])
             {
               startCathode[i]++;
-              indicatorDigits[i] = CATHOD_TO_DIGIT[startCathode[i]];
+              indicators.digits[i] = CATHOD_TO_DIGIT[startCathode[i]];
             }
             else
             {
@@ -212,9 +213,9 @@ public:
         {
           for (byte i = 3; i > currentLamp; i--)
           {
-            indicatorDigits[i] = indicatorDigits[i - 1];
+            indicators.digits[i] = indicators.digits[i - 1];
           }
-          anodeStates[currentLamp] = 0;
+          indicators.turnOff(currentLamp);
           currentLamp++;
           if (currentLamp >= 4)
           {
@@ -226,10 +227,10 @@ public:
         {
           for (byte i = currentLamp; i > 0; i--)
           {
-            indicatorDigits[i] = indicatorDigits[i - 1];
+            indicators.digits[i] = indicators.digits[i - 1];
           }
-          indicatorDigits[0] = newTime[3 - currentLamp];
-          anodeStates[currentLamp] = 1;
+          indicators.digits[0] = newTime[3 - currentLamp];
+          indicators.turnOn(currentLamp);
           currentLamp++;
           if (currentLamp >= 4)
           {
@@ -253,92 +254,92 @@ public:
         switch (flipEffectStages++)
         {
         case 1:
-          anodeStates[3] = 0;
+          indicators.turnOff(3);
           break;
         case 2:
-          anodeStates[2] = 0;
-          indicatorDigits[3] = indicatorDigits[2];
-          anodeStates[3] = 1;
+          indicators.turnOff(2);
+          indicators.digits[3] = indicators.digits[2];
+          indicators.turnOn(3);
           break;
         case 3:
-          anodeStates[3] = 0;
+          indicators.turnOff(3);
           break;
         case 4:
-          anodeStates[1] = 0;
-          indicatorDigits[2] = indicatorDigits[1];
-          anodeStates[2] = 1;
+          indicators.turnOff(1);
+          indicators.digits[2] = indicators.digits[1];
+          indicators.turnOn(2);
           break;
         case 5:
-          anodeStates[2] = 0;
-          indicatorDigits[3] = indicatorDigits[1];
-          anodeStates[3] = 1;
+          indicators.turnOff(2);
+          indicators.digits[3] = indicators.digits[1];
+          indicators.turnOn(3);
           break;
         case 6:
-          anodeStates[3] = 0;
+          indicators.turnOff(3);
           break;
         case 7:
-          anodeStates[0] = 0;
-          indicatorDigits[1] = indicatorDigits[0];
-          anodeStates[1] = 1;
+          indicators.turnOff(0);
+          indicators.digits[1] = indicators.digits[0];
+          indicators.turnOn(1);
           break;
         case 8:
-          anodeStates[1] = 0;
-          indicatorDigits[2] = indicatorDigits[0];
-          anodeStates[2] = 1;
+          indicators.turnOff(1);
+          indicators.digits[2] = indicators.digits[0];
+          indicators.turnOn(2);
           break;
         case 9:
-          anodeStates[2] = 0;
-          indicatorDigits[3] = indicatorDigits[0];
-          anodeStates[3] = 1;
+          indicators.turnOff(2);
+          indicators.digits[3] = indicators.digits[0];
+          indicators.turnOn(3);
           break;
         case 10:
-          anodeStates[3] = 0;
+          indicators.turnOff(3);
           break;
         case 11:
-          indicatorDigits[0] = newTime[3];
-          anodeStates[0] = 1;
+          indicators.digits[0] = newTime[3];
+          indicators.turnOn(0);
           break;
         case 12:
-          anodeStates[0] = 0;
-          indicatorDigits[1] = newTime[3];
-          anodeStates[1] = 1;
+          indicators.turnOff(0);
+          indicators.digits[1] = newTime[3];
+          indicators.turnOn(1);
           break;
         case 13:
-          anodeStates[1] = 0;
-          indicatorDigits[2] = newTime[3];
-          anodeStates[2] = 1;
+          indicators.turnOff(1);
+          indicators.digits[2] = newTime[3];
+          indicators.turnOn(2);
           break;
         case 14:
-          anodeStates[2] = 0;
-          indicatorDigits[3] = newTime[3];
-          anodeStates[3] = 1;
+          indicators.turnOff(2);
+          indicators.digits[3] = newTime[3];
+          indicators.turnOn(3);
           break;
         case 15:
-          indicatorDigits[0] = newTime[2];
-          anodeStates[0] = 1;
+          indicators.digits[0] = newTime[2];
+          indicators.turnOn(0);
           break;
         case 16:
-          anodeStates[0] = 0;
-          indicatorDigits[1] = newTime[2];
-          anodeStates[1] = 1;
+          indicators.turnOff(0);
+          indicators.digits[1] = newTime[2];
+          indicators.turnOn(1);
           break;
         case 17:
-          anodeStates[1] = 0;
-          indicatorDigits[2] = newTime[2];
-          anodeStates[2] = 1;
+          indicators.turnOff(1);
+          indicators.digits[2] = newTime[2];
+          indicators.turnOn(2);
           break;
         case 18:
-          indicatorDigits[0] = newTime[1];
-          anodeStates[0] = 1;
+          indicators.digits[0] = newTime[1];
+          indicators.turnOn(0);
           break;
         case 19:
-          anodeStates[0] = 0;
-          indicatorDigits[1] = newTime[1];
-          anodeStates[1] = 1;
+          indicators.turnOff(0);
+          indicators.digits[1] = newTime[1];
+          indicators.turnOn(1);
           break;
         case 20:
-          indicatorDigits[0] = newTime[0];
-          anodeStates[0] = 1;
+          indicators.digits[0] = newTime[0];
+          indicators.turnOn(0);
           break;
         case 21:
           flipInProgress = false;

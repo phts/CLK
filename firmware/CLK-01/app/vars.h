@@ -3,11 +3,6 @@
 
 #include <Wire.h>
 
-volatile int8_t indicatorBrightness[4]; // 0--24
-volatile int8_t indicatorDigits[4];     // 0--9
-
-byte indicatorMaxBrightness = INDICATOR_BRIGHTNESS;
-boolean anodeStates[] = {1, 1, 1, 1};
 
 const uint8_t CRTgamma[256] PROGMEM = {
     0,

@@ -2,6 +2,7 @@
 #define glitches_h
 
 #include <timer2Minim.h>
+#include "indicators.h"
 
 #define GLITCHES_OFF 0
 #define GLITCHES_ON 1
@@ -55,7 +56,7 @@ public:
     }
     else if (glitchFlag && timer.isReady())
     {
-      indicatorBrightness[glitchIndic] = indiState * indicatorMaxBrightness;
+      indicators.brightness[glitchIndic] = indiState * indicators.getMaxBrightness();
       indiState = !indiState;
       timer.setInterval(random(1, 6) * 20);
       glitchCounter++;
@@ -63,7 +64,7 @@ public:
       {
         timer.setInterval(random(GLITCH_MIN_INTERVAL * 1000L, GLITCH_MAX_INTERVAL * 1000L));
         glitchFlag = false;
-        indicatorBrightness[glitchIndic] = indicatorMaxBrightness;
+        indicators.brightness[glitchIndic] = indicators.getMaxBrightness();
       }
     }
   }
