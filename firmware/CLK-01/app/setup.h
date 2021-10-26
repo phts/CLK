@@ -9,6 +9,7 @@
 #include "dot.h"
 #include "glitches.h"
 #include "control.h"
+#include "nightMode.h"
 
 void setupPwm()
 {
@@ -22,11 +23,6 @@ void setupPwm()
   TCCR2B = (TCCR2B & B11111000) | 2; // делитель 8
   TCCR2A |= (1 << WGM21);            // включить CTC режим для COMPA
   TIMSK2 |= (1 << OCIE2A);           // включить прерывания по совпадению COMPA
-}
-
-void setupBrightness()
-{
-  updateBrightness();
 }
 
 void setup()
@@ -52,11 +48,11 @@ void setup()
   indicators.showTime(time.getHours(), time.getMinutes());
 
   StoredData data = memory.setup(INITIAL_EFFECTS_MODE, INITIAL_BKLIGHT_MODE, INITIAL_GLITCHES_MODE);
-  setupBrightness();
   dot.setup();
   effects.setup(data.effectsMode);
   backlight.setup(data.bklightMode);
   glitches.setup(data.glitchesMode);
+  nightMode.setup(time.getHours());
   control.setup();
 }
 
