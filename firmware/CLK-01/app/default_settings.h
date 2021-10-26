@@ -1,6 +1,7 @@
 #ifndef default_settings_h
 #define default_settings_h
 
+#define VERSION "Unknown"
 #define DEBUG DEBUG_OFF
 
 #define INITIAL_EFFECTS_MODE EFFECT_LOOP_C
