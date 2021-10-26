@@ -20,6 +20,21 @@ public:
     resetBrightness();
   }
 
+  void turnOn()
+  {
+    timer.reset();
+    smoothTimer.reset();
+    resetSmooth();
+    applyBrightness(maxBrightness);
+    turnedOff = false;
+  }
+
+  void turnOff()
+  {
+    turnedOff = true;
+    applyBrightness(0);
+  }
+
   void setNightMode(boolean isNight)
   {
     setMaxBrightness(isNight ? DOT_BRIGHTNESS_NIGHT : DOT_BRIGHTNESS);
@@ -49,11 +64,15 @@ public:
         smoothBrightness = 0;
       }
     }
-    setPWM(PIN_DOT, getPWM_CRT(smoothBrightness));
+    applyBrightness(smoothBrightness);
   }
 
   void tick()
   {
+    if (turnedOff)
+    {
+      return;
+    }
     if (DOT_MODE == DOT_MODE_SMOOTH && smoothReady)
     {
       brightnessTick();
@@ -64,8 +83,8 @@ public:
     }
     if (DOT_MODE == DOT_MODE_SIMPLE)
     {
+      applyBrightness(smoothBrightness);
       smoothBrightness = smoothBrightness == 0 ? maxBrightness : 0;
-      setPWM(PIN_DOT, getPWM_CRT(smoothBrightness));
       return;
     }
 
@@ -84,6 +103,7 @@ private:
   boolean smoothReady;
   boolean smoothUpDirection;
   int smoothBrightness;
+  boolean turnedOff = false;
 
   void setMaxBrightness(byte newValue)
   {
@@ -105,6 +125,11 @@ private:
     smoothReady = true;
     smoothUpDirection = true;
     smoothBrightness = 0;
+  }
+
+  void applyBrightness(byte value)
+  {
+    setPWM(PIN_DOT, getPWM_CRT(value));
   }
 };
 

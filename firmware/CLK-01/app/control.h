@@ -9,6 +9,7 @@
 #include "backlight.h"
 #include "glitches.h"
 #include "nightMode.h"
+#include "dot.h"
 
 #define MODE_CLOCK 0
 #define MODE_SET 1
@@ -166,6 +167,7 @@ private:
     changeHrs = time.getHours();
     changeMins = time.getMinutes();
     modeSetLampState = false;
+    dot.turnOff();
   }
 
   void finishSet()
@@ -173,6 +175,7 @@ private:
     time.setTime(changeHrs, changeMins);
     indicators.turnAllOn();
     nightMode.setup(changeHrs);
+    dot.turnOn();
   }
 };
 
