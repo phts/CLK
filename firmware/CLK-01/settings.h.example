@@ -1,7 +1,6 @@
 #ifndef settings_h
 #define settings_h
 
-#undef DEBUG
 #define DEBUG DEBUG_ON
 
 #endif
