@@ -28,7 +28,6 @@ public:
   void setup()
   {
     btnEffects.setStepTimeout(MODE_SET_HOURS_INTERVAL);
-    btnEffects.setTimeout(MODE_SET_HOURS_HOLD_TIME);
     btnBklight.setStepTimeout(MODE_SET_MINS_INTERVAL);
     btnMode.setTimeout(0);
   }
@@ -178,6 +177,7 @@ private:
   void startSet()
   {
     btnBklight.setTimeout(MODE_SET_MINS_HOLD_TIME);
+    btnEffects.setTimeout(MODE_SET_HOURS_HOLD_TIME);
     blinkTimer.reset();
     indicators.turnAllOff();
     changeHrs = time.getHours();
@@ -189,6 +189,7 @@ private:
   void finishSet()
   {
     btnBklight.setTimeout(500);
+    btnEffects.setTimeout(500);
     time.setTime(changeHrs, changeMins);
     indicators.turnAllOn();
     nightMode.apply(changeHrs);
