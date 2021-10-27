@@ -60,8 +60,8 @@ public:
       if (mode != MODE_SET)
       {
         startSet();
+        mode = MODE_SET;
       }
-      mode = MODE_SET;
       if (btnEffects.isPress() || btnEffects.isStep())
       {
         incHours();
@@ -76,13 +76,13 @@ public:
       if (mode == MODE_SET)
       {
         finishSet();
+        mode = MODE_CLOCK;
       }
-      mode = MODE_CLOCK;
       if (btnEffects.isPress())
       {
         switchEffects();
       }
-      if (btnBklight.isPress())
+      else if (btnBklight.isPress())
       {
         switchBacklight();
       }
