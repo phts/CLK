@@ -30,7 +30,6 @@ public:
     btnEffects.setStepTimeout(MODE_SET_HOURS_INTERVAL);
     btnEffects.setTimeout(MODE_SET_HOURS_HOLD_TIME);
     btnBklight.setStepTimeout(MODE_SET_MINS_INTERVAL);
-    btnBklight.setTimeout(MODE_SET_MINS_HOLD_TIME);
     btnMode.setTimeout(0);
   }
 
@@ -78,13 +77,17 @@ public:
         finishSet();
         mode = MODE_CLOCK;
       }
-      if (btnEffects.isPress())
+      if (btnEffects.isClick())
       {
         switchEffects();
       }
-      else if (btnBklight.isPress())
+      else if (btnBklight.isClick())
       {
         switchBacklight();
+      }
+      else if (btnBklight.isHolded())
+      {
+        toggleGlitches();
       }
     }
   }
@@ -163,6 +166,7 @@ private:
 
   void startSet()
   {
+    btnBklight.setTimeout(MODE_SET_MINS_HOLD_TIME);
     blinkTimer.reset();
     indicators.turnAllOff();
     changeHrs = time.getHours();
@@ -173,6 +177,7 @@ private:
 
   void finishSet()
   {
+    btnBklight.setTimeout(500);
     time.setTime(changeHrs, changeMins);
     indicators.turnAllOn();
     nightMode.setup(changeHrs);
