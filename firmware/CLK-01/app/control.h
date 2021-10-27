@@ -85,9 +85,13 @@ public:
       {
         switchBacklight();
       }
-      else if (btnBklight.isHolded())
+      else if (btnEffects.isHolded())
       {
         toggleGlitches();
+      }
+      else if (btnBklight.isHolded())
+      {
+        toggleNightMode();
       }
     }
   }
@@ -165,6 +169,12 @@ private:
     memory.storeGlitches(glitches.getMode());
   }
 
+  void toggleNightMode()
+  {
+    nightMode.toggle();
+    memory.storeNightMode(nightMode.getMode());
+  }
+
   void startSet()
   {
     btnBklight.setTimeout(MODE_SET_MINS_HOLD_TIME);
@@ -181,7 +191,7 @@ private:
     btnBklight.setTimeout(500);
     time.setTime(changeHrs, changeMins);
     indicators.turnAllOn();
-    nightMode.setup(changeHrs);
+    nightMode.apply(changeHrs);
     dot.turnOn();
   }
 };

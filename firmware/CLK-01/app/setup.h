@@ -48,12 +48,12 @@ void setup()
   indicators.setup();
   indicators.showTime(time.getHours(), time.getMinutes());
 
-  StoredData data = memory.setup(INITIAL_EFFECTS_MODE, INITIAL_BKLIGHT_MODE, INITIAL_GLITCHES_MODE);
+  StoredData data = memory.setup(INITIAL_EFFECTS_MODE, INITIAL_BKLIGHT_MODE, INITIAL_GLITCHES_MODE, INITIAL_NIGHT_MODE);
   dot.setup();
   effects.setup(data.effectsMode);
   backlight.setup(data.bklightMode);
   glitches.setup(data.glitchesMode);
-  nightMode.setup(time.getHours());
+  nightMode.setup(data.nightmodeMode);
   control.setup();
 }
 

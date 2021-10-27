@@ -14,7 +14,7 @@ Hosted on [EasyEDA/phts/CLK-01].
 
 ### "CLOCK" mode
 
-Single click on button "EFFECTS" selects effects when minutes change:
+Single click on button "EFFECTS / GLITCHES" selects effects when minutes change:
 
 - None
 - Decay
@@ -23,7 +23,9 @@ Single click on button "EFFECTS" selects effects when minutes change:
 - Train
 - Rubber band
 
-Single click on button "BKLIGHT" selects backlight:
+Holding button "EFFECTS / GLITCHES" toggles glitches on/off.
+
+Single click on button "BKLIGHT / NIGHT M." selects backlight:
 
 - Turned off
 - Turned on (100%)
@@ -31,7 +33,7 @@ Single click on button "BKLIGHT" selects backlight:
 - Turned on (30%)
 - Smooth flashing
 
-Holding button "BKLIGHT" toggles glitches on/off.
+Holding button "BKLIGHT / NIGHT M." toggles night mode on/off.
 
 ### "SET" mode
 
