@@ -40,59 +40,29 @@ public:
     setMaxBrightness(isNight ? DOT_BRIGHTNESS_NIGHT : DOT_BRIGHTNESS);
   }
 
-  void brightnessTick()
-  {
-    if (!smoothTimer.isReady())
-    {
-      return;
-    }
-    if (smoothUpDirection)
-    {
-      smoothBrightness += smoothStep;
-      if (smoothBrightness >= maxBrightness)
-      {
-        smoothUpDirection = false;
-        smoothBrightness = maxBrightness;
-      }
-    }
-    else
-    {
-      smoothBrightness -= smoothStep;
-      if (smoothBrightness <= 0)
-      {
-        smoothReady = false;
-        smoothBrightness = 0;
-      }
-    }
-    applyBrightness(smoothBrightness);
-  }
-
   void tick()
   {
     if (turnedOff)
     {
       return;
     }
-    if (DOT_MODE == DOT_MODE_SMOOTH && smoothReady)
+#if DOT_MODE == DOT_MODE_SMOOTH
+    if (smoothReady)
     {
       brightnessTick();
     }
+#endif
     if (!timer.isReady())
     {
       return;
     }
-    if (DOT_MODE == DOT_MODE_SIMPLE)
-    {
-      applyBrightness(smoothBrightness);
-      smoothBrightness = smoothBrightness == 0 ? maxBrightness : 0;
-      return;
-    }
-
-    if (DOT_MODE == DOT_MODE_SMOOTH)
-    {
-      resetSmooth();
-      return;
-    }
+#if DOT_MODE == DOT_MODE_SIMPLE
+    applyBrightness(smoothBrightness);
+    smoothBrightness = smoothBrightness == 0 ? maxBrightness : 0;
+#endif
+#if DOT_MODE == DOT_MODE_SMOOTH
+    resetSmooth();
+#endif
   }
 
 private:
@@ -130,6 +100,33 @@ private:
   void applyBrightness(byte value)
   {
     setPWM(PIN_DOT, getPWM_CRT(value));
+  }
+
+  void brightnessTick()
+  {
+    if (!smoothTimer.isReady())
+    {
+      return;
+    }
+    if (smoothUpDirection)
+    {
+      smoothBrightness += smoothStep;
+      if (smoothBrightness >= maxBrightness)
+      {
+        smoothUpDirection = false;
+        smoothBrightness = maxBrightness;
+      }
+    }
+    else
+    {
+      smoothBrightness -= smoothStep;
+      if (smoothBrightness <= 0)
+      {
+        smoothReady = false;
+        smoothBrightness = 0;
+      }
+    }
+    applyBrightness(smoothBrightness);
   }
 };
 
