@@ -10,14 +10,12 @@
 class Glitches
 {
 public:
-  Glitches() : timer(1000)
-  {
-  }
+  Glitches() : timer(1000) {}
 
   void setup(boolean initialMode)
   {
     mode = initialMode;
-    timer.setInterval(random(GLITCH_MIN_INTERVAL * 1000L, GLITCH_MAX_INTERVAL * 1000L));
+    resetTimer();
   }
 
   void toggle()
@@ -41,29 +39,29 @@ public:
     {
       return;
     }
-    if (!glitchFlag && secs > 7 && secs < 55)
+    if (!isRunning && secs > 7 && secs < 55)
     {
       if (timer.isReady())
       {
-        glitchFlag = true;
-        indiState = 0;
-        glitchCounter = 0;
-        glitchMax = random(2, 6);
-        glitchIndic = random(0, 4);
-        timer.setInterval(random(1, 6) * 20);
+        isRunning = true;
+        indicatorState = 0;
+        count = 0;
+        maxAmount = random(2, 6);
+        targetIndicator = random(0, 4);
+        resetStepTimer();
       }
     }
-    else if (glitchFlag && timer.isReady())
+    else if (isRunning && timer.isReady())
     {
-      indicators.brightness[glitchIndic] = indiState * indicators.getMaxBrightness();
-      indiState = !indiState;
-      timer.setInterval(random(1, 6) * 20);
-      glitchCounter++;
-      if (glitchCounter > glitchMax)
+      indicators.brightness[targetIndicator] = indicatorState * indicators.getMaxBrightness();
+      indicatorState = !indicatorState;
+      resetStepTimer();
+      count++;
+      if (count > maxAmount)
       {
-        timer.setInterval(random(GLITCH_MIN_INTERVAL * 1000L, GLITCH_MAX_INTERVAL * 1000L));
-        glitchFlag = false;
-        indicators.brightness[glitchIndic] = indicators.getMaxBrightness();
+        resetTimer();
+        isRunning = false;
+        indicators.brightness[targetIndicator] = indicators.getMaxBrightness();
       }
     }
   }
@@ -71,11 +69,21 @@ public:
 private:
   timerMinim timer;
   boolean mode;
-  byte glitchCounter;
-  byte glitchMax;
-  byte glitchIndic;
-  boolean glitchFlag;
-  boolean indiState;
+  byte count;
+  byte maxAmount;
+  byte targetIndicator;
+  boolean isRunning;
+  boolean indicatorState;
+
+  void resetTimer()
+  {
+    timer.setInterval(random(GLITCH_MIN_INTERVAL * 1000L, GLITCH_MAX_INTERVAL * 1000L));
+  }
+
+  void resetStepTimer()
+  {
+    timer.setInterval(random(1, 6) * 20);
+  }
 };
 
 Glitches glitches;
