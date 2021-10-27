@@ -12,7 +12,7 @@ Hosted on [EasyEDA/phts/CLK-01].
 
 ## Control
 
-### "Clock" mode
+### "CLOCK" mode
 
 Single click on button "EFFECTS" selects effects when minutes change:
 
@@ -31,13 +31,15 @@ Single click on button "BKLIGHT" selects backlight:
 - Turned on (30%)
 - Smooth flashing
 
-Holding button "EFFECTS" toggles glitches on/off.
+Holding button "BKLIGHT" toggles glitches on/off.
 
-### "Set" mode
+### "SET" mode
 
 Single click on button "HOURS" increases hour value.
 
 Single click on button "MINUTES" increases minute value.
+
+To apply new time toggle "MODE" switch to "CLOCK" position.
 
 ## Settings
 
