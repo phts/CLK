@@ -43,16 +43,13 @@ public:
     {
       if (timer.isReady())
       {
-        isRunning = true;
-        indicatorState = 0;
-        count = 0;
-        maxAmount = random(2, 6);
-        targetIndicator = random(0, 4);
+        resetState();
         resetStepTimer();
       }
     }
-    else if (isRunning && timer.isReady())
+    else if (isRunning && (timer.isReady() || forceRun))
     {
+      forceRun = false;
       indicators.brightness[targetIndicator] = indicatorState * indicators.getMaxBrightness();
       indicatorState = !indicatorState;
       resetStepTimer();
@@ -66,6 +63,12 @@ public:
     }
   }
 
+  void forceShow()
+  {
+    forceRun = true;
+    resetState();
+  }
+
 private:
   timerMinim timer;
   boolean mode;
@@ -74,6 +77,16 @@ private:
   byte targetIndicator;
   boolean isRunning;
   boolean indicatorState;
+  boolean forceRun;
+
+  void resetState()
+  {
+    isRunning = true;
+    indicatorState = 0;
+    count = 0;
+    maxAmount = random(2, 6);
+    targetIndicator = random(0, 4);
+  }
 
   void resetTimer()
   {

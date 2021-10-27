@@ -161,6 +161,7 @@ private:
   void toggleGlitches()
   {
     glitches.toggle();
+    glitches.forceShow();
     memory.storeGlitches(glitches.getMode());
   }
 
