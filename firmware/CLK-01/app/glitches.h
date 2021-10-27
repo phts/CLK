@@ -84,7 +84,7 @@ private:
     isRunning = true;
     indicatorState = 0;
     count = 0;
-    maxAmount = random(2, 6);
+    maxAmount = random(4, 9);
     targetIndicator = random(0, 4);
   }
 
@@ -95,7 +95,7 @@ private:
 
   void resetStepTimer()
   {
-    timer.setInterval(random(1, 6) * 20);
+    timer.setInterval(random(2, 6) * 20);
   }
 };
 
