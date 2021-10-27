@@ -35,13 +35,12 @@ public:
     mode = newValue;
   }
 
-  void tick()
+  void tick(byte secs)
   {
     if (mode != GLITCHES_ON)
     {
       return;
     }
-    byte secs = time.getSeconds();
     if (!glitchFlag && secs > 7 && secs < 55)
     {
       if (timer.isReady())
