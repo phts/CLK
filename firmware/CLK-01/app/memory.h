@@ -22,12 +22,9 @@ class Memory
 public:
   StoredData setup(byte initialEffectsMode, byte initialBklightMode, boolean initialGlitchesMode)
   {
-    if (MEMORY != MEMORY_ENABLED)
-    {
-      return {initialEffectsMode,
-              initialBklightMode,
-              initialGlitchesMode};
-    }
+#if MEMORY == MEMORY_DISABLED
+    return {initialEffectsMode, initialBklightMode, initialGlitchesMode};
+#else
     if (EEPROM.read(MEMORY_CELL_FIRST_RUN) != MEMORY_FLAG_FIRST_RUN)
     {
       EEPROM.put(MEMORY_CELL_FIRST_RUN, MEMORY_FLAG_FIRST_RUN);
@@ -39,9 +36,8 @@ public:
     EEPROM.get(MEMORY_CELL_EFFECTS, newEffectMode);
     EEPROM.get(MEMORY_CELL_BKLIGHT, newBklightMode);
     EEPROM.get(MEMORY_CELL_GLITCHES, newGlitchesMode);
-    return {newEffectMode,
-            newBklightMode,
-            newGlitchesMode};
+    return {newEffectMode, newBklightMode, newGlitchesMode};
+#endif
   }
 
 #if MEMORY == MEMORY_ENABLED
