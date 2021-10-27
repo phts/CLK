@@ -29,7 +29,10 @@ void loop()
   }
   dot.tick();
   backlight.tick();
-  glitches.tick(res.secs);
+  if (control.isClockMode())
+  {
+    glitches.tick(res.secs);
+  }
   control.tick();
   indicators.burnTick(res.isNewHour, res.mins, res.secs, control.isClockMode());
   nightMode.tick(res.isNewHour, res.hrs);
