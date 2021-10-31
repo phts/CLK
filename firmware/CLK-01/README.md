@@ -88,3 +88,9 @@ To apply new time toggle "MODE" switch to "CLOCK" position.
 Clone `settings.h.example` into `settings.h` and redefine variables.
 
 [easyeda/phts/clk-01]: https://oshwlab.com/phts/CLK-01
+
+## Driver
+
+Find and install [USB-SERIAL CH340 driver] to be able to use the device via a COM port.
+
+[usb-serial ch340 driver]: https://www.google.com/search?q=USB-SERIAL+CH340
