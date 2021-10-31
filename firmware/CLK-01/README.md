@@ -10,9 +10,11 @@ Hosted on [EasyEDA/phts/CLK-01].
 
 ![PHTS CLK-01](https://image.easyeda.com/documents/f8e8fa42a9a74f4194dbb38830f3f9a2.png)
 
-## Control
+## Usage
 
-### "CLOCK" mode
+### Control
+
+#### "CLOCK" mode
 
 Single click on button "EFFECTS / GLITCHES" selects effects when minutes change:
 
@@ -35,7 +37,7 @@ Single click on button "BKLIGHT / NIGHT M." selects backlight:
 
 Holding button "BKLIGHT / NIGHT M." toggles night mode on/off.
 
-### "SET" mode
+#### "SET" mode
 
 Single click on button "HOURS" increases hour value.
 
@@ -43,7 +45,20 @@ Single click on button "MINUTES" increases minute value.
 
 To apply new time toggle "MODE" switch to "CLOCK" position.
 
-## Settings
+## Development
+
+1. Connect device to PC. Find and install [USB-SERIAL CH340 driver] to be able to use the device via a COM port.
+
+2. Open `CLK-01.ino` file in Arduino IDE or any other editor supported by Arduino. Set the following parameters:
+
+   1. Board type: `Arduino Nano`
+   2. Processor: `ATmega 328P (Old Bootloader)`
+   3. Programmer: `AVRISP mkII`
+   4. Port: corresponding port which was assigned to the device when connected
+
+3. Make your cool changes and upload the firmware to device
+
+### Settings
 
 | Name                         |      Values | Description                                                           |
 | ---------------------------- | ----------: | --------------------------------------------------------------------- |
@@ -83,14 +98,9 @@ To apply new time toggle "MODE" switch to "CLOCK" position.
 | `NIGHT_START`                |  0&ndash;23 | Hour when night mode should start                                     |
 | `SYNC_RTC_INTERVAL`          |     minutes | How frequent to sync time with RTC module                             |
 
-### Override settings locally
+#### Override settings locally
 
 Clone `settings.h.example` into `settings.h` and redefine variables.
 
 [easyeda/phts/clk-01]: https://oshwlab.com/phts/CLK-01
-
-## Driver
-
-Find and install [USB-SERIAL CH340 driver] to be able to use the device via a COM port.
-
 [usb-serial ch340 driver]: https://www.google.com/search?q=USB-SERIAL+CH340
