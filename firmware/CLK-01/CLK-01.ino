@@ -1,11 +1,11 @@
-#include "app/default_settings.h"
+#include "app/settings.h"
 
 #if __has_include("version.h")
 #include "version.h"
 #endif
 
-#if __has_include("settings.h")
-#include "settings.h"
+#if __has_include("local_settings.h")
+#include "local_settings.h"
 #endif
 
 #include "app/app.h"

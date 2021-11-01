@@ -100,7 +100,7 @@ To apply new time toggle "MODE" switch to "CLOCK" position.
 
 #### Override settings locally
 
-Clone `settings.h.example` into `settings.h` and redefine variables.
+Clone `local_settings.h.example` into `local_settings.h` and redefine variables.
 
 [easyeda/phts/clk-01]: https://oshwlab.com/phts/CLK-01
 [usb-serial ch340 driver]: https://www.google.com/search?q=USB-SERIAL+CH340

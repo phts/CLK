@@ -1,6 +1,6 @@
 .vscode/
 output/
 
-firmware/CLK-01/settings.h
+firmware/CLK-01/local_settings.h
 firmware/CLK-01/version.h
 *.code-workspace

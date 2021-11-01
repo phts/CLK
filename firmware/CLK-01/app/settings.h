@@ -1,5 +1,5 @@
-#ifndef default_settings_h
-#define default_settings_h
+#ifndef settings_h
+#define settings_h
 
 #define VERSION "Unknown"
 #define DEBUG DEBUG_OFF
