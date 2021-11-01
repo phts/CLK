@@ -37,7 +37,7 @@ Single click on button "BKLIGHT / NIGHT M." selects backlight:
 
 Holding button "BKLIGHT / NIGHT M." toggles night mode on/off.
 
-#### "SET" mode
+#### "TIME SET" mode
 
 Single click on button "HOURS" increases hour value.
 
