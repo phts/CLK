@@ -40,10 +40,7 @@ public:
 
   void showTime(byte hours, byte minutes)
   {
-    digits[0] = (byte)hours / 10;
-    digits[1] = (byte)hours % 10;
-    digits[2] = (byte)minutes / 10;
-    digits[3] = (byte)minutes % 10;
+    convertTimeToArray(hours, minutes, digits);
   }
 
   boolean isOn(byte n)
