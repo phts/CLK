@@ -3,6 +3,7 @@
 
 #define VERSION "Unknown"
 #define DEBUG DEBUG_OFF
+#define DEBUG_EFFECTS false
 
 #define INITIAL_EFFECTS_MODE EFFECT_LOOP_C
 #define INITIAL_BKLIGHT_MODE BKLIGHT_ON

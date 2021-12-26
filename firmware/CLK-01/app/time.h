@@ -32,7 +32,11 @@ public:
     {
       return {false, hrs, mins, secs, false};
     }
+#if DEBUG_EFFECTS
+    secs = secs + 10;
+#else
     secs++;
+#endif
     if (secs > 59)
     {
       timeJustChanged = true;
@@ -101,10 +105,12 @@ private:
 
   void syncRtc()
   {
+#if !DEBUG_EFFECTS
     DateTime now = rtc.now();
     secs = now.second();
     mins = now.minute();
     hrs = now.hour();
+#endif
   }
 };
 

@@ -72,6 +72,7 @@ To apply new time toggle "MODE" switch to "CLOCK" position.
 | `BURN_LOOPS`                 |             | How many loops to run "burn"                                          |
 | `BURN_TIMES_PER_HOUR`        |             | How many times need to burn indicators during an hour                 |
 | `DEBUG`                      |             | If enabled, prints debug messages into Serial port                    |
+| `DEBUG_EFFECTS`              |     Boolean | If enabled, makes time changed every few seconds                      |
 | `DOT_BRIGHTNESS_INTERVAL`    |          ms | How fast dot brightness should change during blinking (smooth mode)   |
 | `DOT_BRIGHTNESS_NIGHT`       | 0&ndash;255 | Dot brightness on nighttime                                           |
 | `DOT_BRIGHTNESS`             | 0&ndash;255 | Dot brightness on daytime                                             |
