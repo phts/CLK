@@ -7,8 +7,8 @@
 class Indicators
 {
 public:
-  volatile int8_t brightness[4]; // 0--24
-  volatile int8_t digits[4];     // 0--9
+  volatile int8_t brightness[INDICATORS_AMOUNT]; // 0--24
+  volatile int8_t digits[INDICATORS_AMOUNT];     // 0--9
 
   Indicators(byte initialMaxBrightness)
   {
@@ -22,7 +22,7 @@ public:
 
   void resetBrightness()
   {
-    for (byte i = 0; i < 4; i++)
+    for (byte i = 0; i < INDICATORS_AMOUNT; i++)
     {
       brightness[i] = indicatorMaxBrightness;
     }
@@ -60,7 +60,7 @@ public:
 
   void turnAllOn()
   {
-    for (byte i = 0; i < 4; i++)
+    for (byte i = 0; i < INDICATORS_AMOUNT; i++)
     {
       anodeStates[i] = INDICATOR_TURNED_ON;
     }
@@ -68,7 +68,7 @@ public:
 
   void turnAllOff()
   {
-    for (byte i = 0; i < 4; i++)
+    for (byte i = 0; i < INDICATORS_AMOUNT; i++)
     {
       anodeStates[i] = INDICATOR_TURNED_OFF;
     }
@@ -106,7 +106,7 @@ public:
 
 private:
   byte indicatorMaxBrightness;
-  boolean anodeStates[4] = {1, 1, 1, 1};
+  boolean anodeStates[INDICATORS_AMOUNT] = {1, 1, 1, 1};
   bool burnInProgress = false;
   byte burnOnMinutes[BURN_TIMES_PER_HOUR];
   byte burnOnMinutesSize = sizeof(burnOnMinutes);
@@ -117,7 +117,7 @@ private:
     {
       for (byte d = 0; d < 10; d++)
       {
-        for (byte i = 0; i < 4; i++)
+        for (byte i = 0; i < INDICATORS_AMOUNT; i++)
         {
           digits[i]--;
           if (digits[i] < 0)

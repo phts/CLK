@@ -6,7 +6,7 @@
 const byte DIGIT_TO_DECODER_VALUE[] = {3, 2, 7, 4, 1, 9, 8, 0, 5, 6};
 const byte INDICATOR_PINS[] = {PIN_HRS_L, PIN_HRS_R, PIN_MINS_L, PIN_MINS_R};
 volatile int8_t curInd;
-volatile int8_t arr[4];
+volatile int8_t arr[INDICATORS_AMOUNT];
 
 ISR(TIMER2_COMPA_vect)
 {
@@ -19,7 +19,7 @@ ISR(TIMER2_COMPA_vect)
   if (arr[curInd] > 25)
   {
     arr[curInd] = 0;
-    if (++curInd >= 4)
+    if (++curInd >= INDICATORS_AMOUNT)
     {
       curInd = 0;
     }

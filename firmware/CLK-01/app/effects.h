@@ -60,7 +60,7 @@ public:
       if (!flipInProgress)
       {
         flipInProgress = true;
-        for (byte i = 0; i < 4; i++)
+        for (byte i = 0; i < INDICATORS_AMOUNT; i++)
         {
           indicatorsToFlip[i] = indicators.digits[i] != newTime[i];
         }
@@ -89,7 +89,7 @@ public:
             return false;
           }
         }
-        for (byte i = 0; i < 4; i++)
+        for (byte i = 0; i < INDICATORS_AMOUNT; i++)
         {
           if (indicatorsToFlip[i])
           {
@@ -104,7 +104,7 @@ public:
       if (!flipInProgress)
       {
         flipInProgress = true;
-        for (byte i = 0; i < 4; i++)
+        for (byte i = 0; i < INDICATORS_AMOUNT; i++)
         {
           indicatorsToFlip[i] = indicators.digits[i] != newTime[i];
         }
@@ -112,7 +112,7 @@ public:
       if (flipTimer.isReady())
       {
         byte flipCounter = 0;
-        for (byte i = 0; i < 4; i++)
+        for (byte i = 0; i < INDICATORS_AMOUNT; i++)
         {
           if (indicatorsToFlip[i])
           {
@@ -131,7 +131,7 @@ public:
             flipCounter++;
           }
         }
-        if (flipCounter == 4)
+        if (flipCounter == INDICATORS_AMOUNT)
         {
           flipInProgress = false;
           return false;
@@ -144,7 +144,7 @@ public:
       if (!flipInProgress)
       {
         flipInProgress = true;
-        for (byte i = 0; i < 4; i++)
+        for (byte i = 0; i < INDICATORS_AMOUNT; i++)
         {
           indicatorsToFlip[i] = indicators.digits[i] != newTime[i];
           if (indicatorsToFlip[i])
@@ -166,7 +166,7 @@ public:
       if (flipTimer.isReady())
       {
         byte flipCounter = 0;
-        for (byte i = 0; i < 4; i++)
+        for (byte i = 0; i < INDICATORS_AMOUNT; i++)
         {
           if (indicatorsToFlip[i])
           {
@@ -190,7 +190,7 @@ public:
             flipCounter++;
           }
         }
-        if (flipCounter == 4)
+        if (flipCounter == INDICATORS_AMOUNT)
         {
           flipInProgress = false;
           return false;
@@ -217,7 +217,7 @@ public:
           }
           indicators.turnOff(currentLamp);
           currentLamp++;
-          if (currentLamp >= 4)
+          if (currentLamp >= INDICATORS_AMOUNT)
           {
             trainLeaving = false;
             currentLamp = 0;
@@ -232,7 +232,7 @@ public:
           indicators.digits[0] = newTime[3 - currentLamp];
           indicators.turnOn(currentLamp);
           currentLamp++;
-          if (currentLamp >= 4)
+          if (currentLamp >= INDICATORS_AMOUNT)
           {
             flipInProgress = false;
             return false;
@@ -355,11 +355,11 @@ private:
   byte mode;
   boolean flipInProgress;
   bool trainLeaving;
-  byte startCathode[4];
-  byte endCathode[4];
+  byte startCathode[INDICATORS_AMOUNT];
+  byte endCathode[INDICATORS_AMOUNT];
   byte currentLamp;
   byte flipEffectStages;
-  boolean indicatorsToFlip[4];
+  boolean indicatorsToFlip[INDICATORS_AMOUNT];
   boolean decayDirection;
   int decayIndicatorBrightness;
   timerMinim flipTimer;

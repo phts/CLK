@@ -104,7 +104,7 @@ private:
   int8_t changeHrs, changeMins;
   boolean modeSetLampState = false;
   boolean isEffectsDemoRunning = false;
-  byte cachedTimeArray[4] = {0, 0, 0, 0};
+  byte cachedTimeArray[INDICATORS_AMOUNT] = {0, 0, 0, 0};
 
   void settingsTick()
   {
@@ -148,7 +148,7 @@ private:
     indicators.resetBrightness();
     indicators.turnAllOn();
     isEffectsDemoRunning = true;
-    for (byte i = 0; i < 4; i++)
+    for (byte i = 0; i < INDICATORS_AMOUNT; i++)
     {
       indicators.digits[i] = effects.getMode();
     }
