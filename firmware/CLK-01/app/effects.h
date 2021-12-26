@@ -15,6 +15,7 @@
 #define STATE_FINISHED 0
 
 const byte CATHOD_TO_DIGIT[] = {1, 6, 2, 7, 5, 0, 4, 9, 8, 3};
+const byte DIGIT_TO_CATHOD[] = {5, 0, 2, 9, 6, 4, 1, 3, 8, 7};
 const byte EFFECTS_SPEED[] = {0, 130, 50, 40, 70, 70};
 
 class Effects
@@ -182,17 +183,8 @@ private:
         indicatorsToFlip[i] = indicators.digits[i] != newTime[i];
         if (indicatorsToFlip[i])
         {
-          for (byte c = 0; c < 10; c++)
-          {
-            if (indicators.digits[i] == CATHOD_TO_DIGIT[c])
-            {
-              startCathode[i] = c;
-            }
-            if (newTime[i] == CATHOD_TO_DIGIT[c])
-            {
-              endCathode[i] = c;
-            }
-          }
+          startCathode[i] = DIGIT_TO_CATHOD[indicators.digits[i]];
+          endCathode[i] = DIGIT_TO_CATHOD[newTime[i]];
         }
       }
     }
