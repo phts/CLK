@@ -18,12 +18,12 @@ const byte EFFECTS_SPEED[] = {0, 130, 50, 40, 70, 70};
 class Effects
 {
 public:
-  Effects() : flipTimer(0) {}
+  Effects() : timer(0) {}
 
   void setup(byte initialMode)
   {
     mode = initialMode;
-    flipTimer.setInterval(EFFECTS_SPEED[mode]);
+    timer.setInterval(EFFECTS_SPEED[mode]);
   }
 
   byte getMode()
@@ -34,7 +34,7 @@ public:
   void setMode(byte newMode)
   {
     mode = newMode;
-    flipTimer.setInterval(EFFECTS_SPEED[mode]);
+    timer.setInterval(EFFECTS_SPEED[mode]);
   }
 
   void toggle()
@@ -69,16 +69,16 @@ public:
 
 private:
   byte mode;
-  bool flipInProgress;
+  bool running;
   bool trainLeaving;
   byte startCathode[INDICATORS_AMOUNT];
   byte endCathode[INDICATORS_AMOUNT];
   byte currentLamp;
-  byte flipEffectStages;
+  byte state;
   bool indicatorsToFlip[INDICATORS_AMOUNT];
   bool decayDirection;
   int decayIndicatorBrightness;
-  timerMinim flipTimer;
+  timerMinim timer;
 
   bool tickEffectNone(byte hrs, byte mins, byte newTime[])
   {
@@ -88,9 +88,9 @@ private:
 
   bool tickEffectDecay(byte hrs, byte mins, byte newTime[])
   {
-    if (!flipInProgress)
+    if (!running)
     {
-      flipInProgress = true;
+      running = true;
       for (byte i = 0; i < INDICATORS_AMOUNT; i++)
       {
         indicatorsToFlip[i] = indicators.digits[i] != newTime[i];
@@ -98,7 +98,7 @@ private:
       decayIndicatorBrightness = indicators.getMaxBrightness();
       decayDirection = true;
     }
-    if (!flipTimer.isReady())
+    if (!timer.isReady())
     {
       return true;
     }
@@ -118,7 +118,7 @@ private:
       if (decayIndicatorBrightness >= indicators.getMaxBrightness())
       {
         decayIndicatorBrightness = indicators.getMaxBrightness();
-        flipInProgress = false;
+        running = false;
         return false;
       }
     }
@@ -134,19 +134,19 @@ private:
 
   bool tickEffectLoopDigits(byte hrs, byte mins, byte newTime[])
   {
-    if (!flipInProgress)
+    if (!running)
     {
-      flipInProgress = true;
+      running = true;
       for (byte i = 0; i < INDICATORS_AMOUNT; i++)
       {
         indicatorsToFlip[i] = indicators.digits[i] != newTime[i];
       }
     }
-    if (!flipTimer.isReady())
+    if (!timer.isReady())
     {
       return true;
     }
-    byte flipCounter = 0;
+    byte finished = 0;
     for (byte i = 0; i < INDICATORS_AMOUNT; i++)
     {
       if (indicatorsToFlip[i])
@@ -163,12 +163,12 @@ private:
       }
       else
       {
-        flipCounter++;
+        finished++;
       }
     }
-    if (flipCounter == INDICATORS_AMOUNT)
+    if (finished == INDICATORS_AMOUNT)
     {
-      flipInProgress = false;
+      running = false;
       return false;
     }
     return true;
@@ -176,9 +176,9 @@ private:
 
   bool tickEffectLoopCathodes(byte hrs, byte mins, byte newTime[])
   {
-    if (!flipInProgress)
+    if (!running)
     {
-      flipInProgress = true;
+      running = true;
       for (byte i = 0; i < INDICATORS_AMOUNT; i++)
       {
         indicatorsToFlip[i] = indicators.digits[i] != newTime[i];
@@ -198,11 +198,11 @@ private:
         }
       }
     }
-    if (!flipTimer.isReady())
+    if (!timer.isReady())
     {
       return true;
     }
-    byte flipCounter = 0;
+    byte finished = 0;
     for (byte i = 0; i < INDICATORS_AMOUNT; i++)
     {
       if (indicatorsToFlip[i])
@@ -224,12 +224,12 @@ private:
       }
       else
       {
-        flipCounter++;
+        finished++;
       }
     }
-    if (flipCounter == INDICATORS_AMOUNT)
+    if (finished == INDICATORS_AMOUNT)
     {
-      flipInProgress = false;
+      running = false;
       return false;
     }
     return true;
@@ -237,14 +237,14 @@ private:
 
   bool tickEffectTrain(byte hrs, byte mins, byte newTime[])
   {
-    if (!flipInProgress)
+    if (!running)
     {
-      flipInProgress = true;
+      running = true;
       currentLamp = 0;
       trainLeaving = true;
-      flipTimer.reset();
+      timer.reset();
     }
-    if (!flipTimer.isReady())
+    if (!timer.isReady())
     {
       return true;
     }
@@ -273,7 +273,7 @@ private:
       currentLamp++;
       if (currentLamp >= INDICATORS_AMOUNT)
       {
-        flipInProgress = false;
+        running = false;
         return false;
       }
     }
@@ -282,17 +282,17 @@ private:
 
   bool tickEffectRubber(byte hrs, byte mins, byte newTime[])
   {
-    if (!flipInProgress)
+    if (!running)
     {
-      flipInProgress = true;
-      flipEffectStages = 0;
-      flipTimer.reset();
+      running = true;
+      state = 0;
+      timer.reset();
     }
-    if (!flipTimer.isReady())
+    if (!timer.isReady())
     {
       return true;
     }
-    switch (flipEffectStages++)
+    switch (state++)
     {
     case 1:
       indicators.turnOff(3);
@@ -383,7 +383,7 @@ private:
       indicators.turnOn(0);
       break;
     case 21:
-      flipInProgress = false;
+      running = false;
       return false;
     }
     return true;
