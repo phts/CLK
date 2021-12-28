@@ -12,6 +12,8 @@
 #define EFFECT_RUBBER 5
 #define EFFECT_AMOUNT 6
 
+#define STATE_FINISHED 0
+
 const byte CATHOD_TO_DIGIT[] = {1, 6, 2, 7, 5, 0, 4, 9, 8, 3};
 const byte EFFECTS_SPEED[] = {0, 130, 50, 40, 70, 70};
 
@@ -69,14 +71,11 @@ public:
 
 private:
   byte mode;
-  bool running;
-  bool trainLeaving;
+  byte state;
   byte startCathode[INDICATORS_AMOUNT];
   byte endCathode[INDICATORS_AMOUNT];
   byte currentLamp;
-  byte state;
   bool indicatorsToFlip[INDICATORS_AMOUNT];
-  bool decayDirection;
   int decayIndicatorBrightness;
   timerMinim timer;
 
@@ -88,26 +87,25 @@ private:
 
   bool tickEffectDecay(byte hrs, byte mins, byte newTime[])
   {
-    if (!running)
+    if (state == STATE_FINISHED)
     {
-      running = true;
+      state = 1;
       for (byte i = 0; i < INDICATORS_AMOUNT; i++)
       {
         indicatorsToFlip[i] = indicators.digits[i] != newTime[i];
       }
       decayIndicatorBrightness = indicators.getMaxBrightness();
-      decayDirection = true;
     }
     if (!timer.isReady())
     {
       return true;
     }
-    if (decayDirection)
+    if (state == 1)
     {
       decayIndicatorBrightness--;
       if (decayIndicatorBrightness <= 0)
       {
-        decayDirection = false;
+        state = 2;
         decayIndicatorBrightness = 0;
         indicators.showTime(hrs, mins);
       }
@@ -118,7 +116,7 @@ private:
       if (decayIndicatorBrightness >= indicators.getMaxBrightness())
       {
         decayIndicatorBrightness = indicators.getMaxBrightness();
-        running = false;
+        state = STATE_FINISHED;
         return false;
       }
     }
@@ -134,9 +132,9 @@ private:
 
   bool tickEffectLoopDigits(byte hrs, byte mins, byte newTime[])
   {
-    if (!running)
+    if (state == STATE_FINISHED)
     {
-      running = true;
+      state = 1;
       for (byte i = 0; i < INDICATORS_AMOUNT; i++)
       {
         indicatorsToFlip[i] = indicators.digits[i] != newTime[i];
@@ -168,7 +166,7 @@ private:
     }
     if (finished == INDICATORS_AMOUNT)
     {
-      running = false;
+      state = STATE_FINISHED;
       return false;
     }
     return true;
@@ -176,9 +174,9 @@ private:
 
   bool tickEffectLoopCathodes(byte hrs, byte mins, byte newTime[])
   {
-    if (!running)
+    if (state == STATE_FINISHED)
     {
-      running = true;
+      state = 1;
       for (byte i = 0; i < INDICATORS_AMOUNT; i++)
       {
         indicatorsToFlip[i] = indicators.digits[i] != newTime[i];
@@ -229,7 +227,7 @@ private:
     }
     if (finished == INDICATORS_AMOUNT)
     {
-      running = false;
+      state = STATE_FINISHED;
       return false;
     }
     return true;
@@ -237,18 +235,17 @@ private:
 
   bool tickEffectTrain(byte hrs, byte mins, byte newTime[])
   {
-    if (!running)
+    if (state == STATE_FINISHED)
     {
-      running = true;
+      state = 1;
       currentLamp = 0;
-      trainLeaving = true;
       timer.reset();
     }
     if (!timer.isReady())
     {
       return true;
     }
-    if (trainLeaving)
+    if (state == 1)
     {
       for (byte i = 3; i > currentLamp; i--)
       {
@@ -258,7 +255,7 @@ private:
       currentLamp++;
       if (currentLamp >= INDICATORS_AMOUNT)
       {
-        trainLeaving = false;
+        state = 2;
         currentLamp = 0;
       }
     }
@@ -273,7 +270,7 @@ private:
       currentLamp++;
       if (currentLamp >= INDICATORS_AMOUNT)
       {
-        running = false;
+        state = STATE_FINISHED;
         return false;
       }
     }
@@ -282,17 +279,16 @@ private:
 
   bool tickEffectRubber(byte hrs, byte mins, byte newTime[])
   {
-    if (!running)
+    if (state == STATE_FINISHED)
     {
-      running = true;
-      state = 0;
+      state = 1;
       timer.reset();
     }
     if (!timer.isReady())
     {
       return true;
     }
-    switch (state++)
+    switch (state)
     {
     case 1:
       indicators.turnOff(3);
@@ -383,9 +379,10 @@ private:
       indicators.turnOn(0);
       break;
     case 21:
-      running = false;
+      state = STATE_FINISHED;
       return false;
     }
+    state++;
     return true;
   }
 };
