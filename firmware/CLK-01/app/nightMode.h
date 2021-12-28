@@ -11,12 +11,12 @@
 class NightMode
 {
 public:
-  void setup(boolean initialMode)
+  void setup(bool initialMode)
   {
     setMode(initialMode);
   }
 
-  boolean getMode()
+  bool getMode()
   {
     return mode;
   }
@@ -33,11 +33,11 @@ public:
       setNight(false);
       return;
     }
-    boolean isNight = (hrs >= NIGHT_START && hrs <= 23) || (hrs >= 0 && hrs < NIGHT_END);
+    bool isNight = (hrs >= NIGHT_START && hrs <= 23) || (hrs >= 0 && hrs < NIGHT_END);
     setNight(isNight);
   }
 
-  void tick(boolean isNewHour, byte hrs)
+  void tick(bool isNewHour, byte hrs)
   {
     if (!(isNewHour || forceApply))
     {
@@ -48,16 +48,16 @@ public:
   }
 
 private:
-  boolean mode;
-  boolean forceApply = false;
+  bool mode;
+  bool forceApply = false;
 
-  void setMode(boolean value)
+  void setMode(bool value)
   {
     mode = value;
     forceApply = true;
   }
 
-  void setNight(boolean value)
+  void setNight(bool value)
   {
     backlight.setNightMode(value);
     dot.setNightMode(value);

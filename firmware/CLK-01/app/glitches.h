@@ -12,7 +12,7 @@ class Glitches
 public:
   Glitches() : timer(1000) {}
 
-  void setup(boolean initialMode)
+  void setup(bool initialMode)
   {
     mode = initialMode;
     resetTimer();
@@ -23,7 +23,7 @@ public:
     setMode(!mode);
   }
 
-  boolean getMode()
+  bool getMode()
   {
     return mode;
   }
@@ -71,13 +71,13 @@ public:
 
 private:
   timerMinim timer;
-  boolean mode;
+  bool mode;
   byte count;
   byte maxAmount;
   byte targetIndicator;
-  boolean isRunning;
-  boolean indicatorState;
-  boolean forceRun;
+  bool isRunning;
+  bool indicatorState;
+  bool forceRun;
 
   void resetState()
   {

@@ -27,7 +27,7 @@ public:
       brightness[i] = indicatorMaxBrightness;
     }
   }
-  void setNightMode(boolean isNight)
+  void setNightMode(bool isNight)
   {
     indicatorMaxBrightness = isNight ? INDICATOR_BRIGHTNESS_NIGHT : INDICATOR_BRIGHTNESS;
     resetBrightness();
@@ -43,7 +43,7 @@ public:
     convertTimeToArray(hours, minutes, digits);
   }
 
-  boolean isOn(byte n)
+  bool isOn(byte n)
   {
     return anodeStates[n];
   }
@@ -74,7 +74,7 @@ public:
     }
   }
 
-  void burnTick(boolean isNewHour, byte mins, byte secs, boolean enabled)
+  void burnTick(bool isNewHour, byte mins, byte secs, bool enabled)
   {
     if (burnInProgress)
     {
@@ -106,7 +106,7 @@ public:
 
 private:
   byte indicatorMaxBrightness;
-  boolean anodeStates[INDICATORS_AMOUNT] = {1, 1, 1, 1};
+  bool anodeStates[INDICATORS_AMOUNT] = {1, 1, 1, 1};
   bool burnInProgress = false;
   byte burnOnMinutes[BURN_TIMES_PER_HOUR];
   byte burnOnMinutesSize = sizeof(burnOnMinutes);

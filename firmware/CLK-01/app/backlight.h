@@ -35,7 +35,7 @@ public:
     resetBrightness();
   }
 
-  void setNightMode(boolean isNight)
+  void setNightMode(bool isNight)
   {
     maxBrightness = isNight ? BKLIGHT_BRIGHTNESS_NIGHT : BKLIGHT_BRIGHTNESS;
     resetBrightness();
@@ -99,8 +99,8 @@ public:
 private:
   byte mode;
   byte maxBrightness;
-  boolean flashStarted;
-  boolean flashDirection;
+  bool flashStarted;
+  bool flashDirection;
   int currentFlashBrightness;
   timerMinim brightnessTimer;
 

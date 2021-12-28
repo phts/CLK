@@ -6,11 +6,11 @@
 
 struct TimeTickResult
 {
-  boolean changed;
+  bool changed;
   int8_t hrs;
   int8_t mins;
   int8_t secs;
-  boolean isNewHour;
+  bool isNewHour;
 };
 
 class Time
@@ -87,7 +87,7 @@ private:
   timerMinim timeTimer;
   byte minsForRtcSync = 0;
   int8_t hrs, mins, secs;
-  boolean timeJustChanged;
+  bool timeJustChanged;
 
   void setupRtc()
   {

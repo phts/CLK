@@ -35,7 +35,7 @@ public:
     applyBrightness(0);
   }
 
-  void setNightMode(boolean isNight)
+  void setNightMode(bool isNight)
   {
     setMaxBrightness(isNight ? DOT_BRIGHTNESS_NIGHT : DOT_BRIGHTNESS);
   }
@@ -70,10 +70,10 @@ private:
   timerMinim smoothTimer;
   byte maxBrightness;
   byte smoothStep;
-  boolean smoothReady;
-  boolean smoothUpDirection;
+  bool smoothReady;
+  bool smoothUpDirection;
   int smoothBrightness;
-  boolean turnedOff = false;
+  bool turnedOff = false;
 
   void setMaxBrightness(byte newValue)
   {

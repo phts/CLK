@@ -102,8 +102,8 @@ private:
   GButton btnBklight;
   GButton btnEffects;
   int8_t changeHrs, changeMins;
-  boolean modeSetLampState = false;
-  boolean isEffectsDemoRunning = false;
+  bool modeSetLampState = false;
+  bool isEffectsDemoRunning = false;
   byte cachedTimeArray[INDICATORS_AMOUNT] = {0, 0, 0, 0};
 
   void settingsTick()

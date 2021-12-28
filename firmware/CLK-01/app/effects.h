@@ -47,7 +47,7 @@ public:
     setMode(newMode);
   }
 
-  boolean tick(byte hrs, byte mins, byte newTime[])
+  bool tick(byte hrs, byte mins, byte newTime[])
   {
     switch (mode)
     {
@@ -69,14 +69,14 @@ public:
 
 private:
   byte mode;
-  boolean flipInProgress;
+  bool flipInProgress;
   bool trainLeaving;
   byte startCathode[INDICATORS_AMOUNT];
   byte endCathode[INDICATORS_AMOUNT];
   byte currentLamp;
   byte flipEffectStages;
-  boolean indicatorsToFlip[INDICATORS_AMOUNT];
-  boolean decayDirection;
+  bool indicatorsToFlip[INDICATORS_AMOUNT];
+  bool decayDirection;
   int decayIndicatorBrightness;
   timerMinim flipTimer;
 

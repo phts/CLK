@@ -10,7 +10,7 @@
 #include "control.h"
 #include "nightMode.h"
 
-boolean isEffectRunning = false;
+bool isEffectRunning = false;
 TimeTickResult cachedTimeResult;
 byte cachedNewTime[] = {0, 0, 0, 0};
 
