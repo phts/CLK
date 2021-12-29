@@ -153,7 +153,7 @@ private:
         indicators.digits[i]--;
         if (indicators.digits[i] < 0)
         {
-          indicators.digits[i] = 9;
+          indicators.digits[i] = DIGITS_AMOUNT - 1;
         }
         if (indicators.digits[i] == newTime[i])
         {

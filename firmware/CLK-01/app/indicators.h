@@ -117,7 +117,7 @@ private:
   {
     for (byte k = 0; k < BURN_LOOPS; k++)
     {
-      for (byte d = 0; d < 10; d++)
+      for (byte d = 0; d < DIGITS_AMOUNT; d++)
       {
         for (byte i = 0; i < INDICATORS_AMOUNT; i++)
         {
