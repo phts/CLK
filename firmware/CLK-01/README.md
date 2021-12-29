@@ -16,14 +16,17 @@ Hosted on [EasyEDA/phts/CLK-01].
 
 #### "CLOCK" mode
 
-Single click on button "EFFECTS / GLITCHES" selects effects when minutes change:
+Single click on button "EFFECTS / GLITCHES" selects effects on flip time:
 
-- None
-- Decay
-- Loop through digits
-- Loop through cathodes
-- Train
-- Rubber band
+0. None (immediately)
+1. Decay
+2. Loop through digits
+3. Loop through digits (reversed)
+4. Loop through cathodes (shortest distance)
+5. Loop through cathodes (at least 1 loop)
+6. Loop through cathodes (ping-pong)
+7. Train
+8. Rubber band
 
 Holding button "EFFECTS / GLITCHES" toggles glitches on/off.
 

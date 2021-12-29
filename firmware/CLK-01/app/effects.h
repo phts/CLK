@@ -6,17 +6,20 @@
 
 #define EFFECT_NONE 0
 #define EFFECT_DECAY 1
-#define EFFECT_LOOP_D 2
-#define EFFECT_LOOP_C 3
-#define EFFECT_TRAIN 4
-#define EFFECT_RUBBER 5
-#define EFFECT_AMOUNT 6
+#define EFFECT_LOOP_DIGITS 2
+#define EFFECT_LOOP_DIGITS_REV 3
+#define EFFECT_LOOP_CATHODES 4
+#define EFFECT_LOOP_CATHODES_LONG 5
+#define EFFECT_PINGPONG_CATHODES 6
+#define EFFECT_TRAIN 7
+#define EFFECT_RUBBER 8
+#define EFFECT_AMOUNT 9
 
 #define STATE_FINISHED 0
 
 const byte CATHOD_TO_DIGIT[] = {1, 6, 2, 7, 5, 0, 4, 9, 8, 3};
 const byte DIGIT_TO_CATHOD[] = {5, 0, 2, 9, 6, 4, 1, 3, 8, 7};
-const byte EFFECTS_SPEED[] = {0, 130, 50, 40, 70, 70};
+const byte EFFECTS_SPEED[] = {0, 130, 70, 70, 50, 50, 50, 70, 70};
 
 class Effects
 {
@@ -58,10 +61,16 @@ public:
       return tickEffectNone(hrs, mins, newTime);
     case EFFECT_DECAY:
       return tickEffectDecay(hrs, mins, newTime);
-    case EFFECT_LOOP_D:
+    case EFFECT_LOOP_DIGITS:
       return tickEffectLoopDigits(hrs, mins, newTime);
-    case EFFECT_LOOP_C:
-      return tickEffectLoopCathodes(hrs, mins, newTime);
+    case EFFECT_LOOP_DIGITS_REV:
+      return tickEffectLoopDigitsRev(hrs, mins, newTime);
+    case EFFECT_LOOP_CATHODES:
+      return tickEffectLoopCathodes(hrs, mins, newTime, 0);
+    case EFFECT_LOOP_CATHODES_LONG:
+      return tickEffectLoopCathodes(hrs, mins, newTime, 1);
+    case EFFECT_PINGPONG_CATHODES:
+      return tickEffectPingpongCathodes(hrs, mins, newTime);
     case EFFECT_TRAIN:
       return tickEffectTrain(hrs, mins, newTime);
     case EFFECT_RUBBER:
@@ -76,7 +85,8 @@ private:
   byte startCathode[INDICATORS_AMOUNT];
   byte endCathode[INDICATORS_AMOUNT];
   byte currentLamp;
-  bool indicatorsToFlip[INDICATORS_AMOUNT];
+  byte indicatorsToFlip[INDICATORS_AMOUNT];
+  byte cathodeLoopStates[INDICATORS_AMOUNT];
   int decayIndicatorBrightness;
   timerMinim timer;
 
@@ -138,7 +148,7 @@ private:
       state = 1;
       for (byte i = 0; i < INDICATORS_AMOUNT; i++)
       {
-        indicatorsToFlip[i] = indicators.digits[i] != newTime[i];
+        indicatorsToFlip[i] = indicators.digits[i] != newTime[i] ? 2 : 0;
       }
     }
     if (!timer.isReady())
@@ -148,21 +158,19 @@ private:
     byte finished = 0;
     for (byte i = 0; i < INDICATORS_AMOUNT; i++)
     {
-      if (indicatorsToFlip[i])
-      {
-        indicators.digits[i]--;
-        if (indicators.digits[i] < 0)
-        {
-          indicators.digits[i] = DIGITS_AMOUNT - 1;
-        }
-        if (indicators.digits[i] == newTime[i])
-        {
-          indicatorsToFlip[i] = false;
-        }
-      }
-      else
+      if (!indicatorsToFlip[i])
       {
         finished++;
+        continue;
+      }
+      indicators.digits[i]++;
+      if (indicators.digits[i] >= DIGITS_AMOUNT)
+      {
+        indicators.digits[i] = 0;
+      }
+      if (indicators.digits[i] == newTime[i])
+      {
+        indicatorsToFlip[i]--;
       }
     }
     if (finished == INDICATORS_AMOUNT)
@@ -173,13 +181,105 @@ private:
     return true;
   }
 
-  bool tickEffectLoopCathodes(byte hrs, byte mins, byte newTime[])
+  bool tickEffectLoopDigitsRev(byte hrs, byte mins, byte newTime[])
   {
     if (state == STATE_FINISHED)
     {
       state = 1;
       for (byte i = 0; i < INDICATORS_AMOUNT; i++)
       {
+        indicatorsToFlip[i] = indicators.digits[i] != newTime[i];
+      }
+    }
+    if (!timer.isReady())
+    {
+      return true;
+    }
+    byte finished = 0;
+    for (byte i = 0; i < INDICATORS_AMOUNT; i++)
+    {
+      if (!indicatorsToFlip[i])
+      {
+        finished++;
+        continue;
+      }
+      indicators.digits[i]--;
+      if (indicators.digits[i] < 0)
+      {
+        indicators.digits[i] = DIGITS_AMOUNT - 1;
+      }
+      if (indicators.digits[i] == newTime[i])
+      {
+        indicatorsToFlip[i] = false;
+      }
+    }
+    if (finished == INDICATORS_AMOUNT)
+    {
+      state = STATE_FINISHED;
+      return false;
+    }
+    return true;
+  }
+
+  bool tickEffectLoopCathodes(byte hrs, byte mins, byte newTime[], byte loops)
+  {
+    if (state == STATE_FINISHED)
+    {
+      state = 1;
+      for (byte i = 0; i < INDICATORS_AMOUNT; i++)
+      {
+        indicatorsToFlip[i] = indicators.digits[i] != newTime[i];
+        if (indicatorsToFlip[i])
+        {
+          startCathode[i] = DIGIT_TO_CATHOD[indicators.digits[i]];
+          endCathode[i] = DIGIT_TO_CATHOD[newTime[i]];
+          endCathode[i] += (startCathode[i] > endCathode[i] ? 2 * DIGITS_AMOUNT : DIGITS_AMOUNT) * loops;
+        }
+      }
+    }
+    if (!timer.isReady())
+    {
+      return true;
+    }
+    byte finished = 0;
+    for (byte i = 0; i < INDICATORS_AMOUNT; i++)
+    {
+      if (!indicatorsToFlip[i])
+      {
+        finished++;
+        continue;
+      }
+      if (startCathode[i] > endCathode[i])
+      {
+        startCathode[i]--;
+        indicators.digits[i] = CATHOD_TO_DIGIT[startCathode[i]];
+      }
+      else if (startCathode[i] < endCathode[i])
+      {
+        startCathode[i]++;
+        indicators.digits[i] = CATHOD_TO_DIGIT[startCathode[i] % DIGITS_AMOUNT];
+      }
+      else
+      {
+        indicatorsToFlip[i] = false;
+      }
+    }
+    if (finished == INDICATORS_AMOUNT)
+    {
+      state = STATE_FINISHED;
+      return false;
+    }
+    return true;
+  }
+
+  bool tickEffectPingpongCathodes(byte hrs, byte mins, byte newTime[])
+  {
+    if (state == STATE_FINISHED)
+    {
+      state = 1;
+      for (byte i = 0; i < INDICATORS_AMOUNT; i++)
+      {
+        cathodeLoopStates[i] = 0;
         indicatorsToFlip[i] = indicators.digits[i] != newTime[i];
         if (indicatorsToFlip[i])
         {
@@ -195,27 +295,44 @@ private:
     byte finished = 0;
     for (byte i = 0; i < INDICATORS_AMOUNT; i++)
     {
-      if (indicatorsToFlip[i])
+      if (!indicatorsToFlip[i])
       {
-        if (startCathode[i] > endCathode[i])
+        finished++;
+        continue;
+      }
+      if (cathodeLoopStates[i] == 0)
+      {
+        startCathode[i]++;
+        if (startCathode[i] >= DIGITS_AMOUNT)
         {
-          startCathode[i]--;
-          indicators.digits[i] = CATHOD_TO_DIGIT[startCathode[i]];
+          cathodeLoopStates[i] = 1;
+          startCathode[i] = DIGITS_AMOUNT - 1;
+          continue;
         }
-        else if (startCathode[i] < endCathode[i])
+      }
+      else if (cathodeLoopStates[i] == 1)
+      {
+        startCathode[i]--;
+        if (startCathode[i] <= 0)
         {
-          startCathode[i]++;
-          indicators.digits[i] = CATHOD_TO_DIGIT[startCathode[i]];
-        }
-        else
-        {
-          indicatorsToFlip[i] = false;
+          cathodeLoopStates[i] = 2;
+          startCathode[i] = 0;
+          continue;
         }
       }
       else
       {
-        finished++;
+        if (startCathode[i] == endCathode[i])
+        {
+          indicatorsToFlip[i] = false;
+        }
+        else
+        {
+          startCathode[i]++;
+        }
       }
+
+      indicators.digits[i] = CATHOD_TO_DIGIT[startCathode[i]];
     }
     if (finished == INDICATORS_AMOUNT)
     {
