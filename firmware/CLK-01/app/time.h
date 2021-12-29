@@ -46,6 +46,7 @@ public:
 
       if (minsForRtcSync >= SYNC_RTC_INTERVAL)
       {
+        debug(F("RTC Sync!"));
         minsForRtcSync = 0;
         syncRtc();
       }

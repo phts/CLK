@@ -40,6 +40,10 @@ public:
     EEPROM.get(MEMORY_CELL_BKLIGHT, newBklightMode);
     EEPROM.get(MEMORY_CELL_GLITCHES, newGlitchesMode);
     EEPROM.get(MEMORY_CELL_NIGHTMODE, newNightMode);
+    debug(F("Memory -> effects mode"), newEffectMode);
+    debug(F("Memory -> bklight mode"), newBklightMode);
+    debug(F("Memory -> glitches mode"), newGlitchesMode);
+    debug(F("Memory -> night mode"), newNightMode);
     return {newEffectMode, newBklightMode, newGlitchesMode, newNightMode};
 #endif
   }

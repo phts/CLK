@@ -79,18 +79,22 @@ public:
       if (btnEffects.isClick())
       {
         switchEffects();
+        debug(F("Switch effect"), effects.getMode());
       }
       else if (btnBklight.isClick())
       {
         switchBacklight();
+        debug(F("Switch backlight"), backlight.getMode());
       }
       else if (btnEffects.isHolded())
       {
         toggleGlitches();
+        debug(F("Toggle glitches"), glitches.getMode());
       }
       else if (btnBklight.isHolded())
       {
         toggleNightMode();
+        debug(F("Toggle night mode"), nightMode.getMode());
       }
     }
   }

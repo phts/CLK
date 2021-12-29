@@ -82,9 +82,11 @@ public:
     }
     if (isNewHour)
     {
+      debug(F("New hour! Burn on minutes:"));
       for (byte i = 0; i < burnOnMinutesSize; i++)
       {
         burnOnMinutes[i] = random(60 / burnOnMinutesSize * i + 5, 60 / burnOnMinutesSize * (i + 1) - 5 + 1);
+        debug(burnOnMinutes[i]);
       }
     }
     if (!enabled)

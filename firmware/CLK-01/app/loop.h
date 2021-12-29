@@ -19,6 +19,9 @@ void loop()
   TimeTickResult res = time.tick();
   if (res.changed && control.isClockMode())
   {
+    debug(F("Is new hour"), res.isNewHour);
+    debug(F("Hrs"), res.hrs);
+    debug(F("Mins"), res.mins);
     cachedTimeResult = res;
     convertTimeToArray(res.hrs, res.mins, cachedNewTime);
     isEffectRunning = true;
