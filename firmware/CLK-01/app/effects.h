@@ -66,35 +66,36 @@ public:
         }
         decayIndicatorBrightness = indicators.getMaxBrightness();
       }
-      if (flipTimer.isReady())
+      if (!flipTimer.isReady())
       {
-        if (!decayDirection)
+        return true;
+      }
+      if (!decayDirection)
+      {
+        decayIndicatorBrightness--;
+        if (decayIndicatorBrightness <= 0)
         {
-          decayIndicatorBrightness--;
-          if (decayIndicatorBrightness <= 0)
-          {
-            decayDirection = true;
-            decayIndicatorBrightness = 0;
-            indicators.showTime(hrs, mins);
-          }
+          decayDirection = true;
+          decayIndicatorBrightness = 0;
+          indicators.showTime(hrs, mins);
         }
-        else
+      }
+      else
+      {
+        decayIndicatorBrightness++;
+        if (decayIndicatorBrightness >= indicators.getMaxBrightness())
         {
-          decayIndicatorBrightness++;
-          if (decayIndicatorBrightness >= indicators.getMaxBrightness())
-          {
-            decayDirection = false;
-            decayIndicatorBrightness = indicators.getMaxBrightness();
-            flipInProgress = false;
-            return false;
-          }
+          decayDirection = false;
+          decayIndicatorBrightness = indicators.getMaxBrightness();
+          flipInProgress = false;
+          return false;
         }
-        for (byte i = 0; i < INDICATORS_AMOUNT; i++)
+      }
+      for (byte i = 0; i < INDICATORS_AMOUNT; i++)
+      {
+        if (indicatorsToFlip[i])
         {
-          if (indicatorsToFlip[i])
-          {
-            indicators.brightness[i] = decayIndicatorBrightness;
-          }
+          indicators.brightness[i] = decayIndicatorBrightness;
         }
       }
     }
@@ -109,33 +110,34 @@ public:
           indicatorsToFlip[i] = indicators.digits[i] != newTime[i];
         }
       }
-      if (flipTimer.isReady())
+      if (!flipTimer.isReady())
       {
-        byte flipCounter = 0;
-        for (byte i = 0; i < INDICATORS_AMOUNT; i++)
+        return true;
+      }
+      byte flipCounter = 0;
+      for (byte i = 0; i < INDICATORS_AMOUNT; i++)
+      {
+        if (indicatorsToFlip[i])
         {
-          if (indicatorsToFlip[i])
+          indicators.digits[i]--;
+          if (indicators.digits[i] < 0)
           {
-            indicators.digits[i]--;
-            if (indicators.digits[i] < 0)
-            {
-              indicators.digits[i] = 9;
-            }
-            if (indicators.digits[i] == newTime[i])
-            {
-              indicatorsToFlip[i] = false;
-            }
+            indicators.digits[i] = 9;
           }
-          else
+          if (indicators.digits[i] == newTime[i])
           {
-            flipCounter++;
+            indicatorsToFlip[i] = false;
           }
         }
-        if (flipCounter == INDICATORS_AMOUNT)
+        else
         {
-          flipInProgress = false;
-          return false;
+          flipCounter++;
         }
+      }
+      if (flipCounter == INDICATORS_AMOUNT)
+      {
+        flipInProgress = false;
+        return false;
       }
     }
 
@@ -163,38 +165,39 @@ public:
           }
         }
       }
-      if (flipTimer.isReady())
+      if (!flipTimer.isReady())
       {
-        byte flipCounter = 0;
-        for (byte i = 0; i < INDICATORS_AMOUNT; i++)
+        return true;
+      }
+      byte flipCounter = 0;
+      for (byte i = 0; i < INDICATORS_AMOUNT; i++)
+      {
+        if (indicatorsToFlip[i])
         {
-          if (indicatorsToFlip[i])
+          if (startCathode[i] > endCathode[i])
           {
-            if (startCathode[i] > endCathode[i])
-            {
-              startCathode[i]--;
-              indicators.digits[i] = CATHOD_TO_DIGIT[startCathode[i]];
-            }
-            else if (startCathode[i] < endCathode[i])
-            {
-              startCathode[i]++;
-              indicators.digits[i] = CATHOD_TO_DIGIT[startCathode[i]];
-            }
-            else
-            {
-              indicatorsToFlip[i] = false;
-            }
+            startCathode[i]--;
+            indicators.digits[i] = CATHOD_TO_DIGIT[startCathode[i]];
+          }
+          else if (startCathode[i] < endCathode[i])
+          {
+            startCathode[i]++;
+            indicators.digits[i] = CATHOD_TO_DIGIT[startCathode[i]];
           }
           else
           {
-            flipCounter++;
+            indicatorsToFlip[i] = false;
           }
         }
-        if (flipCounter == INDICATORS_AMOUNT)
+        else
         {
-          flipInProgress = false;
-          return false;
+          flipCounter++;
         }
+      }
+      if (flipCounter == INDICATORS_AMOUNT)
+      {
+        flipInProgress = false;
+        return false;
       }
     }
 
@@ -207,36 +210,37 @@ public:
         trainLeaving = true;
         flipTimer.reset();
       }
-      if (flipTimer.isReady())
+      if (!flipTimer.isReady())
       {
-        if (trainLeaving)
+        return true;
+      }
+      if (trainLeaving)
+      {
+        for (byte i = 3; i > currentLamp; i--)
         {
-          for (byte i = 3; i > currentLamp; i--)
-          {
-            indicators.digits[i] = indicators.digits[i - 1];
-          }
-          indicators.turnOff(currentLamp);
-          currentLamp++;
-          if (currentLamp >= INDICATORS_AMOUNT)
-          {
-            trainLeaving = false;
-            currentLamp = 0;
-          }
+          indicators.digits[i] = indicators.digits[i - 1];
         }
-        else
+        indicators.turnOff(currentLamp);
+        currentLamp++;
+        if (currentLamp >= INDICATORS_AMOUNT)
         {
-          for (byte i = currentLamp; i > 0; i--)
-          {
-            indicators.digits[i] = indicators.digits[i - 1];
-          }
-          indicators.digits[0] = newTime[3 - currentLamp];
-          indicators.turnOn(currentLamp);
-          currentLamp++;
-          if (currentLamp >= INDICATORS_AMOUNT)
-          {
-            flipInProgress = false;
-            return false;
-          }
+          trainLeaving = false;
+          currentLamp = 0;
+        }
+      }
+      else
+      {
+        for (byte i = currentLamp; i > 0; i--)
+        {
+          indicators.digits[i] = indicators.digits[i - 1];
+        }
+        indicators.digits[0] = newTime[3 - currentLamp];
+        indicators.turnOn(currentLamp);
+        currentLamp++;
+        if (currentLamp >= INDICATORS_AMOUNT)
+        {
+          flipInProgress = false;
+          return false;
         }
       }
     }
@@ -249,102 +253,103 @@ public:
         flipEffectStages = 0;
         flipTimer.reset();
       }
-      if (flipTimer.isReady())
+      if (!flipTimer.isReady())
       {
-        switch (flipEffectStages++)
-        {
-        case 1:
-          indicators.turnOff(3);
-          break;
-        case 2:
-          indicators.turnOff(2);
-          indicators.digits[3] = indicators.digits[2];
-          indicators.turnOn(3);
-          break;
-        case 3:
-          indicators.turnOff(3);
-          break;
-        case 4:
-          indicators.turnOff(1);
-          indicators.digits[2] = indicators.digits[1];
-          indicators.turnOn(2);
-          break;
-        case 5:
-          indicators.turnOff(2);
-          indicators.digits[3] = indicators.digits[1];
-          indicators.turnOn(3);
-          break;
-        case 6:
-          indicators.turnOff(3);
-          break;
-        case 7:
-          indicators.turnOff(0);
-          indicators.digits[1] = indicators.digits[0];
-          indicators.turnOn(1);
-          break;
-        case 8:
-          indicators.turnOff(1);
-          indicators.digits[2] = indicators.digits[0];
-          indicators.turnOn(2);
-          break;
-        case 9:
-          indicators.turnOff(2);
-          indicators.digits[3] = indicators.digits[0];
-          indicators.turnOn(3);
-          break;
-        case 10:
-          indicators.turnOff(3);
-          break;
-        case 11:
-          indicators.digits[0] = newTime[3];
-          indicators.turnOn(0);
-          break;
-        case 12:
-          indicators.turnOff(0);
-          indicators.digits[1] = newTime[3];
-          indicators.turnOn(1);
-          break;
-        case 13:
-          indicators.turnOff(1);
-          indicators.digits[2] = newTime[3];
-          indicators.turnOn(2);
-          break;
-        case 14:
-          indicators.turnOff(2);
-          indicators.digits[3] = newTime[3];
-          indicators.turnOn(3);
-          break;
-        case 15:
-          indicators.digits[0] = newTime[2];
-          indicators.turnOn(0);
-          break;
-        case 16:
-          indicators.turnOff(0);
-          indicators.digits[1] = newTime[2];
-          indicators.turnOn(1);
-          break;
-        case 17:
-          indicators.turnOff(1);
-          indicators.digits[2] = newTime[2];
-          indicators.turnOn(2);
-          break;
-        case 18:
-          indicators.digits[0] = newTime[1];
-          indicators.turnOn(0);
-          break;
-        case 19:
-          indicators.turnOff(0);
-          indicators.digits[1] = newTime[1];
-          indicators.turnOn(1);
-          break;
-        case 20:
-          indicators.digits[0] = newTime[0];
-          indicators.turnOn(0);
-          break;
-        case 21:
-          flipInProgress = false;
-          return false;
-        }
+        return true;
+      }
+      switch (flipEffectStages++)
+      {
+      case 1:
+        indicators.turnOff(3);
+        break;
+      case 2:
+        indicators.turnOff(2);
+        indicators.digits[3] = indicators.digits[2];
+        indicators.turnOn(3);
+        break;
+      case 3:
+        indicators.turnOff(3);
+        break;
+      case 4:
+        indicators.turnOff(1);
+        indicators.digits[2] = indicators.digits[1];
+        indicators.turnOn(2);
+        break;
+      case 5:
+        indicators.turnOff(2);
+        indicators.digits[3] = indicators.digits[1];
+        indicators.turnOn(3);
+        break;
+      case 6:
+        indicators.turnOff(3);
+        break;
+      case 7:
+        indicators.turnOff(0);
+        indicators.digits[1] = indicators.digits[0];
+        indicators.turnOn(1);
+        break;
+      case 8:
+        indicators.turnOff(1);
+        indicators.digits[2] = indicators.digits[0];
+        indicators.turnOn(2);
+        break;
+      case 9:
+        indicators.turnOff(2);
+        indicators.digits[3] = indicators.digits[0];
+        indicators.turnOn(3);
+        break;
+      case 10:
+        indicators.turnOff(3);
+        break;
+      case 11:
+        indicators.digits[0] = newTime[3];
+        indicators.turnOn(0);
+        break;
+      case 12:
+        indicators.turnOff(0);
+        indicators.digits[1] = newTime[3];
+        indicators.turnOn(1);
+        break;
+      case 13:
+        indicators.turnOff(1);
+        indicators.digits[2] = newTime[3];
+        indicators.turnOn(2);
+        break;
+      case 14:
+        indicators.turnOff(2);
+        indicators.digits[3] = newTime[3];
+        indicators.turnOn(3);
+        break;
+      case 15:
+        indicators.digits[0] = newTime[2];
+        indicators.turnOn(0);
+        break;
+      case 16:
+        indicators.turnOff(0);
+        indicators.digits[1] = newTime[2];
+        indicators.turnOn(1);
+        break;
+      case 17:
+        indicators.turnOff(1);
+        indicators.digits[2] = newTime[2];
+        indicators.turnOn(2);
+        break;
+      case 18:
+        indicators.digits[0] = newTime[1];
+        indicators.turnOn(0);
+        break;
+      case 19:
+        indicators.turnOff(0);
+        indicators.digits[1] = newTime[1];
+        indicators.turnOn(1);
+        break;
+      case 20:
+        indicators.digits[0] = newTime[0];
+        indicators.turnOn(0);
+        break;
+      case 21:
+        flipInProgress = false;
+        return false;
       }
     }
 
