@@ -2,7 +2,7 @@
 #define settings_h
 
 #define VERSION "Unknown"
-#define DEBUG DEBUG_OFF
+#define DEBUG false
 #define DEBUG_EFFECTS false
 
 #define INITIAL_EFFECTS_MODE EFFECT_LOOP_C

@@ -1,6 +1,6 @@
 #ifndef local_settings_h
 #define local_settings_h
 
-#define DEBUG DEBUG_ON
+#define DEBUG true
 
 #endif
