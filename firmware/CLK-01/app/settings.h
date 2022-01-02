@@ -12,7 +12,6 @@
 
 #define DUTY_CYCLE 180
 
-#define NIGHT_MODE NIGHT_MODE_ENABLED
 #define NIGHT_START 22
 #define NIGHT_END 7
 

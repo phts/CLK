@@ -98,7 +98,6 @@ To apply new time toggle "MODE" switch to "CLOCK" position.
 | `MODE_SET_MINS_HOLD_TIME`    |          ms | How long need to hold button to start repeating                       |
 | `MODE_SET_MINS_INTERVAL`     |          ms | How fast values are changed while button is pressed                   |
 | `NIGHT_END`                  |  0&ndash;23 | Hour when night mode should end                                       |
-| `NIGHT_MODE`                 |             | Whether enabled night mode (dim all indicators) or not                |
 | `NIGHT_START`                |  0&ndash;23 | Hour when night mode should start                                     |
 | `SYNC_RTC_INTERVAL`          |     minutes | How frequent to sync time with RTC module                             |
 
