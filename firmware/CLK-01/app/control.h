@@ -18,7 +18,7 @@ class Control
 {
 public:
   Control() : blinkTimer(MODE_SET_BLINK_INTERVAL),
-              btnMode(PIN_BTN_MODE, HIGH_PULL, NORM_OPEN),
+              swMode(PIN_SW_MODE, HIGH_PULL, NORM_OPEN),
               btnBklight(PIN_BTN_BKLIGHT, HIGH_PULL, NORM_OPEN),
               btnEffects(PIN_BTN_EFFECTS, HIGH_PULL, NORM_OPEN)
   {
@@ -29,7 +29,7 @@ public:
   {
     btnEffects.setStepTimeout(MODE_SET_HOURS_INTERVAL);
     btnBklight.setStepTimeout(MODE_SET_MINS_INTERVAL);
-    btnMode.setTimeout(0);
+    swMode.setTimeout(0);
   }
 
   byte isClockMode()
@@ -39,7 +39,7 @@ public:
 
   void tick()
   {
-    btnMode.tick();
+    swMode.tick();
     btnEffects.tick();
     btnBklight.tick();
 
@@ -53,7 +53,7 @@ public:
       isEffectsDemoRunning = effects.tick(time.getHours(), time.getMinutes(), cachedTimeArray);
     }
 
-    if (btnMode.isHold())
+    if (swMode.isHold())
     {
       if (mode != MODE_SET)
       {
@@ -102,7 +102,7 @@ public:
 private:
   byte mode;
   timerMinim blinkTimer;
-  GButton btnMode;
+  GButton swMode;
   GButton btnBklight;
   GButton btnEffects;
   int8_t changeHrs, changeMins;

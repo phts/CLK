@@ -45,7 +45,7 @@
 #define PIN_HRS_R 4
 #define PIN_MINS_L 5
 #define PIN_MINS_R 6
-#define PIN_BTN_MODE 7
+#define PIN_SW_MODE 7
 #define PIN_BTN_BKLIGHT 8
 #define PIN_GEN 9
 #define PIN_DOT 10
