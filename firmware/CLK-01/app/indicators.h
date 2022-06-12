@@ -7,8 +7,7 @@
 class Indicators
 {
 public:
-  volatile int8_t brightness[INDICATORS_AMOUNT]; // 0--24
-  volatile int8_t digits[INDICATORS_AMOUNT];     // 0--9
+  volatile int8_t digits[INDICATORS_AMOUNT]; // 0--9
 
   Indicators(byte initialMaxBrightness)
   {
@@ -18,6 +17,16 @@ public:
   void setup()
   {
     resetBrightness();
+  }
+
+  int8_t getBrightness(byte indicator)
+  {
+    return brightness[indicator];
+  }
+
+  void setBrightness(byte indicator, int8_t value)
+  {
+    brightness[indicator] = value;
   }
 
   void resetBrightness()
@@ -107,6 +116,7 @@ public:
   }
 
 private:
+  volatile int8_t brightness[INDICATORS_AMOUNT]; // 0--24
   byte indicatorMaxBrightness;
   bool anodeStates[INDICATORS_AMOUNT] = {1, 1, 1, 1};
   bool burnInProgress = false;

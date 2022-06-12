@@ -50,7 +50,7 @@ public:
     else if (isRunning && (timer.isReady() || forceRun))
     {
       forceRun = false;
-      indicators.brightness[targetIndicator] = indicatorState * indicators.getMaxBrightness();
+      indicators.setBrightness(targetIndicator, indicatorState * indicators.getMaxBrightness());
       indicatorState = !indicatorState;
       resetStepTimer();
       count++;
@@ -58,7 +58,7 @@ public:
       {
         resetTimer();
         isRunning = false;
-        indicators.brightness[targetIndicator] = indicators.getMaxBrightness();
+        indicators.setBrightness(targetIndicator, indicators.getMaxBrightness());
       }
     }
   }

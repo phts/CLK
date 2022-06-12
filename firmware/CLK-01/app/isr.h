@@ -11,7 +11,7 @@ volatile int8_t arr[INDICATORS_AMOUNT];
 ISR(TIMER2_COMPA_vect)
 {
   arr[curInd]++;
-  if (arr[curInd] >= indicators.brightness[curInd])
+  if (arr[curInd] >= indicators.getBrightness(curInd))
   {
     setPin(INDICATOR_PINS[curInd], 0);
   }
@@ -24,7 +24,7 @@ ISR(TIMER2_COMPA_vect)
       curInd = 0;
     }
 
-    if (indicators.brightness[curInd] > 0)
+    if (indicators.getBrightness(curInd) > 0)
     {
       byte tmp = DIGIT_TO_DECODER_VALUE[indicators.digits[curInd]];
       setPin(DECODER_PIN_3, bitRead(tmp, 0));

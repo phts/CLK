@@ -135,7 +135,7 @@ private:
     {
       if (indicatorsToFlip[i])
       {
-        indicators.brightness[i] = decayIndicatorBrightness;
+        indicators.setBrightness(i, decayIndicatorBrightness);
       }
     }
     return true;
