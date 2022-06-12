@@ -16,14 +16,14 @@ byte cachedNewTime[] = {0, 0, 0, 0};
 
 void loop()
 {
-  TimeTickResult res = time.tick();
-  if (res.changed && control.isClockMode())
+  TimeTickResult timeRes = time.tick();
+  if (timeRes.changed && control.isClockMode())
   {
-    debug(F("Is new hour"), res.isNewHour);
-    debug(F("Hrs"), res.hrs);
-    debug(F("Mins"), res.mins);
-    cachedTimeResult = res;
-    convertTimeToArray(res.hrs, res.mins, cachedNewTime);
+    debug(F("Is new hour"), timeRes.isNewHour);
+    debug(F("Hrs"), timeRes.hrs);
+    debug(F("Mins"), timeRes.mins);
+    cachedTimeResult = timeRes;
+    convertTimeToArray(timeRes.hrs, timeRes.mins, cachedNewTime);
     isEffectRunning = true;
   }
   if (isEffectRunning)
@@ -34,11 +34,11 @@ void loop()
   backlight.tick();
   if (control.isClockMode())
   {
-    glitches.tick(res.secs);
+    glitches.tick(timeRes.secs);
   }
   control.tick();
-  indicators.burnTick(res.isNewHour, res.mins, res.secs, control.isClockMode());
-  nightMode.tick(res.isNewHour, res.hrs);
+  indicators.burnTick(timeRes.isNewHour, timeRes.mins, timeRes.secs, control.isClockMode());
+  nightMode.tick(timeRes.isNewHour, timeRes.hrs);
 }
 
 #endif
