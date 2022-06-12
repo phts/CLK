@@ -92,7 +92,7 @@ public:
     }
     else
     {
-      digitalWrite(PIN_BKLIGHT, 0);
+      turnOff();
     }
   }
 
@@ -128,9 +128,14 @@ private:
     }
     else if (mode == BKLIGHT_OFF)
     {
-      digitalWrite(PIN_BKLIGHT, 0);
+      turnOff();
     }
     resetFlashBrightnessTimer();
+  }
+
+  void turnOff()
+  {
+    digitalWrite(PIN_BKLIGHT, 0);
   }
 };
 
