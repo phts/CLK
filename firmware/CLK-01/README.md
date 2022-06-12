@@ -63,43 +63,48 @@ To apply new time toggle "MODE" switch to "CLOCK" position.
 
 ### Settings
 
-| Name                         |      Values | Description                                                           |
-| ---------------------------- | ----------: | --------------------------------------------------------------------- |
-| `BKLIGHT_BRIGHTNESS_NIGHT`   | 0&ndash;255 | Backlight brightness on nighttime                                     |
-| `BKLIGHT_BRIGHTNESS`         | 0&ndash;255 | Backlight brightness on daytime                                       |
-| `BKLIGHT_DELAY`              |          ms | How long backlight flashing should wait between                       |
-| `BKLIGHT_MIN_BRIGHTNESS`     | 0&ndash;255 | Minimal backlight brightness (flashing mode)                          |
-| `BKLIGHT_PERIOD`             |          ms | How fast backlight should blink (flashing mode)                       |
-| `BKLIGHT_STEPS`              |             | How smooth backlight should be changed (flashing mode)                |
-| `BURN_LOOP_DELAY`            |          ms | How long to wait between "burn" loops                                 |
-| `BURN_LOOPS`                 |             | How many loops to run "burn"                                          |
-| `BURN_TIMES_PER_HOUR`        |             | How many times need to burn indicators during an hour                 |
-| `DEBUG`                      |     Boolean | If enabled, prints debug messages into Serial port                    |
-| `DEBUG_EFFECTS`              |     Boolean | If enabled, makes time changed every few seconds                      |
-| `DOT_BRIGHTNESS_INTERVAL`    |          ms | How fast dot brightness should change during blinking (smooth mode)   |
-| `DOT_BRIGHTNESS_NIGHT`       | 0&ndash;255 | Dot brightness on nighttime                                           |
-| `DOT_BRIGHTNESS`             | 0&ndash;255 | Dot brightness on daytime                                             |
-| `DOT_INTERVAL`               |          ms | How fast dot should blink                                             |
-| `DOT_MODE`                   |             | How to blink - simple or smooth                                       |
-| `DUTY_CYCLE`                 | 0&ndash;255 | Generator duty cycle, affects total voltage which comes to indicators |
-| `GLITCH_MAX_INTERVAL`        |     seconds | Interval between glitches picked randomly (max value)                 |
-| `GLITCH_MIN_INTERVAL`        |     seconds | Interval between glitches picked randomly (min value)                 |
-| `INDICATOR_BRIGHTNESS_NIGHT` |  0&ndash;24 | Indicator brightness on nighttime                                     |
-| `INDICATOR_BRIGHTNESS`       |  0&ndash;24 | Indicator brightness on daytime                                       |
-| `INITIAL_BKLIGHT_MODE`       |             |                                                                       |
-| `INITIAL_EFFECTS_MODE`       |             |                                                                       |
-| `INITIAL_GLITCHES_MODE`      |             |                                                                       |
-| `MEMORY_CELL_FIRST_RUN`      |             | Memory cell where to store "first run" flag                           |
-| `MEMORY_FLAG_FIRST_RUN`      |             | Value of "first run" flag                                             |
-| `MEMORY`                     |             | Whether enabled memory storage or not                                 |
-| `MODE_SET_BLINK_INTERVAL`    |          ms | How fast indicators blink during "Set" mode                           |
-| `MODE_SET_HOURS_HOLD_TIME`   |          ms | How long need to hold button to start repeating                       |
-| `MODE_SET_HOURS_INTERVAL`    |          ms | How fast values are changed while button is pressed                   |
-| `MODE_SET_MINS_HOLD_TIME`    |          ms | How long need to hold button to start repeating                       |
-| `MODE_SET_MINS_INTERVAL`     |          ms | How fast values are changed while button is pressed                   |
-| `NIGHT_END`                  |  0&ndash;23 | Hour when night mode should end                                       |
-| `NIGHT_START`                |  0&ndash;23 | Hour when night mode should start                                     |
-| `SYNC_RTC_INTERVAL`          |     minutes | How frequent to sync time with RTC module                             |
+| Name                                 |      Values | Description                                                                                                                                                                                                |
+| ------------------------------------ | ----------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `BKLIGHT_BRIGHTNESS_NIGHT`           | 0&ndash;255 | Backlight brightness on nighttime                                                                                                                                                                          |
+| `BKLIGHT_BRIGHTNESS`                 | 0&ndash;255 | Backlight brightness on daytime                                                                                                                                                                            |
+| `BKLIGHT_DELAY`                      |          ms | How long backlight flashing should wait between                                                                                                                                                            |
+| `BKLIGHT_MIN_BRIGHTNESS`             | 0&ndash;255 | Minimal backlight brightness (flashing mode)                                                                                                                                                               |
+| `BKLIGHT_PERIOD`                     |          ms | How fast backlight should blink (flashing mode)                                                                                                                                                            |
+| `BKLIGHT_STEPS`                      |             | How smooth backlight should be changed (flashing mode)                                                                                                                                                     |
+| `BURN_LOOP_DELAY`                    |          ms | How long to wait between "burn" loops                                                                                                                                                                      |
+| `BURN_LOOPS`                         |             | How many loops to run "burn"                                                                                                                                                                               |
+| `BURN_TIMES_PER_HOUR`                |             | How many times need to burn indicators during an hour                                                                                                                                                      |
+| `DEBUG`                              |     Boolean | If enabled, prints debug messages into Serial port                                                                                                                                                         |
+| `DEBUG_EFFECTS`                      |     Boolean | If enabled, makes time changed every few seconds                                                                                                                                                           |
+| `DOT_BRIGHTNESS_INTERVAL`            |          ms | How fast dot brightness should change during blinking (smooth mode)                                                                                                                                        |
+| `DOT_BRIGHTNESS_NIGHT`               | 0&ndash;255 | Dot brightness on nighttime                                                                                                                                                                                |
+| `DOT_BRIGHTNESS`                     | 0&ndash;255 | Dot brightness on daytime                                                                                                                                                                                  |
+| `DOT_INTERVAL`                       |          ms | How fast dot should blink                                                                                                                                                                                  |
+| `DOT_MODE`                           |             | How to blink - simple or smooth                                                                                                                                                                            |
+| `DUTY_CYCLE`                         | 0&ndash;255 | Generator duty cycle, affects total voltage which comes to indicators                                                                                                                                      |
+| `GLITCH_MAX_INTERVAL`                |     seconds | Interval between glitches picked randomly (max value)                                                                                                                                                      |
+| `GLITCH_MIN_INTERVAL`                |     seconds | Interval between glitches picked randomly (min value)                                                                                                                                                      |
+| `INDICATOR_BRIGHTNESS_NIGHT`         |  0&ndash;24 | Indicator brightness on nighttime                                                                                                                                                                          |
+| `INDICATOR_BRIGHTNESS`               |  0&ndash;24 | Indicator brightness on daytime                                                                                                                                                                            |
+| `INITIAL_BKLIGHT_MODE`               |             |                                                                                                                                                                                                            |
+| `INITIAL_EFFECTS_MODE`               |             |                                                                                                                                                                                                            |
+| `INITIAL_GLITCHES_MODE`              |             |                                                                                                                                                                                                            |
+| `MEMORY_CELL_FIRST_RUN`              |             | Memory cell where to store "first run" flag                                                                                                                                                                |
+| `MEMORY_FLAG_FIRST_RUN`              |             | Value of "first run" flag                                                                                                                                                                                  |
+| `MEMORY`                             |             | Whether enabled memory storage or not                                                                                                                                                                      |
+| `MODE_SET_BLINK_INTERVAL`            |          ms | How fast indicators blink during "Set" mode                                                                                                                                                                |
+| `MODE_SET_HOURS_HOLD_TIME`           |          ms | How long need to hold button to start repeating                                                                                                                                                            |
+| `MODE_SET_HOURS_INTERVAL`            |          ms | How fast values are changed while button is pressed                                                                                                                                                        |
+| `MODE_SET_MINS_HOLD_TIME`            |          ms | How long need to hold button to start repeating                                                                                                                                                            |
+| `MODE_SET_MINS_INTERVAL`             |          ms | How fast values are changed while button is pressed                                                                                                                                                        |
+| `NIGHT_END`                          |  0&ndash;23 | Hour when night mode should end                                                                                                                                                                            |
+| `NIGHT_START`                        |  0&ndash;23 | Hour when night mode should start                                                                                                                                                                          |
+| `STANDBY_KEEP_BKLIGHT`               |     Boolean | Whether to keep backlight on or off during standby mode                                                                                                                                                    |
+| `STANDBY_KEEP_DOT`                   |     Boolean | Whether to keep dot on or off during standby mode                                                                                                                                                          |
+| `STANDBY_TIMEOUT`                    |     seconds | Time of inactivity to enter to standby mode                                                                                                                                                                |
+| `STANDBY_WAKEUP_ON_TIME_CHANGE`      |     Boolean | Whether to wake up from standby when time changed on exact minutes (controlled by `STANDBY_WAKEUP_ON_TIME_CHANGE_MINS`)                                                                                    |
+| `STANDBY_WAKEUP_ON_TIME_CHANGE_MINS` |  1&ndash;60 | Minutes when the device wakes up from standby mode. E.g. `10` means to wake up on `:00`, `:10`, `:20`, ...; `49` means to wake up on `:00`, `:49`; `60` means to wake up on `:00`; value `0` is forbidden. |
+| `SYNC_RTC_INTERVAL`                  |     minutes | How frequent to sync time with RTC module                                                                                                                                                                  |
 
 #### Override settings locally
 

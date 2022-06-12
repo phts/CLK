@@ -10,6 +10,7 @@
 #include "glitches.h"
 #include "nightMode.h"
 #include "dot.h"
+#include "power.h"
 
 #define MODE_CLOCK 0
 #define MODE_SET 1
@@ -27,6 +28,7 @@ public:
     btnEffects.setStepTimeout(MODE_SET_HOURS_INTERVAL);
     btnBklight.setStepTimeout(MODE_SET_MINS_INTERVAL);
     swMode.setHoldTimeout(0);
+    swStandby.setHoldTimeout(0);
   }
 
   byte isClockMode()
@@ -34,11 +36,39 @@ public:
     return mode == MODE_CLOCK;
   }
 
+  bool isStandbyEnabled()
+  {
+    return standbyEnabled;
+  }
+
   void tick()
   {
+    swStandby.tick();
     swMode.tick();
     btnEffects.tick();
     btnBklight.tick();
+    standbyEnabled = swStandby.hold();
+
+    if (power.isOff())
+    {
+      if (!exitingStandby && (btnEffects.press() || btnBklight.press()))
+      {
+        exitingStandby = true;
+        power.resetStandbyTimer();
+        backlight.reset();
+        return;
+      }
+    }
+    if (exitingStandby)
+    {
+      if (btnEffects.click() || btnEffects.held() || btnBklight.click() || btnBklight.held())
+      {
+        exitingStandby = false;
+        btnEffects.resetState();
+        btnBklight.resetState();
+      }
+      return;
+    }
 
     if (mode == MODE_SET)
     {
@@ -56,14 +86,18 @@ public:
       {
         startSet();
         mode = MODE_SET;
+        power.resetStandbyTimer();
+        debug(F("Switch to SET mode"));
       }
       if (btnEffects.press() || btnEffects.step())
       {
         incHours();
+        power.resetStandbyTimer();
       }
       else if (btnBklight.press() || btnBklight.step())
       {
         incMinutes();
+        power.resetStandbyTimer();
       }
     }
     else
@@ -72,25 +106,31 @@ public:
       {
         finishSet();
         mode = MODE_CLOCK;
+        power.resetStandbyTimer();
+        debug(F("Switch to CLOCK mode"));
       }
       if (btnEffects.click())
       {
         switchEffects();
+        power.resetStandbyTimer();
         debug(F("Switch effect"), effects.getMode());
       }
       else if (btnBklight.click())
       {
         switchBacklight();
+        power.resetStandbyTimer();
         debug(F("Switch backlight"), backlight.getMode());
       }
       else if (btnEffects.held())
       {
         toggleGlitches();
+        power.resetStandbyTimer();
         debug(F("Toggle glitches"), glitches.getMode());
       }
       else if (btnBklight.held())
       {
         toggleNightMode();
+        power.resetStandbyTimer();
         debug(F("Toggle night mode"), nightMode.isEnabled());
       }
     }
@@ -100,14 +140,17 @@ public:
 
 private:
   byte mode;
+  bool standbyEnabled;
   timerMinim blinkTimer;
   EncButton<EB_TICK, PIN_SW_MODE> swMode;
   EncButton<EB_TICK, PIN_BTN_BKLIGHT> btnBklight;
   EncButton<EB_TICK, PIN_BTN_EFFECTS> btnEffects;
+  EncButton<EB_TICK, PIN_SW_STANDBY> swStandby;
   int8_t changeHrs, changeMins;
   bool modeSetLampState = false;
   bool isEffectsDemoRunning = false;
   byte cachedTimeArray[INDICATORS_AMOUNT] = {0, 0, 0, 0};
+  bool exitingStandby = false;
 
   void settingsTick()
   {

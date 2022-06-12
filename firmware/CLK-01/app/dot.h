@@ -2,6 +2,7 @@
 #define dot_h
 
 #include <timer2Minim.h>
+#include "power.h"
 
 #define DOT_MODE_SIMPLE 0
 #define DOT_MODE_SMOOTH 1
@@ -99,6 +100,10 @@ private:
 
   void applyBrightness(byte value)
   {
+    if (power.isDotOff())
+    {
+      value = 0;
+    }
     setPWM(PIN_DOT, getPWM_CRT(value));
   }
 

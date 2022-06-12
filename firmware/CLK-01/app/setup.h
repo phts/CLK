@@ -11,6 +11,7 @@
 #include "glitches.h"
 #include "control.h"
 #include "nightMode.h"
+#include "power.h"
 
 void setupPwm()
 {
@@ -35,6 +36,7 @@ void setup()
   pinMode(DECODER_PIN_6, OUTPUT);
   pinMode(DECODER_PIN_4, OUTPUT);
   pinMode(DECODER_PIN_3, OUTPUT);
+  pinMode(PIN_SW_STANDBY, OUTPUT);
   pinMode(PIN_HRS_L, OUTPUT);
   pinMode(PIN_HRS_R, OUTPUT);
   pinMode(PIN_MINS_L, OUTPUT);
@@ -55,6 +57,7 @@ void setup()
   glitches.setup(data.glitchesMode);
   nightMode.setup(data.nightmodeMode);
   control.setup();
+  power.setup();
 }
 
 #endif

@@ -83,6 +83,16 @@ void setupDebug()
   Serial.println(String(MODE_SET_HOURS_INTERVAL));
   Serial.print(F("  MODE_SET_HOURS_HOLD_TIME="));
   Serial.println(String(MODE_SET_HOURS_HOLD_TIME));
+  Serial.print(F("  STANDBY_KEEP_BKLIGHT="));
+  Serial.println(String(STANDBY_KEEP_BKLIGHT));
+  Serial.print(F("  STANDBY_KEEP_DOT="));
+  Serial.println(String(STANDBY_KEEP_DOT));
+  Serial.print(F("  STANDBY_TIMEOUT="));
+  Serial.println(String(STANDBY_TIMEOUT));
+  Serial.print(F("  STANDBY_WAKEUP_ON_TIME_CHANGE="));
+  Serial.println(String(STANDBY_WAKEUP_ON_TIME_CHANGE));
+  Serial.print(F("  STANDBY_WAKEUP_ON_TIME_CHANGE_MINS="));
+  Serial.println(String(STANDBY_WAKEUP_ON_TIME_CHANGE_MINS));
 }
 
 #if DEBUG

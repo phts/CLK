@@ -2,6 +2,7 @@
 #define backlight_h
 
 #include <timer2Minim.h>
+#include "power.h"
 
 #define BKLIGHT_OFF 0
 #define BKLIGHT_ON 1
@@ -35,6 +36,11 @@ public:
     resetBrightness();
   }
 
+  void reset()
+  {
+    setMode(mode);
+  }
+
   void setNightMode(bool isNight)
   {
     maxBrightness = isNight ? BKLIGHT_BRIGHTNESS_NIGHT : BKLIGHT_BRIGHTNESS;
@@ -53,6 +59,10 @@ public:
 
   void tick()
   {
+    if (power.isBklightOff())
+    {
+      turnOff();
+    }
     if (mode != BKLIGHT_FLASH)
     {
       return;

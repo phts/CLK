@@ -9,6 +9,7 @@
 #include "glitches.h"
 #include "control.h"
 #include "nightMode.h"
+#include "power.h"
 
 bool isEffectRunning = false;
 TimeTickResult cachedTimeResult;
@@ -26,6 +27,8 @@ void loop()
     convertTimeToArray(timeRes.hrs, timeRes.mins, cachedNewTime);
     isEffectRunning = true;
   }
+  control.tick();
+  power.tick(control.isStandbyEnabled(), timeRes.changed, timeRes.mins);
   if (isEffectRunning)
   {
     isEffectRunning = effects.tick(cachedTimeResult.hrs, cachedTimeResult.mins, cachedNewTime);
@@ -36,7 +39,6 @@ void loop()
   {
     glitches.tick(timeRes.secs);
   }
-  control.tick();
   indicators.tick(timeRes.isNewHour, timeRes.mins, timeRes.secs, control.isClockMode());
   nightMode.tick(timeRes.isNewHour, timeRes.hrs);
 }

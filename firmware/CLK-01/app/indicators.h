@@ -1,6 +1,8 @@
 #ifndef indicators_h
 #define indicators_h
 
+#include "power.h"
+
 #define INDICATOR_TURNED_OFF 0
 #define INDICATOR_TURNED_ON 1
 
@@ -21,6 +23,10 @@ public:
 
   int8_t getBrightness(byte indicator)
   {
+    if (power.isOff())
+    {
+      return 0;
+    }
     return brightness[indicator];
   }
 
@@ -54,6 +60,10 @@ public:
 
   bool isOn(byte n)
   {
+    if (power.isOff())
+    {
+      return false;
+    }
     return anodeStates[n];
   }
 
