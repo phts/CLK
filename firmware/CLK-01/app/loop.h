@@ -37,7 +37,7 @@ void loop()
     glitches.tick(timeRes.secs);
   }
   control.tick();
-  indicators.burnTick(timeRes.isNewHour, timeRes.mins, timeRes.secs, control.isClockMode());
+  indicators.tick(timeRes.isNewHour, timeRes.mins, timeRes.secs, control.isClockMode());
   nightMode.tick(timeRes.isNewHour, timeRes.hrs);
 }
 

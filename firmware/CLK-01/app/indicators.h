@@ -83,7 +83,7 @@ public:
     }
   }
 
-  void burnTick(bool isNewHour, byte mins, byte secs, bool enabled)
+  void tick(bool isNewHour, byte mins, byte secs, bool isBurnEnabled)
   {
     if (burnInProgress)
     {
@@ -98,19 +98,18 @@ public:
         debug(burnOnMinutes[i]);
       }
     }
-    if (!enabled)
+    if (isBurnEnabled)
     {
-      return;
-    }
-    for (byte i = 0; i < burnOnMinutesSize; i++)
-    {
-      if (mins == burnOnMinutes[i] && secs >= 15)
+      for (byte i = 0; i < burnOnMinutesSize; i++)
       {
-        burnInProgress = true;
-        burnOnMinutes[i] = -1;
-        burnIndicators();
-        burnInProgress = false;
-        break;
+        if (mins == burnOnMinutes[i] && secs >= 15)
+        {
+          burnInProgress = true;
+          burnOnMinutes[i] = -1;
+          burnIndicators();
+          burnInProgress = false;
+          break;
+        }
       }
     }
   }
