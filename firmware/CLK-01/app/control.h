@@ -94,7 +94,7 @@ public:
       else if (btnBklight.isHolded())
       {
         toggleNightMode();
-        debug(F("Toggle night mode"), nightMode.getMode());
+        debug(F("Toggle night mode"), nightMode.isEnabled());
       }
     }
   }
@@ -175,7 +175,7 @@ private:
   void toggleNightMode()
   {
     nightMode.toggle();
-    memory.storeNightMode(nightMode.getMode());
+    memory.storeNightMode(nightMode.isEnabled());
   }
 
   void startSet()

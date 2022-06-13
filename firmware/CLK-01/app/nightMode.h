@@ -13,22 +13,22 @@ class NightMode
 public:
   void setup(bool initialMode)
   {
-    setMode(initialMode);
+    setEnabled(initialMode);
   }
 
-  bool getMode()
+  bool isEnabled()
   {
-    return mode;
+    return enabled;
   }
 
   void toggle()
   {
-    setMode(!mode);
+    setEnabled(!enabled);
   }
 
   void apply(byte hrs)
   {
-    if (mode == NIGHT_MODE_DISABLED)
+    if (!enabled)
     {
       setNight(false);
       return;
@@ -48,12 +48,12 @@ public:
   }
 
 private:
-  bool mode;
+  bool enabled;
   bool forceApply = false;
 
-  void setMode(bool value)
+  void setEnabled(bool value)
   {
-    mode = value;
+    enabled = value;
     forceApply = true;
   }
 
