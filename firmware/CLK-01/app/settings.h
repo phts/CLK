@@ -4,6 +4,7 @@
 #define VERSION "Unknown"
 #define DEBUG false
 #define DEBUG_EFFECTS false
+#define DEBUG_STANDBY_ENABLED false
 
 #define INITIAL_EFFECTS_MODE EFFECT_LOOP_CATHODES
 #define INITIAL_BKLIGHT_MODE BKLIGHT_ON

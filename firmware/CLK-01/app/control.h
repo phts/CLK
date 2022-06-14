@@ -47,7 +47,7 @@ public:
     swMode.tick();
     btnEffects.tick();
     btnBklight.tick();
-    standbyEnabled = swStandby.hold();
+    standbyEnabled = DEBUG_STANDBY_ENABLED || swStandby.hold();
 
     if (power.isOff())
     {

@@ -15,6 +15,8 @@ void setupDebug()
   Serial.println(VALUE(DEBUG));
   Serial.print(F("  DEBUG_EFFECTS="));
   Serial.println(VALUE(DEBUG_EFFECTS));
+  Serial.print(F("  DEBUG_STANDBY_ENABLED="));
+  Serial.println(VALUE(DEBUG_STANDBY_ENABLED));
   Serial.print(F("  INITIAL_EFFECTS_MODE="));
   Serial.println(VALUE(INITIAL_EFFECTS_MODE));
   Serial.print(F("  INITIAL_BKLIGHT_MODE="));
