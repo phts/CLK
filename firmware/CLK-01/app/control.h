@@ -1,7 +1,7 @@
 #ifndef buttons_h
 #define buttons_h
 
-#include <GyverButton.h>
+#include <EncButton.h>
 #include "indicators.h"
 #include "memory.h"
 #include "time.h"
@@ -17,10 +17,7 @@
 class Control
 {
 public:
-  Control() : blinkTimer(MODE_SET_BLINK_INTERVAL),
-              swMode(PIN_SW_MODE, HIGH_PULL, NORM_OPEN),
-              btnBklight(PIN_BTN_BKLIGHT, HIGH_PULL, NORM_OPEN),
-              btnEffects(PIN_BTN_EFFECTS, HIGH_PULL, NORM_OPEN)
+  Control() : blinkTimer(MODE_SET_BLINK_INTERVAL)
   {
     mode = MODE_CLOCK;
   }
@@ -29,7 +26,7 @@ public:
   {
     btnEffects.setStepTimeout(MODE_SET_HOURS_INTERVAL);
     btnBklight.setStepTimeout(MODE_SET_MINS_INTERVAL);
-    swMode.setTimeout(0);
+    swMode.setHoldTimeout(0);
   }
 
   byte isClockMode()
@@ -53,18 +50,18 @@ public:
       isEffectsDemoRunning = effects.tick(time.getHours(), time.getMinutes(), cachedTimeArray);
     }
 
-    if (swMode.isHold())
+    if (swMode.hold())
     {
       if (mode != MODE_SET)
       {
         startSet();
         mode = MODE_SET;
       }
-      if (btnEffects.isPress() || btnEffects.isStep())
+      if (btnEffects.press() || btnEffects.step())
       {
         incHours();
       }
-      else if (btnBklight.isPress() || btnBklight.isStep())
+      else if (btnBklight.press() || btnBklight.step())
       {
         incMinutes();
       }
@@ -76,35 +73,37 @@ public:
         finishSet();
         mode = MODE_CLOCK;
       }
-      if (btnEffects.isClick())
+      if (btnEffects.click())
       {
         switchEffects();
         debug(F("Switch effect"), effects.getMode());
       }
-      else if (btnBklight.isClick())
+      else if (btnBklight.click())
       {
         switchBacklight();
         debug(F("Switch backlight"), backlight.getMode());
       }
-      else if (btnEffects.isHolded())
+      else if (btnEffects.held())
       {
         toggleGlitches();
         debug(F("Toggle glitches"), glitches.getMode());
       }
-      else if (btnBklight.isHolded())
+      else if (btnBklight.held())
       {
         toggleNightMode();
         debug(F("Toggle night mode"), nightMode.isEnabled());
       }
     }
+    btnEffects.resetState();
+    btnBklight.resetState();
   }
 
 private:
   byte mode;
   timerMinim blinkTimer;
-  GButton swMode;
-  GButton btnBklight;
-  GButton btnEffects;
+  EncButton<EB_TICK, PIN_SW_MODE> swMode;
+  EncButton<EB_TICK, PIN_BTN_BKLIGHT> btnBklight;
+  EncButton<EB_TICK, PIN_BTN_EFFECTS> btnEffects;
   int8_t changeHrs, changeMins;
   bool modeSetLampState = false;
   bool isEffectsDemoRunning = false;
@@ -180,8 +179,8 @@ private:
 
   void startSet()
   {
-    btnBklight.setTimeout(MODE_SET_MINS_HOLD_TIME);
-    btnEffects.setTimeout(MODE_SET_HOURS_HOLD_TIME);
+    btnBklight.setHoldTimeout(MODE_SET_MINS_HOLD_TIME);
+    btnEffects.setHoldTimeout(MODE_SET_HOURS_HOLD_TIME);
     blinkTimer.reset();
     indicators.turnAllOff();
     changeHrs = time.getHours();
@@ -192,8 +191,8 @@ private:
 
   void finishSet()
   {
-    btnBklight.setTimeout(500);
-    btnEffects.setTimeout(500);
+    btnBklight.setHoldTimeout(500);
+    btnEffects.setHoldTimeout(500);
     time.setTime(changeHrs, changeMins);
     indicators.turnAllOn();
     nightMode.apply(changeHrs);
