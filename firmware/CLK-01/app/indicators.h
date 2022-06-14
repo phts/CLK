@@ -2,6 +2,7 @@
 #define indicators_h
 
 #include "power.h"
+#include "nightMode.h"
 
 #define INDICATOR_TURNED_OFF 0
 #define INDICATOR_TURNED_ON 1
@@ -11,9 +12,8 @@ class Indicators
 public:
   volatile int8_t digits[INDICATORS_AMOUNT]; // 0--9
 
-  Indicators(byte initialMaxBrightness)
+  Indicators()
   {
-    indicatorMaxBrightness = initialMaxBrightness;
   }
 
   void setup()
@@ -39,18 +39,13 @@ public:
   {
     for (byte i = 0; i < INDICATORS_AMOUNT; i++)
     {
-      brightness[i] = indicatorMaxBrightness;
+      brightness[i] = maxBrightness;
     }
-  }
-  void setNightMode(bool isNight)
-  {
-    indicatorMaxBrightness = isNight ? INDICATOR_BRIGHTNESS_NIGHT : INDICATOR_BRIGHTNESS;
-    resetBrightness();
   }
 
   byte getMaxBrightness()
   {
-    return indicatorMaxBrightness;
+    return maxBrightness;
   }
 
   void showTime(byte hours, byte minutes)
@@ -95,6 +90,7 @@ public:
 
   void tick(bool isNewHour, byte mins, byte secs, bool isBurnEnabled)
   {
+    updateMaxBrightness(nightMode.isNight() ? INDICATOR_BRIGHTNESS_NIGHT : INDICATOR_BRIGHTNESS);
     if (burnInProgress)
     {
       return;
@@ -126,11 +122,21 @@ public:
 
 private:
   volatile int8_t brightness[INDICATORS_AMOUNT]; // 0--24
-  byte indicatorMaxBrightness;
+  byte maxBrightness;
   bool anodeStates[INDICATORS_AMOUNT] = {1, 1, 1, 1};
   bool burnInProgress = false;
   byte burnOnMinutes[BURN_TIMES_PER_HOUR];
   byte burnOnMinutesSize = sizeof(burnOnMinutes);
+
+  void updateMaxBrightness(byte newValue)
+  {
+    if (maxBrightness == newValue)
+    {
+      return;
+    }
+    maxBrightness = newValue;
+    resetBrightness();
+  }
 
   void burnIndicators()
   {
@@ -152,6 +158,6 @@ private:
   }
 };
 
-Indicators indicators(INDICATOR_BRIGHTNESS);
+Indicators indicators;
 
 #endif

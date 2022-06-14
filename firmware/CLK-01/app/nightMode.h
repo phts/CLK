@@ -1,10 +1,6 @@
 #ifndef nightmode_h
 #define nightmode_h
 
-#include "indicators.h"
-#include "backlight.h"
-#include "dot.h"
-
 #define NIGHT_MODE_DISABLED 0
 #define NIGHT_MODE_ENABLED 1
 
@@ -21,6 +17,11 @@ public:
     return enabled;
   }
 
+  bool isNight()
+  {
+    return night;
+  }
+
   void toggle()
   {
     setEnabled(!enabled);
@@ -30,11 +31,10 @@ public:
   {
     if (!enabled)
     {
-      setNight(false);
+      night = false;
       return;
     }
-    bool isNight = (hrs >= NIGHT_START && hrs <= 23) || (hrs >= 0 && hrs < NIGHT_END);
-    setNight(isNight);
+    night = (hrs >= NIGHT_START && hrs <= 23) || (hrs >= 0 && hrs < NIGHT_END);
   }
 
   void tick(bool isNewHour, byte hrs)
@@ -50,18 +50,12 @@ public:
 private:
   bool enabled;
   bool forceApply = false;
+  bool night = false;
 
   void setEnabled(bool value)
   {
     enabled = value;
     forceApply = true;
-  }
-
-  void setNight(bool value)
-  {
-    backlight.setNightMode(value);
-    dot.setNightMode(value);
-    indicators.setNightMode(value);
   }
 };
 

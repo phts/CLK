@@ -3,6 +3,7 @@
 
 #include <timer2Minim.h>
 #include "power.h"
+#include "nightMode.h"
 
 #define DOT_MODE_SIMPLE 0
 #define DOT_MODE_SMOOTH 1
@@ -36,17 +37,13 @@ public:
     applyBrightness(0);
   }
 
-  void setNightMode(bool isNight)
-  {
-    setMaxBrightness(isNight ? DOT_BRIGHTNESS_NIGHT : DOT_BRIGHTNESS);
-  }
-
   void tick()
   {
     if (turnedOff)
     {
       return;
     }
+    updateMaxBrightness(nightMode.isNight() ? DOT_BRIGHTNESS_NIGHT : DOT_BRIGHTNESS);
 #if DOT_MODE == DOT_MODE_SMOOTH
     if (smoothReady)
     {
@@ -76,8 +73,12 @@ private:
   int smoothBrightness;
   bool turnedOff = false;
 
-  void setMaxBrightness(byte newValue)
+  void updateMaxBrightness(byte newValue)
   {
+    if (maxBrightness == newValue)
+    {
+      return;
+    }
     maxBrightness = newValue;
     resetBrightness();
   }

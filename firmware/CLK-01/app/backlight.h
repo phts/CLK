@@ -3,6 +3,7 @@
 
 #include <timer2Minim.h>
 #include "power.h"
+#include "nightMode.h"
 
 #define BKLIGHT_OFF 0
 #define BKLIGHT_ON 1
@@ -21,7 +22,7 @@ public:
 
   void setup(byte initialMode)
   {
-    mode = initialMode;
+    setMode(initialMode);
     resetFlashBrightnessTimer();
   }
 
@@ -41,12 +42,6 @@ public:
     setMode(mode);
   }
 
-  void setNightMode(bool isNight)
-  {
-    maxBrightness = isNight ? BKLIGHT_BRIGHTNESS_NIGHT : BKLIGHT_BRIGHTNESS;
-    resetBrightness();
-  }
-
   void toggle()
   {
     byte newMode = mode + 1;
@@ -62,6 +57,10 @@ public:
     if (power.isBklightOff())
     {
       turnOff();
+    }
+    else
+    {
+      updateMaxBrightness(nightMode.isNight() ? BKLIGHT_BRIGHTNESS_NIGHT : BKLIGHT_BRIGHTNESS);
     }
     if (mode != BKLIGHT_FLASH)
     {
@@ -113,6 +112,16 @@ private:
   bool flashDirection;
   int currentFlashBrightness;
   timerMinim brightnessTimer;
+
+  void updateMaxBrightness(byte newValue)
+  {
+    if (maxBrightness == newValue)
+    {
+      return;
+    }
+    maxBrightness = newValue;
+    resetBrightness();
+  }
 
   void resetFlashBrightnessTimer()
   {
