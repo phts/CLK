@@ -89,6 +89,8 @@ void setupDebug()
   Serial.println(String(STANDBY_KEEP_BKLIGHT));
   Serial.print(F("  STANDBY_KEEP_DOT="));
   Serial.println(String(STANDBY_KEEP_DOT));
+  Serial.print(F("  STANDBY_NIGHT_SLEEP="));
+  Serial.println(String(STANDBY_NIGHT_SLEEP));
   Serial.print(F("  STANDBY_TIMEOUT="));
   Serial.println(String(STANDBY_TIMEOUT));
   Serial.print(F("  STANDBY_WAKEUP_ON_TIME_CHANGE="));

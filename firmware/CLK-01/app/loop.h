@@ -20,7 +20,7 @@ void loop()
   TimeTickResult timeRes = time.tick();
   if (timeRes.changed && control.isClockMode())
   {
-    debug(F("Is new hour"), timeRes.isNewHour);
+    debug(F("New hour?"), timeRes.isNewHour);
     debug(F("Hrs"), timeRes.hrs);
     debug(F("Mins"), timeRes.mins);
     cachedTimeResult = timeRes;
