@@ -106,6 +106,8 @@ To apply new time toggle "MODE" switch to "CLOCK" position.
 | `STANDBY_TIMEOUT`                    |     seconds | Time of inactivity to enter to standby mode                                                                                                                                                                |
 | `STANDBY_WAKEUP_ON_TIME_CHANGE`      |     Boolean | Whether to wake up from standby when time changed on exact minutes (controlled by `STANDBY_WAKEUP_ON_TIME_CHANGE_MINS`)                                                                                    |
 | `STANDBY_WAKEUP_ON_TIME_CHANGE_MINS` |  1&ndash;60 | Minutes when the device wakes up from standby mode. E.g. `10` means to wake up on `:00`, `:10`, `:20`, ...; `49` means to wake up on `:00`, `:49`; `60` means to wake up on `:00`; value `0` is forbidden. |
+| `STANDBY_WAKEUP_RANDOM`              |     Boolean | Whether to wake up at random minutes several times (controlled by `STANDBY_WAKEUP_RANDOM_TIMES`)                                                                                                           |
+| `STANDBY_WAKEUP_RANDOM_TIMES`        |      Number | How many times per hour the device should wake up from standby mode at random minute                                                                                                                       |
 | `SYNC_RTC_INTERVAL`                  |     minutes | How frequent to sync time with RTC module                                                                                                                                                                  |
 
 #### Override settings locally

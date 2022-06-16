@@ -97,6 +97,10 @@ void setupDebug()
   Serial.println(String(STANDBY_WAKEUP_ON_TIME_CHANGE));
   Serial.print(F("  STANDBY_WAKEUP_ON_TIME_CHANGE_MINS="));
   Serial.println(String(STANDBY_WAKEUP_ON_TIME_CHANGE_MINS));
+  Serial.print(F("  STANDBY_WAKEUP_RANDOM="));
+  Serial.println(String(STANDBY_WAKEUP_RANDOM));
+  Serial.print(F("  STANDBY_WAKEUP_RANDOM_TIMES="));
+  Serial.println(String(STANDBY_WAKEUP_RANDOM_TIMES));
 }
 
 #if DEBUG

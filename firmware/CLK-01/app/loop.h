@@ -28,7 +28,7 @@ void loop()
     isEffectRunning = true;
   }
   control.tick();
-  power.tick(control.isStandbyEnabled(), timeRes.changed, timeRes.mins);
+  power.tick(control.isStandbyEnabled(), timeRes);
   if (isEffectRunning)
   {
     isEffectRunning = effects.tick(cachedTimeResult.hrs, cachedTimeResult.mins, cachedNewTime);

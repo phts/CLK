@@ -2,6 +2,7 @@
 #define power_h
 
 #include <timer2Minim.h>
+#include "time.h"
 #include "nightMode.h"
 
 #define POWER_OFF 0
@@ -19,21 +20,48 @@ public:
   {
   }
 
-  void tick(bool isStandbyEnabled, bool isTimeJustChanged, int8_t mins)
+  void tick(bool isStandbyEnabled, TimeTickResult time)
   {
     if (!isStandbyEnabled)
     {
       state = POWER_ALWAYS_ON;
       return;
     }
+#if STANDBY_WAKEUP_RANDOM
+    if (time.isNewHour)
+    {
+      debug(F("Wakeup on minutes:"));
+      for (byte i = 0; i < wakeupRandomMinutesSize; i++)
+      {
+        wakeupRandomMinutes[i] = random(60 / wakeupRandomMinutesSize * i + 1, 60 / wakeupRandomMinutesSize * (i + 1));
+        debug(wakeupRandomMinutes[i]);
+      }
+    }
+#endif
 #if STANDBY_WAKEUP_ON_TIME_CHANGE
-    if (isTimeJustChanged && mins % STANDBY_WAKEUP_ON_TIME_CHANGE_MINS == 0)
+    if (time.changed && time.mins % STANDBY_WAKEUP_ON_TIME_CHANGE_MINS == 0)
     {
       if (!STANDBY_NIGHT_SLEEP || !nightMode.isNight())
       {
         resetStandbyTimer();
+        return;
       }
-      return;
+    }
+#endif
+#if STANDBY_WAKEUP_RANDOM
+    if (time.changed)
+    {
+      if (!STANDBY_NIGHT_SLEEP || !nightMode.isNight())
+      {
+        for (byte i = 0; i < wakeupRandomMinutesSize; i++)
+        {
+          if (time.mins == wakeupRandomMinutes[i])
+          {
+            resetStandbyTimer();
+            return;
+          }
+        }
+      }
     }
 #endif
     if (standbyTimer.isReady())
@@ -91,6 +119,10 @@ public:
 private:
   timerMinim standbyTimer;
   byte state = POWER_ON;
+#if STANDBY_WAKEUP_RANDOM
+  byte wakeupRandomMinutes[STANDBY_WAKEUP_RANDOM_TIMES];
+  byte wakeupRandomMinutesSize = sizeof(wakeupRandomMinutes);
+#endif
 };
 
 Power power;
