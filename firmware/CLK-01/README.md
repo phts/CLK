@@ -1,8 +1,6 @@
 # PHTS CLK-01
 
-<center><image width="400" src="https://image.easyeda.com/pullimage/eZfHBXqBWeyuq8u5oUy41QWFKAyJxHvFhsioJCOD.jpeg"></center>
-
-<center><i>Work in progress</i></center>
+<center><image width="400" src="https://image.easyeda.com/pullimage/DY2cV2TE9SzW4QEGUBPfhBxzWKnjN2z8livtnTUQ.jpeg"></center>
 
 ## Hardware
 
