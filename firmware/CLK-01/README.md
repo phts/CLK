@@ -8,6 +8,10 @@ Hosted on [EasyEDA/phts/CLK-01].
 
 ![PHTS CLK-01](https://image.easyeda.com/documents/f8e8fa42a9a74f4194dbb38830f3f9a2.png)
 
+## Owner's manual
+
+Available at: [phts.github.io/CLK/CLK-01/Manual.pdf][manual]
+
 ## Usage
 
 ### Control
@@ -114,3 +118,4 @@ Clone `local_settings.h.example` into `local_settings.h` and redefine variables.
 
 [easyeda/phts/clk-01]: https://oshwlab.com/phts/CLK-01
 [usb-serial ch340 driver]: https://www.google.com/search?q=USB-SERIAL+CH340
+[manual]: https://phts.github.io/CLK/CLK-01/Manual.pdf
