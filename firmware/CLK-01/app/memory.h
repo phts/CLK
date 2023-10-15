@@ -16,13 +16,13 @@ struct StoredData
   byte effectsMode;
   byte bklightMode;
   bool glitchesMode;
-  bool nightmodeMode;
+  byte nightmodeMode;
 };
 
 class Memory
 {
 public:
-  StoredData setup(byte initialEffectsMode, byte initialBklightMode, bool initialGlitchesMode, bool initialNightmodeMode)
+  StoredData setup(byte initialEffectsMode, byte initialBklightMode, bool initialGlitchesMode, byte initialNightmodeMode)
   {
 #if MEMORY == MEMORY_DISABLED
     return {initialEffectsMode, initialBklightMode, initialGlitchesMode, initialNightmodeMode};

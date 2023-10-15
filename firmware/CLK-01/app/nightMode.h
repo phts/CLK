@@ -3,18 +3,20 @@
 
 #define NIGHT_MODE_DISABLED 0
 #define NIGHT_MODE_ENABLED 1
+#define NIGHT_MODE_NIGHTLIGHT 2
+#define NIGHT_MODE_AMOUNT 3
 
 class NightMode
 {
 public:
-  void setup(bool initialMode)
+  void setup(byte initialMode)
   {
-    setEnabled(initialMode);
+    setMode(initialMode);
   }
 
-  bool isEnabled()
+  byte getMode()
   {
-    return enabled;
+    return mode;
   }
 
   bool isNight()
@@ -22,14 +24,20 @@ public:
     return night;
   }
 
+  bool isNightlight()
+  {
+    return mode == NIGHT_MODE_NIGHTLIGHT;
+  }
+
   void toggle()
   {
-    setEnabled(!enabled);
+    byte newMode = mode + 1;
+    setMode(newMode >= NIGHT_MODE_AMOUNT ? 0 : newMode);
   }
 
   void apply(byte hrs)
   {
-    if (!enabled)
+    if (mode == NIGHT_MODE_DISABLED)
     {
       night = false;
       return;
@@ -48,13 +56,13 @@ public:
   }
 
 private:
-  bool enabled;
+  byte mode;
   bool forceApply = false;
   bool night = false;
 
-  void setEnabled(bool value)
+  void setMode(byte value)
   {
-    enabled = value;
+    mode = value;
     forceApply = true;
   }
 };

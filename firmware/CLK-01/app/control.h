@@ -131,7 +131,7 @@ public:
       {
         toggleNightMode();
         power.resetStandbyTimer();
-        debug(F("Toggle night mode"), nightMode.isEnabled());
+        debug(F("Toggle night mode"), nightMode.getMode());
       }
     }
     btnEffects.resetState();
@@ -217,7 +217,7 @@ private:
   void toggleNightMode()
   {
     nightMode.toggle();
-    memory.storeNightMode(nightMode.isEnabled());
+    memory.storeNightMode(nightMode.getMode());
   }
 
   void startSet()

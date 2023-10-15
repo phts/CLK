@@ -27,6 +27,11 @@ public:
       state = POWER_ALWAYS_ON;
       return;
     }
+    if (nightMode.isNight() && nightMode.isNightlight())
+    {
+      state = POWER_ON;
+      return;
+    }
 #if STANDBY_WAKEUP_RANDOM
     if (time.isNewHour)
     {
