@@ -1,6 +1,7 @@
 #ifndef buttons_h
 #define buttons_h
 
+#include <timer2Minim.h>
 #include <EncButton.h>
 #include "indicators.h"
 #include "memory.h"
@@ -11,6 +12,7 @@
 #include "nightMode.h"
 #include "dot.h"
 #include "power.h"
+#include "confirmation.h"
 
 #define MODE_CLOCK 0
 #define MODE_SET 1
@@ -78,6 +80,10 @@ public:
     if (isEffectsDemoRunning)
     {
       isEffectsDemoRunning = effects.tick(time.getHours(), time.getMinutes(), cachedTimeArray);
+    }
+    if (confirmation.isRunning())
+    {
+      confirmation.tick(time.getHours(), time.getMinutes());
     }
 
     if (swMode.hold())
@@ -202,6 +208,7 @@ private:
   {
     backlight.toggle();
     memory.storeBacklight(backlight.getMode());
+    confirmation.show(CONFIRMATION_TYPE_BKLIGHT, backlight.getMode());
   }
 
   void toggleGlitches()
@@ -209,12 +216,14 @@ private:
     glitches.toggle();
     glitches.forceShow();
     memory.storeGlitches(glitches.getMode());
+    confirmation.show(CONFIRMATION_TYPE_GLITCHES, glitches.getMode());
   }
 
   void toggleNightMode()
   {
     nightMode.toggle();
     memory.storeNightMode(nightMode.getMode());
+    confirmation.show(CONFIRMATION_TYPE_NIGHTMODE, nightMode.getMode());
   }
 
   void startSet()

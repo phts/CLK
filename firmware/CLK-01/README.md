@@ -34,17 +34,17 @@ Holding button "EFFECTS / GLITCHES" toggles glitches on/off.
 
 Single click on button "BKLIGHT / NIGHT M." selects backlight:
 
-- Turned off
-- Turned on (100%)
-- Turned on (60%)
-- Turned on (30%)
-- Smooth flashing
+0. Turned off
+1. Turned on (100%)
+2. Turned on (60%)
+3. Turned on (30%)
+4. Smooth flashing
 
 Holding button "BKLIGHT / NIGHT M." toggles night mode:
 
-- Disabled
-- Enabled
-- Nightlight mode
+0. Disabled
+1. Enabled
+2. Nightlight mode
 
 #### "TIME SET" mode
 
@@ -80,6 +80,7 @@ To apply new time toggle "MODE" switch to "CLOCK" position.
 | `BURN_LOOP_DELAY`                    |                                                                                                                                                                                      ms | How long to wait between "burn" loops                                                                                                                                                                      |
 | `BURN_LOOPS`                         |                                                                                                                                                                                         | How many loops to run "burn"                                                                                                                                                                               |
 | `BURN_TIMES_PER_HOUR`                |                                                                                                                                                                                         | How many times need to burn indicators during an hour                                                                                                                                                      |
+| `CONFIRMATION_INTERVAL`              |                                                                                                                                                                                      ms | How fast control button press confirmation is blinking                                                                                                                                                     |
 | `DEBUG`                              |                                                                                                                                                                                 Boolean | If enabled, prints debug messages into Serial port                                                                                                                                                         |
 | `DEBUG_EFFECTS`                      |                                                                                                                                                                                 Boolean | If enabled, makes time changed every few seconds                                                                                                                                                           |
 | `DEBUG_STANDBY_ENABLED`              |                                                                                                                                                                                 Boolean | If enabled, makes STADBY mode always enabled                                                                                                                                                               |

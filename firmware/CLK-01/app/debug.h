@@ -101,6 +101,8 @@ void setupDebug()
   Serial.println(String(STANDBY_WAKEUP_RANDOM));
   Serial.print(F("  STANDBY_WAKEUP_RANDOM_TIMES="));
   Serial.println(String(STANDBY_WAKEUP_RANDOM_TIMES));
+  Serial.print(F("  CONFIRMATION_INTERVAL="));
+  Serial.println(String(CONFIRMATION_INTERVAL));
 }
 
 #if DEBUG
