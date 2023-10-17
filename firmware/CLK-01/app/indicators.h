@@ -48,9 +48,17 @@ public:
     return maxBrightness;
   }
 
-  void showTime(byte hours, byte minutes)
+  void writeTime(byte hours, byte minutes)
   {
     convertTimeToArray(hours, minutes, digits);
+  }
+
+  void writeAll(byte digit)
+  {
+    for (byte i = 0; i < INDICATORS_AMOUNT; i++)
+    {
+      digits[i] = digit;
+    }
   }
 
   bool isOn(byte n)
@@ -72,7 +80,7 @@ public:
     anodeStates[n] = INDICATOR_TURNED_OFF;
   }
 
-  void turnAllOn()
+  void turnOnAll()
   {
     for (byte i = 0; i < INDICATORS_AMOUNT; i++)
     {
@@ -80,7 +88,7 @@ public:
     }
   }
 
-  void turnAllOff()
+  void turnOffAll()
   {
     for (byte i = 0; i < INDICATORS_AMOUNT; i++)
     {

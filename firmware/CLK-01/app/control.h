@@ -158,9 +158,9 @@ private:
     {
       return;
     }
-    indicators.showTime(changeHrs, changeMins);
+    indicators.writeTime(changeHrs, changeMins);
     modeSetLampState = !modeSetLampState;
-    modeSetLampState ? indicators.turnAllOn() : indicators.turnAllOff();
+    modeSetLampState ? indicators.turnOnAll() : indicators.turnOffAll();
   }
 
   void incHours()
@@ -171,8 +171,8 @@ private:
       changeHrs = 0;
     }
     blinkTimer.reset();
-    indicators.turnAllOn();
-    indicators.showTime(changeHrs, changeMins);
+    indicators.turnOnAll();
+    indicators.writeTime(changeHrs, changeMins);
   }
 
   void incMinutes()
@@ -183,8 +183,8 @@ private:
       changeMins = 0;
     }
     blinkTimer.reset();
-    indicators.turnAllOn();
-    indicators.showTime(changeHrs, changeMins);
+    indicators.turnOnAll();
+    indicators.writeTime(changeHrs, changeMins);
   }
 
   void switchEffects()
@@ -192,12 +192,9 @@ private:
     effects.toggle();
     memory.storeEffects(effects.getMode());
     indicators.resetBrightness();
-    indicators.turnAllOn();
+    indicators.turnOnAll();
     isEffectsDemoRunning = true;
-    for (byte i = 0; i < INDICATORS_AMOUNT; i++)
-    {
-      indicators.digits[i] = effects.getMode();
-    }
+    indicators.writeAll(effects.getMode());
     convertTimeToArray(time.getHours(), time.getMinutes(), cachedTimeArray);
   }
 
@@ -225,7 +222,7 @@ private:
     btnBklight.setHoldTimeout(MODE_SET_MINS_HOLD_TIME);
     btnEffects.setHoldTimeout(MODE_SET_HOURS_HOLD_TIME);
     blinkTimer.reset();
-    indicators.turnAllOff();
+    indicators.turnOffAll();
     changeHrs = time.getHours();
     changeMins = time.getMinutes();
     modeSetLampState = false;
@@ -237,7 +234,7 @@ private:
     btnBklight.setHoldTimeout(500);
     btnEffects.setHoldTimeout(500);
     time.setTime(changeHrs, changeMins);
-    indicators.turnAllOn();
+    indicators.turnOnAll();
     nightMode.apply(changeHrs);
     dot.turnOn();
   }

@@ -48,7 +48,7 @@ void setup()
   setupPwm();
   time.setup();
   indicators.setup();
-  indicators.showTime(time.getHours(), time.getMinutes());
+  indicators.writeTime(time.getHours(), time.getMinutes());
 
   StoredData data = memory.setup(INITIAL_EFFECTS_MODE, INITIAL_BKLIGHT_MODE, INITIAL_GLITCHES_MODE, INITIAL_NIGHT_MODE);
   dot.setup();

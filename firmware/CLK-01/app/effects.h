@@ -92,7 +92,7 @@ private:
 
   bool tickEffectNone(byte hrs, byte mins, byte newTime[])
   {
-    indicators.showTime(hrs, mins);
+    indicators.writeTime(hrs, mins);
     return false;
   }
 
@@ -118,7 +118,7 @@ private:
       {
         state = 2;
         decayIndicatorBrightness = 0;
-        indicators.showTime(hrs, mins);
+        indicators.writeTime(hrs, mins);
       }
     }
     else
