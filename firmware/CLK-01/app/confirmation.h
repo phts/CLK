@@ -27,23 +27,14 @@ public:
 
   void show(byte type, byte value)
   {
-    if (type == CONFIRMATION_TYPE_EFFECTS)
-    {
-      indicators.resetBrightness();
-      indicators.turnOnAll();
-      indicators.writeAll(value);
-      convertTimeToArray(time.getHours(), time.getMinutes(), cachedTimeArray);
-    }
-    else
-    {
-      dot.turnOff();
-      indicators.turnOffAll();
-      indicators.digits[type] = value;
-    }
     stepTimer.reset();
     currentType = type;
+    dot.turnOff();
+    indicators.turnOffAll();
+    indicators.digits[type] = value;
     currentValue = value;
     step = 0;
+    effectsDemoInProgress = false;
     inProgress = true;
   }
 
@@ -53,12 +44,12 @@ public:
     {
       return inProgress;
     }
-    if (currentType == CONFIRMATION_TYPE_EFFECTS)
+    if (effectsDemoInProgress)
     {
-      bool effectsRunning = effects.tick(time.getHours(), time.getMinutes(), cachedTimeArray);
-      if (!effectsRunning)
+      effectsDemoInProgress = effects.tick(time.getHours(), time.getMinutes(), cachedTimeArray);
+      if (!effectsDemoInProgress)
       {
-        complete();
+        inProgress = false;
       }
       return inProgress;
     }
@@ -85,6 +76,7 @@ public:
 private:
   timerMinim stepTimer;
   bool inProgress = false;
+  bool effectsDemoInProgress;
   byte currentType;
   byte currentValue;
   byte step;
@@ -99,6 +91,15 @@ private:
     if (currentType == CONFIRMATION_TYPE_GLITCHES && currentValue == GLITCHES_ON)
     {
       glitches.forceShow();
+    }
+    else if (currentType == CONFIRMATION_TYPE_EFFECTS)
+    {
+      inProgress = true;
+      indicators.resetBrightness();
+      indicators.turnOnAll();
+      indicators.writeAll(currentValue);
+      convertTimeToArray(time.getHours(), time.getMinutes(), cachedTimeArray);
+      effectsDemoInProgress = true;
     }
   }
 };
