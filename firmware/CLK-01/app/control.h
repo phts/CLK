@@ -77,13 +77,9 @@ public:
       settingsTick();
     }
 
-    if (isEffectsDemoRunning)
-    {
-      isEffectsDemoRunning = effects.tick(time.getHours(), time.getMinutes(), cachedTimeArray);
-    }
     if (confirmation.isRunning())
     {
-      confirmation.tick(time.getHours(), time.getMinutes());
+      confirmation.tick();
     }
 
     if (swMode.hold())
@@ -117,26 +113,26 @@ public:
       }
       if (btnEffects.click())
       {
-        switchEffects();
         power.resetStandbyTimer();
+        switchEffects();
         debug(F("Switch effect"), effects.getMode());
       }
       else if (btnBklight.click())
       {
-        switchBacklight();
         power.resetStandbyTimer();
+        switchBacklight();
         debug(F("Switch backlight"), backlight.getMode());
       }
       else if (btnEffects.held())
       {
-        toggleGlitches();
         power.resetStandbyTimer();
+        toggleGlitches();
         debug(F("Toggle glitches"), glitches.getMode());
       }
       else if (btnBklight.held())
       {
-        toggleNightMode();
         power.resetStandbyTimer();
+        toggleNightMode();
         debug(F("Toggle night mode"), nightMode.getMode());
       }
     }
@@ -154,8 +150,6 @@ private:
   EncButton<EB_TICK, PIN_SW_STANDBY> swStandby;
   int8_t changeHrs, changeMins;
   bool modeSetLampState = false;
-  bool isEffectsDemoRunning = false;
-  byte cachedTimeArray[INDICATORS_AMOUNT] = {0, 0, 0, 0};
   bool exitingStandby = false;
 
   void settingsTick()
@@ -197,11 +191,7 @@ private:
   {
     effects.toggle();
     memory.storeEffects(effects.getMode());
-    indicators.resetBrightness();
-    indicators.turnOnAll();
-    isEffectsDemoRunning = true;
-    indicators.writeAll(effects.getMode());
-    convertTimeToArray(time.getHours(), time.getMinutes(), cachedTimeArray);
+    confirmation.show(CONFIRMATION_TYPE_EFFECTS, effects.getMode());
   }
 
   void switchBacklight()
@@ -214,7 +204,6 @@ private:
   void toggleGlitches()
   {
     glitches.toggle();
-    glitches.forceShow();
     memory.storeGlitches(glitches.getMode());
     confirmation.show(CONFIRMATION_TYPE_GLITCHES, glitches.getMode());
   }

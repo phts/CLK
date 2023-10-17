@@ -4,6 +4,9 @@
 #include <timer2Minim.h>
 #include "indicators.h"
 #include "dot.h"
+#include "effects.h"
+#include "glitches.h"
+#include "time.h"
 
 #define CONFIRMATION_TYPE_EFFECTS 0
 #define CONFIRMATION_TYPE_GLITCHES 1
@@ -24,19 +27,39 @@ public:
 
   void show(byte type, byte value)
   {
+    if (type == CONFIRMATION_TYPE_EFFECTS)
+    {
+      indicators.resetBrightness();
+      indicators.turnOnAll();
+      indicators.writeAll(value);
+      convertTimeToArray(time.getHours(), time.getMinutes(), cachedTimeArray);
+    }
+    else
+    {
+      dot.turnOff();
+      indicators.turnOffAll();
+      indicators.digits[type] = value;
+    }
     stepTimer.reset();
     currentType = type;
-    dot.turnOff();
-    indicators.turnOffAll();
-    indicators.digits[type] = value;
+    currentValue = value;
     step = 0;
     inProgress = true;
   }
 
-  bool tick(byte hours, byte minutes)
+  bool tick()
   {
     if (!inProgress)
     {
+      return inProgress;
+    }
+    if (currentType == CONFIRMATION_TYPE_EFFECTS)
+    {
+      bool effectsRunning = effects.tick(time.getHours(), time.getMinutes(), cachedTimeArray);
+      if (!effectsRunning)
+      {
+        complete();
+      }
       return inProgress;
     }
     if (!stepTimer.isReady())
@@ -54,7 +77,7 @@ public:
       indicators.turnOff(currentType);
       break;
     default:
-      complete(hours, minutes);
+      complete();
     }
     return inProgress;
   }
@@ -63,14 +86,20 @@ private:
   timerMinim stepTimer;
   bool inProgress = false;
   byte currentType;
+  byte currentValue;
   byte step;
+  byte cachedTimeArray[INDICATORS_AMOUNT] = {0, 0, 0, 0};
 
-  void complete(byte hours, byte minutes)
+  void complete()
   {
     inProgress = false;
-    indicators.writeTime(hours, minutes);
+    indicators.writeTime(time.getHours(), time.getMinutes());
     indicators.turnOnAll();
     dot.turnOn();
+    if (currentType == CONFIRMATION_TYPE_GLITCHES && currentValue == GLITCHES_ON)
+    {
+      glitches.forceShow();
+    }
   }
 };
 

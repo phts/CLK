@@ -2,6 +2,7 @@
 #define indicators_h
 
 #include <timer2Minim.h>
+#include "helpers.h"
 #include "power.h"
 #include "nightMode.h"
 
