@@ -44,7 +44,7 @@ public:
     }
 #endif
 #if STANDBY_WAKEUP_ON_TIME_CHANGE
-    if (time.changed && time.mins % STANDBY_WAKEUP_ON_TIME_CHANGE_MINS == 0)
+    if (!nightMode.isNightlight() && time.changed && time.mins % STANDBY_WAKEUP_ON_TIME_CHANGE_MINS == 0)
     {
       if (!STANDBY_NIGHT_SLEEP || !nightMode.isNight())
       {
@@ -54,7 +54,7 @@ public:
     }
 #endif
 #if STANDBY_WAKEUP_RANDOM
-    if (time.changed)
+    if (!nightMode.isNightlight() && time.changed)
     {
       if (!STANDBY_NIGHT_SLEEP || !nightMode.isNight())
       {
